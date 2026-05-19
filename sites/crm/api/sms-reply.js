@@ -8,13 +8,11 @@ const supabase = createClient(
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { fromNumber, text, textId } = req.body ?? {};
+  const { fromNumber, text } = req.body ?? {};
   if (!fromNumber) return res.status(400).json({ error: 'Missing fromNumber' });
 
-  // Normalize phone to match how we store it
   const digits = fromNumber.replace(/[^\d]/g, '').slice(-10);
 
-  // Find the lead by phone number
   const { data: leads } = await supabase
     .from('leads')
     .select('*')
@@ -24,15 +22,16 @@ export default async function handler(req, res) {
   const lead = leads?.[0];
 
   if (lead) {
-    // Mark as replied
-    await supabase
-      .from('leads')
-      .update({ outreach_status: 'replied' })
-      .eq('place_id', lead.place_id);
-
-    console.log(`SMS reply from ${lead.business_name} (${fromNumber}): "${text}"`);
-  } else {
-    console.log(`SMS reply from unknown number ${fromNumber}: "${text}"`);
+    await Promise.all([
+      supabase.from('leads').update({ outreach_status: 'replied' }).eq('place_id', lead.place_id),
+      supabase.from('sms_messages').insert({
+        place_id: lead.place_id,
+        direction: 'inbound',
+        body: text,
+        phone: fromNumber,
+      }),
+    ]);
+    console.log(`SMS reply from ${lead.business_name}: "${text}"`);
   }
 
   return res.status(200).json({ success: true });

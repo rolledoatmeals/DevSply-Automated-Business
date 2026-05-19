@@ -439,14 +439,132 @@
     .dot-blue { background: var(--blue); }
     .dot-gray { background: var(--gray-400); }
 
+    /* ── Conversation Drawer ── */
+    .drawer-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 200;
+    }
+
+    .drawer-overlay.open { display: block; }
+
+    .drawer {
+      position: fixed;
+      top: 0; right: 0; bottom: 0;
+      width: 380px;
+      background: var(--white);
+      box-shadow: -4px 0 30px rgba(0,0,0,0.15);
+      z-index: 201;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.25s ease;
+    }
+
+    .drawer.open { transform: translateX(0); }
+
+    .drawer-header {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .drawer-header h3 { font-size: 1rem; font-weight: 700; }
+    .drawer-header small { font-size: 0.8rem; opacity: 0.65; display: block; margin-top: 0.2rem; }
+
+    .drawer-close {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+      line-height: 1;
+      opacity: 0.7;
+    }
+
+    .drawer-close:hover { opacity: 1; }
+
+    .drawer-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .msg {
+      max-width: 85%;
+      padding: 0.7rem 1rem;
+      border-radius: 12px;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .msg-out {
+      align-self: flex-end;
+      background: var(--blue);
+      color: var(--white);
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg-in {
+      align-self: flex-start;
+      background: var(--gray-100);
+      color: var(--gray-900);
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg-time {
+      font-size: 0.7rem;
+      opacity: 0.6;
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    .msg-out .msg-time { text-align: right; }
+
+    .drawer-empty {
+      text-align: center;
+      color: var(--gray-400);
+      font-size: 0.9rem;
+      margin: auto;
+    }
+
+    .row-clickable { cursor: pointer; }
+    .row-clickable:hover td { background: #eff6ff !important; }
+
     @media (max-width: 768px) {
       .sidebar { transform: translateX(-100%); }
       .main { margin-left: 0; }
       .stats-grid { grid-template-columns: 1fr 1fr; }
+      .drawer { width: 100%; }
     }
   </style>
 </head>
 <body>
+
+<!-- Conversation Drawer -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <div>
+      <h3 id="drawer-title">Conversation</h3>
+      <small id="drawer-phone"></small>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-messages" id="drawer-messages">
+    <p class="drawer-empty">Loading...</p>
+  </div>
+</div>
 
 <!-- Login Screen -->
 <div id="login-screen">
@@ -846,7 +964,7 @@
           ? `${l.rating}★ (${l.reviews})`
           : l.reviews ? `${l.reviews} reviews` : '—';
 
-        return `<tr>
+        return `<tr class="row-clickable" onclick="openDrawer('${l.place_id}', '${l.business_name.replace(/'/g,"\\'")}', '${l.phone ?? ''}')">
           <td><strong>${l.business_name}</strong></td>
           <td style="font-size:0.8rem;color:var(--gray-600)">${l.category ?? '—'}</td>
           <td style="font-size:0.85rem">${l.city ?? '—'}</td>
@@ -957,6 +1075,40 @@
 
   // Auto-refresh every 60 seconds
   setInterval(() => { if (AUTH_TOKEN) showPage(currentPage); }, 60000);
+
+  // ── Conversation Drawer ──
+  async function openDrawer(placeId, name, phone) {
+    document.getElementById('drawer-title').textContent = name;
+    document.getElementById('drawer-phone').textContent = phone || '';
+    document.getElementById('drawer-messages').innerHTML = '<p class="drawer-empty">Loading...</p>';
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawer-overlay').classList.add('open');
+
+    const data = await apiFetch(`/api/conversation?place_id=${encodeURIComponent(placeId)}`);
+    const msgs = data?.messages ?? [];
+    const container = document.getElementById('drawer-messages');
+
+    if (!msgs.length) {
+      container.innerHTML = '<p class="drawer-empty">No messages yet.<br>Texts will appear here once sent.</p>';
+      return;
+    }
+
+    container.innerHTML = msgs.map(m => {
+      const isOut = m.direction === 'outbound';
+      const time = new Date(m.created_at).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      return `<div class="msg ${isOut ? 'msg-out' : 'msg-in'}">
+        ${m.body}
+        <span class="msg-time">${isOut ? 'You · ' : ''}${time}</span>
+      </div>`;
+    }).join('');
+
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function closeDrawer() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('drawer-overlay').classList.remove('open');
+  }
 </script>
 
 </body>

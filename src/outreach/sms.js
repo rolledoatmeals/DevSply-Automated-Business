@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { createClient } from '@supabase/supabase-js';
 
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 const TEXTBELT_KEY  = process.env.TEXTBELT_KEY;
 const SENDER_NAME   = process.env.SENDER_NAME ?? 'Zach';
 const DAILY_LIMIT   = parseInt(process.env.DAILY_SMS_LIMIT ?? '40', 10);
@@ -37,6 +39,12 @@ export async function sendSMSOutreach(leads) {
       if (data.success) {
         sent++;
         console.log(`    ✓ Sent (${data.quotaRemaining} texts remaining)`);
+        await supabase.from('sms_messages').insert({
+          place_id: lead.place_id,
+          direction: 'outbound',
+          body: buildSMS(lead),
+          phone: lead.phone,
+        });
       } else {
         console.error(`    ✗ Failed: ${data.error}`);
       }
