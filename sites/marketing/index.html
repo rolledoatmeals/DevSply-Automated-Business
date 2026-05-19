@@ -8,17 +8,22 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --navy: #0f1e3d;
+      --navy: #0a1628;
+      --navy2: #0f1e3d;
       --blue: #1a56db;
+      --blue2: #2563eb;
       --blue-light: #3b82f6;
       --accent: #f59e0b;
-      --accent-light: #fef3c7;
-      --gray-50: #f9fafb;
-      --gray-100: #f3f4f6;
-      --gray-400: #9ca3af;
-      --gray-600: #4b5563;
-      --gray-700: #374151;
-      --gray-900: #111827;
+      --accent2: #fbbf24;
+      --green: #10b981;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-900: #0f172a;
       --white: #ffffff;
     }
 
@@ -36,59 +41,41 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-      padding: 0 5%;
-      height: 64px;
+      background: rgba(10,22,40,0.95);
+      backdrop-filter: blur(12px);
+      padding: 0 6%;
+      height: 68px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
-    .logo {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: var(--navy);
-      letter-spacing: -0.5px;
-    }
+    .logo { font-size: 1.5rem; font-weight: 900; color: var(--white); letter-spacing: -0.5px; }
+    .logo span { color: var(--accent); }
 
-    .logo span { color: var(--blue); }
-
-    .nav-links {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-      list-style: none;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--gray-600);
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--navy); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; list-style: none; }
+    .nav-links a { text-decoration: none; color: rgba(255,255,255,0.65); font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
 
     .nav-cta {
-      background: var(--blue) !important;
-      color: var(--white) !important;
-      padding: 0.5rem 1.2rem;
-      border-radius: 6px;
-      font-weight: 600 !important;
+      background: var(--accent) !important;
+      color: var(--navy) !important;
+      padding: 0.5rem 1.3rem;
+      border-radius: 8px;
+      font-weight: 700 !important;
+      font-size: 0.875rem !important;
       transition: background 0.2s !important;
     }
-
-    .nav-cta:hover { background: var(--navy) !important; }
+    .nav-cta:hover { background: var(--accent2) !important; }
 
     /* ── Hero ── */
     .hero {
-      padding: 120px 5% 80px;
-      background: linear-gradient(135deg, var(--navy) 0%, #1e3a6e 50%, #1a3a8f 100%);
-      color: var(--white);
-      text-align: center;
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      padding: 100px 6% 80px;
       position: relative;
       overflow: hidden;
     }
@@ -96,867 +83,1015 @@
     .hero::before {
       content: '';
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(ellipse at 60% 40%, rgba(26,86,219,0.25) 0%, transparent 60%);
+      top: -20%;
+      right: -10%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(26,86,219,0.2) 0%, transparent 65%);
+      pointer-events: none;
     }
 
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      left: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-content { max-width: 680px; position: relative; z-index: 1; }
+
     .hero-tag {
-      display: inline-block;
-      background: rgba(245,158,11,0.2);
-      border: 1px solid rgba(245,158,11,0.4);
-      color: var(--accent);
-      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(245,158,11,0.15);
+      border: 1px solid rgba(245,158,11,0.3);
+      color: var(--accent2);
+      font-size: 0.78rem;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      padding: 0.35rem 0.9rem;
+      padding: 0.4rem 1rem;
       border-radius: 20px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .hero h1 {
-      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-size: clamp(2.4rem, 5vw, 4rem);
       font-weight: 900;
       line-height: 1.1;
+      color: var(--white);
       margin-bottom: 1.5rem;
-      letter-spacing: -1px;
-      position: relative;
+      letter-spacing: -1.5px;
     }
 
-    .hero h1 em {
-      font-style: normal;
-      color: var(--accent);
-    }
+    .hero h1 em { font-style: normal; color: var(--accent); }
 
-    .hero p {
+    .hero-sub {
       font-size: 1.15rem;
-      color: rgba(255,255,255,0.8);
-      max-width: 600px;
-      margin: 0 auto 2.5rem;
-      line-height: 1.7;
-      position: relative;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+      max-width: 520px;
     }
 
-    .hero-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      position: relative;
-    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-    .btn-primary {
-      display: inline-block;
-      background: var(--accent);
-      color: var(--navy);
+    .btn-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
       padding: 0.9rem 2rem;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: 700;
       font-size: 1rem;
       text-decoration: none;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
       transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 15px rgba(245,158,11,0.4);
     }
 
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(245,158,11,0.5); }
+    .btn-gold {
+      background: var(--accent);
+      color: var(--navy);
+      box-shadow: 0 4px 20px rgba(245,158,11,0.35);
+    }
 
-    .btn-secondary {
-      display: inline-block;
-      border: 2px solid rgba(255,255,255,0.4);
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,158,11,0.5); }
+
+    .btn-outline {
+      background: transparent;
       color: var(--white);
-      padding: 0.9rem 2rem;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 1rem;
-      text-decoration: none;
-      transition: border-color 0.2s, background 0.2s;
+      border: 2px solid rgba(255,255,255,0.25);
     }
 
-    .btn-secondary:hover { border-color: var(--white); background: rgba(255,255,255,0.1); }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05); }
 
-    .hero-stats {
+    .hero-proof {
       display: flex;
       gap: 3rem;
-      justify-content: center;
-      margin-top: 4rem;
+      margin-top: 5rem;
       padding-top: 3rem;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      position: relative;
+      border-top: 1px solid rgba(255,255,255,0.08);
       flex-wrap: wrap;
       gap: 2rem;
     }
 
-    .stat-item { text-align: center; }
-    .stat-number { font-size: 2.2rem; font-weight: 900; color: var(--accent); display: block; }
-    .stat-label { font-size: 0.85rem; color: rgba(255,255,255,0.65); text-transform: uppercase; letter-spacing: 0.5px; }
+    .proof-item { }
+    .proof-num { font-size: 2.2rem; font-weight: 900; color: var(--accent); display: block; line-height: 1; }
+    .proof-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 0.3rem; }
 
-    /* ── Section styles ── */
-    section { padding: 80px 5%; }
+    /* ── Sections ── */
+    section { padding: 90px 6%; }
 
-    .section-tag {
+    .section-label {
       display: inline-block;
-      background: var(--accent-light);
-      color: #92400e;
+      background: rgba(26,86,219,0.1);
+      color: var(--blue2);
       font-size: 0.75rem;
       font-weight: 700;
-      letter-spacing: 1px;
+      letter-spacing: 1.5px;
       text-transform: uppercase;
-      padding: 0.3rem 0.8rem;
+      padding: 0.35rem 0.9rem;
       border-radius: 20px;
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
     }
 
     h2 {
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-      font-weight: 800;
-      color: var(--navy);
-      line-height: 1.2;
+      font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+      font-weight: 900;
+      color: var(--navy2);
+      line-height: 1.15;
       margin-bottom: 1rem;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.75px;
     }
 
-    .section-sub {
+    .section-desc {
       font-size: 1.05rem;
-      color: var(--gray-600);
-      max-width: 580px;
-      line-height: 1.7;
-      margin-bottom: 3rem;
+      color: var(--gray-500);
+      max-width: 560px;
+      line-height: 1.75;
     }
 
     /* ── How it works ── */
-    .how-it-works { background: var(--gray-50); }
+    .how { background: var(--gray-50); }
 
     .steps {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.5rem;
-      margin-top: 3rem;
+      margin-top: 3.5rem;
     }
 
-    .step-card {
+    .step {
       background: var(--white);
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 2rem;
-      border: 1px solid rgba(0,0,0,0.06);
-      transition: box-shadow 0.2s;
+      border: 1px solid var(--gray-200);
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .step-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+    .step:hover { border-color: var(--blue-light); box-shadow: 0 8px 30px rgba(26,86,219,0.08); }
 
-    .step-number {
-      width: 40px;
-      height: 40px;
-      background: var(--blue);
+    .step-num {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
       color: var(--white);
-      border-radius: 10px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
+      font-weight: 900;
       font-size: 1.1rem;
-      margin-bottom: 1rem;
-    }
-
-    .step-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
-    .step-card p { font-size: 0.9rem; color: var(--gray-600); line-height: 1.6; }
-
-    /* ── Services (Dual) ── */
-    .services-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-
-    .service-card {
-      border-radius: 16px;
-      padding: 2.5rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .service-card.agency {
-      background: linear-gradient(135deg, var(--navy) 0%, #1e3a6e 100%);
-      color: var(--white);
-    }
-
-    .service-card.saas {
-      background: linear-gradient(135deg, #1a3a8f 0%, var(--blue) 100%);
-      color: var(--white);
-    }
-
-    .service-card .badge {
-      display: inline-block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 0.3rem 0.8rem;
-      border-radius: 20px;
       margin-bottom: 1.2rem;
     }
 
-    .service-card.agency .badge { background: rgba(245,158,11,0.2); color: var(--accent); }
-    .service-card.saas .badge { background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.9); }
+    .step h3 { font-size: 1.05rem; font-weight: 700; color: var(--navy2); margin-bottom: 0.5rem; }
+    .step p { font-size: 0.9rem; color: var(--gray-500); line-height: 1.65; }
 
-    .service-card h3 { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.8rem; line-height: 1.2; }
-    .service-card .desc { font-size: 0.95rem; opacity: 0.85; line-height: 1.7; margin-bottom: 1.5rem; }
+    /* ── Services ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
 
-    .service-card ul { list-style: none; margin-bottom: 2rem; }
-    .service-card ul li {
-      font-size: 0.9rem;
-      padding: 0.4rem 0;
-      padding-left: 1.5rem;
+    .service-card {
+      border-radius: 20px;
+      padding: 2.5rem;
       position: relative;
-      opacity: 0.9;
+      overflow: hidden;
+      color: var(--white);
     }
 
-    .service-card ul li::before {
-      content: '✓';
-      position: absolute;
-      left: 0;
-      color: var(--accent);
+    .service-card.agency { background: linear-gradient(145deg, var(--navy) 0%, #1a3a8f 100%); }
+    .service-card.saas { background: linear-gradient(145deg, #1e1b4b 0%, #312e81 100%); }
+
+    .service-badge {
+      display: inline-block;
+      font-size: 0.7rem;
       font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      margin-bottom: 1.5rem;
     }
 
-    .service-card .price {
-      font-size: 2rem;
-      font-weight: 900;
-    }
+    .agency .service-badge { background: rgba(245,158,11,0.2); color: var(--accent2); }
+    .saas .service-badge { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); }
 
-    .service-card .price span { font-size: 1rem; opacity: 0.7; font-weight: 400; }
+    .service-card h3 { font-size: 1.7rem; font-weight: 900; margin-bottom: 0.8rem; line-height: 1.2; letter-spacing: -0.5px; }
+    .service-card .desc { font-size: 0.95rem; opacity: 0.8; line-height: 1.7; margin-bottom: 1.5rem; }
+    .service-card ul { list-style: none; margin-bottom: 2rem; }
+    .service-card ul li { font-size: 0.875rem; padding: 0.35rem 0; padding-left: 1.4rem; position: relative; opacity: 0.85; }
+    .service-card ul li::before { content: '✓'; position: absolute; left: 0; color: var(--accent2); font-weight: 700; }
+    .service-price { font-size: 2.2rem; font-weight: 900; }
+    .service-price span { font-size: 0.95rem; opacity: 0.6; font-weight: 400; }
 
-    .service-card .cta-link {
+    .btn-service {
       display: inline-block;
       margin-top: 1.5rem;
       background: var(--accent);
       color: var(--navy);
-      padding: 0.7rem 1.5rem;
-      border-radius: 8px;
+      padding: 0.75rem 1.5rem;
+      border-radius: 10px;
       font-weight: 700;
       text-decoration: none;
       font-size: 0.9rem;
-      transition: transform 0.2s;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: transform 0.2s, background 0.2s;
     }
 
-    .service-card .cta-link:hover { transform: translateY(-2px); }
+    .btn-service:hover { transform: translateY(-2px); background: var(--accent2); }
 
-    /* ── Why DevSply ── */
-    .why { background: var(--white); }
-
+    /* ── Features ── */
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
     }
 
     .feature {
-      padding: 2rem;
-      border: 1px solid var(--gray-100);
-      border-radius: 12px;
+      padding: 1.8rem;
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .feature:hover { border-color: var(--blue-light); box-shadow: 0 4px 20px rgba(26,86,219,0.08); }
+    .feature:hover { border-color: var(--blue-light); box-shadow: 0 4px 20px rgba(26,86,219,0.07); }
 
     .feature-icon {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, var(--blue) 0%, var(--blue-light) 100%);
-      border-radius: 12px;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--navy2) 0%, var(--blue2) 100%);
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1.2rem;
       font-size: 1.4rem;
+      margin-bottom: 1.2rem;
     }
 
-    .feature h3 { font-size: 1.05rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
-    .feature p { font-size: 0.9rem; color: var(--gray-600); line-height: 1.6; }
+    .feature h3 { font-size: 1rem; font-weight: 700; color: var(--navy2); margin-bottom: 0.5rem; }
+    .feature p { font-size: 0.875rem; color: var(--gray-500); line-height: 1.65; }
 
     /* ── Pricing ── */
     .pricing { background: var(--gray-50); }
 
     .pricing-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
-      max-width: 960px;
-      margin-left: auto;
-      margin-right: auto;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3.5rem;
     }
 
     .pricing-card {
       background: var(--white);
-      border-radius: 16px;
+      border-radius: 20px;
       padding: 2.5rem;
-      border: 2px solid var(--gray-100);
+      border: 2px solid var(--gray-200);
       position: relative;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
-    .pricing-card.featured {
-      border-color: var(--blue);
-      box-shadow: 0 8px 40px rgba(26,86,219,0.12);
-    }
+    .pricing-card.featured { border-color: var(--blue2); box-shadow: 0 8px 40px rgba(26,86,219,0.12); }
 
-    .popular-badge {
+    .pop-badge {
       position: absolute;
-      top: -12px;
+      top: -13px;
       left: 50%;
       transform: translateX(-50%);
-      background: var(--blue);
+      background: var(--blue2);
       color: var(--white);
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 700;
       padding: 0.3rem 1rem;
       border-radius: 20px;
       white-space: nowrap;
+      letter-spacing: 0.5px;
     }
 
-    .pricing-card h3 { font-size: 1.1rem; font-weight: 700; color: var(--gray-700); margin-bottom: 1rem; }
-
-    .pricing-amount {
-      font-size: 2.8rem;
-      font-weight: 900;
-      color: var(--navy);
-      line-height: 1;
-      margin-bottom: 0.3rem;
-    }
-
-    .pricing-amount span { font-size: 1.1rem; font-weight: 500; color: var(--gray-400); }
-    .pricing-note { font-size: 0.85rem; color: var(--gray-400); margin-bottom: 1.5rem; }
-
-    .pricing-divider { border: none; border-top: 1px solid var(--gray-100); margin: 1.5rem 0; }
-
+    .pricing-card h3 { font-size: 1rem; font-weight: 700; color: var(--gray-500); margin-bottom: 1.2rem; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.8rem; }
+    .pricing-amount { font-size: 3rem; font-weight: 900; color: var(--navy2); line-height: 1; }
+    .pricing-amount span { font-size: 1rem; font-weight: 400; color: var(--gray-400); }
+    .pricing-note { font-size: 0.8rem; color: var(--gray-400); margin: 0.4rem 0 1.5rem; }
+    .pricing-card hr { border: none; border-top: 1px solid var(--gray-200); margin-bottom: 1.5rem; }
     .pricing-card ul { list-style: none; margin-bottom: 2rem; }
-    .pricing-card ul li {
-      font-size: 0.9rem;
-      color: var(--gray-700);
-      padding: 0.4rem 0;
-      padding-left: 1.5rem;
-      position: relative;
-    }
+    .pricing-card ul li { font-size: 0.875rem; color: var(--gray-700); padding: 0.4rem 0; padding-left: 1.5rem; position: relative; }
+    .pricing-card ul li::before { content: '✓'; position: absolute; left: 0; color: var(--blue2); font-weight: 700; }
 
-    .pricing-card ul li::before {
-      content: '✓';
-      position: absolute;
-      left: 0;
-      color: var(--blue);
-      font-weight: 700;
-    }
-
-    .pricing-card .btn-plan {
+    .btn-plan {
       display: block;
       text-align: center;
-      padding: 0.8rem;
-      border-radius: 8px;
+      padding: 0.85rem;
+      border-radius: 10px;
       font-weight: 700;
       text-decoration: none;
-      font-size: 0.95rem;
-      transition: transform 0.2s, box-shadow 0.2s;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
     }
 
-    .btn-plan-primary {
-      background: var(--blue);
-      color: var(--white);
-      box-shadow: 0 4px 15px rgba(26,86,219,0.3);
-    }
+    .btn-plan-primary { background: var(--blue2); color: var(--white); box-shadow: 0 4px 15px rgba(37,99,235,0.3); }
+    .btn-plan-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 25px rgba(37,99,235,0.4); }
+    .btn-plan-outline { background: var(--gray-100); color: var(--navy2); }
+    .btn-plan-outline:hover { background: var(--gray-200); }
 
-    .btn-plan-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(26,86,219,0.4); }
-
-    .btn-plan-secondary {
-      background: var(--gray-100);
-      color: var(--navy);
-    }
-
-    .btn-plan-secondary:hover { background: var(--gray-200, #e5e7eb); }
-
-    /* ── Testimonials ── */
-    .testimonials { background: var(--white); }
-
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-
-    .testimonial {
-      background: var(--gray-50);
-      border-radius: 12px;
-      padding: 2rem;
-      border-left: 4px solid var(--blue);
-    }
-
-    .testimonial p { font-size: 0.95rem; color: var(--gray-700); line-height: 1.7; font-style: italic; margin-bottom: 1rem; }
-
-    .testimonial-author { display: flex; align-items: center; gap: 0.8rem; }
-
-    .author-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--blue) 0%, var(--navy) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--white);
-      flex-shrink: 0;
-    }
-
-    .author-name { font-weight: 700; font-size: 0.9rem; color: var(--navy); }
-    .author-biz { font-size: 0.8rem; color: var(--gray-400); }
-
-    /* ── CTA Banner ── */
-    .cta-banner {
-      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
+    /* ── CTA ── */
+    .cta {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3a8f 50%, var(--blue2) 100%);
       color: var(--white);
       text-align: center;
-      padding: 80px 5%;
     }
 
-    .cta-banner h2 { color: var(--white); margin-bottom: 1rem; }
-    .cta-banner p { color: rgba(255,255,255,0.8); font-size: 1.05rem; margin-bottom: 2.5rem; max-width: 540px; margin-left: auto; margin-right: auto; }
+    .cta h2 { color: var(--white); margin-bottom: 1rem; }
+    .cta p { color: rgba(255,255,255,0.75); font-size: 1.05rem; line-height: 1.75; margin-bottom: 2.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
 
     /* ── Contact ── */
-    .contact { background: var(--gray-50); }
-
-    .contact-wrapper {
+    .contact-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 5rem;
       align-items: start;
-      max-width: 900px;
     }
 
     .contact-info h2 { margin-bottom: 1rem; }
-    .contact-info p { color: var(--gray-600); line-height: 1.7; margin-bottom: 1.5rem; }
+    .contact-info p { color: var(--gray-500); line-height: 1.75; margin-bottom: 2rem; }
 
-    .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      margin-bottom: 0.8rem;
-      color: var(--gray-600);
-      font-size: 0.95rem;
-    }
+    .contact-item { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1rem; font-size: 0.9rem; color: var(--gray-600); }
+    .c-icon { width: 38px; height: 38px; background: var(--navy2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
 
-    .contact-icon {
-      width: 36px;
-      height: 36px;
-      background: var(--blue);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      flex-shrink: 0;
-    }
+    .contact-form { background: var(--gray-50); border-radius: 20px; padding: 2.5rem; border: 1px solid var(--gray-200); }
+    .contact-form h3 { font-size: 1.2rem; font-weight: 800; color: var(--navy2); margin-bottom: 0.4rem; }
+    .contact-form .form-sub { font-size: 0.875rem; color: var(--gray-500); margin-bottom: 1.5rem; }
 
-    form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-
-    label { font-size: 0.875rem; font-weight: 600; color: var(--gray-700); }
-
-    input, textarea, select {
-      padding: 0.7rem 0.9rem;
-      border: 1.5px solid var(--gray-100);
-      border-radius: 8px;
-      font-size: 0.95rem;
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+    label { font-size: 0.8rem; font-weight: 700; color: var(--gray-700); text-transform: uppercase; letter-spacing: 0.5px; }
+    input, select, textarea {
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 10px;
+      font-size: 0.9rem;
       font-family: inherit;
       color: var(--gray-900);
       background: var(--white);
-      transition: border-color 0.2s;
       outline: none;
+      transition: border-color 0.2s;
     }
-
-    input:focus, textarea:focus, select:focus { border-color: var(--blue); }
-    textarea { resize: vertical; min-height: 120px; }
+    input:focus, select:focus, textarea:focus { border-color: var(--blue2); }
+    textarea { resize: vertical; min-height: 100px; }
 
     .submit-btn {
-      background: var(--blue);
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--navy2);
       color: var(--white);
       border: none;
-      padding: 0.85rem 2rem;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 1rem;
       font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
       font-family: inherit;
+      margin-top: 0.5rem;
+      transition: background 0.2s, transform 0.2s;
     }
-
-    .submit-btn:hover { background: var(--navy); transform: translateY(-1px); }
+    .submit-btn:hover { background: var(--blue2); transform: translateY(-1px); }
 
     /* ── Footer ── */
-    footer {
-      background: var(--navy);
-      color: rgba(255,255,255,0.7);
-      padding: 50px 5% 30px;
-    }
+    footer { background: var(--navy); color: rgba(255,255,255,0.6); padding: 60px 6% 30px; }
 
-    .footer-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 3rem;
-      margin-bottom: 3rem;
-      flex-wrap: wrap;
-    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
 
     .footer-brand .logo { font-size: 1.6rem; }
-    .footer-brand p { margin-top: 0.8rem; font-size: 0.9rem; max-width: 260px; }
+    .footer-brand p { margin-top: 0.8rem; font-size: 0.875rem; line-height: 1.7; max-width: 240px; }
 
-    .footer-links h4 { color: var(--white); font-size: 0.85rem; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 1rem; }
-    .footer-links ul { list-style: none; }
-    .footer-links ul li { margin-bottom: 0.5rem; }
-    .footer-links ul li a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
-    .footer-links ul li a:hover { color: var(--white); }
+    .footer-col h4 { color: var(--white); font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.5rem; }
+    .footer-col ul li a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--white); }
 
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 1.5rem;
-      font-size: 0.85rem;
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: 0.8rem; flex-wrap: wrap; gap: 0.5rem; }
+
+    /* ── Email Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 300;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--white);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background: var(--navy2);
+      color: var(--white);
+      padding: 1.5rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
     }
 
+    .modal-header h3 { font-size: 1.1rem; font-weight: 800; }
+    .modal-header p { font-size: 0.8rem; opacity: 0.65; margin-top: 0.2rem; }
+
+    .modal-close { background: none; border: none; color: rgba(255,255,255,0.7); font-size: 1.4rem; cursor: pointer; line-height: 1; padding: 0; }
+    .modal-close:hover { color: var(--white); }
+
+    .modal-body { padding: 2rem; }
+
+    .modal-body .form-group { margin-bottom: 1.1rem; }
+
+    .email-clients {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .email-client-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--white);
+      color: var(--gray-700);
+      font-family: inherit;
+      transition: border-color 0.15s, background 0.15s;
+      text-decoration: none;
+    }
+
+    .email-client-btn:hover { border-color: var(--blue2); background: #eff6ff; color: var(--blue2); }
+    .email-client-btn .ec-icon { font-size: 1.3rem; }
+
+    .modal-step { display: none; }
+    .modal-step.active { display: block; }
+
+    .modal-note { font-size: 0.8rem; color: var(--gray-400); text-align: center; margin-top: 1rem; }
+
     /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    }
+
     @media (max-width: 768px) {
       .nav-links { display: none; }
-
-      .hero { padding: 100px 5% 60px; }
-
-      .services-grid { grid-template-columns: 1fr; }
-
-      .contact-wrapper { grid-template-columns: 1fr; gap: 2rem; }
-
-      .hero-stats { gap: 1.5rem; }
-
-      .footer-top { flex-direction: column; }
+      .hero { min-height: auto; padding: 110px 6% 70px; }
+      .hero-proof { gap: 1.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .email-clients { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 480px) {
       section { padding: 60px 5%; }
-      .hero-buttons { flex-direction: column; align-items: center; }
-      .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+      .hero-actions { flex-direction: column; }
+      .btn-hero { justify-content: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav>
-    <div class="logo">Dev<span>Sply</span></div>
-    <ul class="nav-links">
-      <li><a href="#how-it-works">How It Works</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#pricing">Pricing</a></li>
-      <li><a href="#contact">Contact</a></li>
-      <li><a href="mailto:devsply@gmail.com" class="nav-cta">Get Started</a></li>
-    </ul>
-  </nav>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-tag">AI-Powered Web Design</div>
-    <h1>Local businesses deserve<br>a website that <em>actually works</em></h1>
-    <p>DevSply builds professional websites for local businesses in days — and finds the customers who need you most using AI automation.</p>
-    <div class="hero-buttons">
-      <a href="mailto:devsply@gmail.com?subject=Free Website Preview" class="btn-primary">Get a Free Preview →</a>
-      <a href="#how-it-works" class="btn-secondary">See How It Works</a>
+<!-- Email Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h3 id="modal-title">Get a Free Preview</h3>
+        <p>We'll build it before you commit to anything</p>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <span class="stat-number">$500</span>
-        <span class="stat-label">Starting Price</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">1 Week</span>
-        <span class="stat-label">Delivery Time</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">AI</span>
-        <span class="stat-label">Powered</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-number">100%</span>
-        <span class="stat-label">Done For You</span>
-      </div>
-    </div>
-  </section>
+    <div class="modal-body">
 
-  <!-- How it works -->
-  <section class="how-it-works" id="how-it-works">
-    <div class="section-tag">The Process</div>
-    <h2>From no website to live in a week</h2>
-    <p class="section-sub">We handle everything. You just approve it and watch new customers find you.</p>
-    <div class="steps">
-      <div class="step-card">
-        <div class="step-number">1</div>
-        <h3>We find you</h3>
-        <p>Our AI scans Google Maps for local businesses without websites. If you're on this list, we reach out with a free preview.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">2</div>
-        <h3>Free preview built</h3>
-        <p>We generate a custom website preview for your business using your business name, category, location, and reviews.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">3</div>
-        <h3>You approve</h3>
-        <p>Like what you see? We refine it, add your content, and make it exactly how you want it.</p>
-      </div>
-      <div class="step-card">
-        <div class="step-number">4</div>
-        <h3>Go live</h3>
-        <p>Your site goes live within a week. Customers can finally find you when they search online.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services -->
-  <section id="services">
-    <div class="section-tag">What We Offer</div>
-    <h2>Two ways DevSply helps you grow</h2>
-    <p class="section-sub">Whether you need a website built or want to automate your own lead gen — we have you covered.</p>
-    <div class="services-grid">
-      <div class="service-card agency">
-        <span class="badge">Done For You</span>
-        <h3>Web Design for Local Businesses</h3>
-        <p class="desc">We build you a fast, professional, mobile-ready website from scratch. No templates, no page builders — real design that converts visitors into customers.</p>
-        <ul>
-          <li>Custom design, built for your trade</li>
-          <li>Mobile-first, SEO-ready</li>
-          <li>Contact forms & click-to-call</li>
-          <li>Google listing optimization</li>
-          <li>Domain & hosting setup included</li>
-          <li>Delivered in 7 days</li>
-        </ul>
-        <div class="price">$500 <span>one-time</span></div>
-        <a href="mailto:devsply@gmail.com?subject=I want a website" class="cta-link">Get a Free Preview</a>
-      </div>
-      <div class="service-card saas">
-        <span class="badge">SaaS Platform</span>
-        <h3>AI Lead Generation Tool</h3>
-        <p class="desc">The same AI pipeline we use internally — now available to agencies, freelancers, and sales teams. Automate prospecting and outreach at scale.</p>
-        <ul>
-          <li>Scrape businesses with no website</li>
-          <li>AI-generated personalized landing pages</li>
-          <li>Automated email outreach sequences</li>
-          <li>Follow-up automation (Day 3, 14, 30)</li>
-          <li>CRM dashboard with live stats</li>
-          <li>Full pipeline tracking</li>
-        </ul>
-        <div class="price">Coming Soon</div>
-        <a href="mailto:devsply@gmail.com?subject=SaaS early access" class="cta-link">Join Waitlist</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Why DevSply -->
-  <section class="why">
-    <div class="section-tag">Why DevSply</div>
-    <h2>Not just another web design agency</h2>
-    <p class="section-sub">We're a tech-first company that builds automated systems to find businesses that need help — then actually help them.</p>
-    <div class="features-grid">
-      <div class="feature">
-        <div class="feature-icon">🤖</div>
-        <h3>AI-Powered</h3>
-        <p>We use Claude AI to generate personalized, professional website previews before you even commit. You see exactly what you're getting.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">⚡</div>
-        <h3>Fast Turnaround</h3>
-        <p>Most agencies take months. We deliver in 7 days. Our AI-assisted workflow means less back-and-forth and faster results.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">📱</div>
-        <h3>Mobile-First</h3>
-        <p>Over 60% of local searches happen on mobile. Every site we build is responsive, fast, and looks perfect on any screen.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">🎯</div>
-        <h3>Industry-Specific</h3>
-        <p>We specialize in local trades: plumbers, electricians, roofers, HVAC, contractors, landscapers, and more. We know your customers.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">💰</div>
-        <h3>Transparent Pricing</h3>
-        <p>Flat $500 — no hidden fees, no monthly charges, no upsells. One payment, your website is yours forever.</p>
-      </div>
-      <div class="feature">
-        <div class="feature-icon">🔍</div>
-        <h3>SEO Ready</h3>
-        <p>Your site comes with proper meta tags, structured data, Google Business Profile tips, and local SEO best practices built in.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pricing -->
-  <section class="pricing" id="pricing">
-    <div class="section-tag">Pricing</div>
-    <h2>Simple, flat-rate pricing</h2>
-    <p class="section-sub">No surprises. No monthly fees. Pay once, own it forever.</p>
-    <div class="pricing-grid">
-      <div class="pricing-card">
-        <h3>Starter Website</h3>
-        <div class="pricing-amount">$500 <span>flat</span></div>
-        <p class="pricing-note">One-time payment</p>
-        <hr class="pricing-divider">
-        <ul>
-          <li>Custom designed homepage</li>
-          <li>Mobile responsive</li>
-          <li>Contact form & click-to-call</li>
-          <li>Google Maps embed</li>
-          <li>SEO meta tags</li>
-          <li>Delivered in 7 days</li>
-          <li>1 revision round</li>
-        </ul>
-        <a href="mailto:devsply@gmail.com?subject=Starter Website" class="btn-plan btn-plan-secondary">Get Started</a>
-      </div>
-      <div class="pricing-card featured">
-        <div class="popular-badge">Most Popular</div>
-        <h3>Full Business Site</h3>
-        <div class="pricing-amount">$900 <span>flat</span></div>
-        <p class="pricing-note">One-time payment</p>
-        <hr class="pricing-divider">
-        <ul>
-          <li>Everything in Starter</li>
-          <li>Services page</li>
-          <li>About page</li>
-          <li>Photo gallery</li>
-          <li>Review showcase</li>
-          <li>Blog-ready structure</li>
-          <li>3 revision rounds</li>
-          <li>Priority delivery (5 days)</li>
-        </ul>
-        <a href="mailto:devsply@gmail.com?subject=Full Business Site" class="btn-plan btn-plan-primary">Get Started</a>
-      </div>
-      <div class="pricing-card">
-        <h3>SaaS Platform</h3>
-        <div class="pricing-amount">TBD</div>
-        <p class="pricing-note">Monthly subscription — coming soon</p>
-        <hr class="pricing-divider">
-        <ul>
-          <li>Full lead gen automation</li>
-          <li>AI landing page generator</li>
-          <li>Email outreach sequences</li>
-          <li>CRM dashboard</li>
-          <li>API access</li>
-          <li>White-label option</li>
-        </ul>
-        <a href="mailto:devsply@gmail.com?subject=SaaS waitlist" class="btn-plan btn-plan-secondary">Join Waitlist</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA Banner -->
-  <section class="cta-banner">
-    <h2>Ready to get found online?</h2>
-    <p>Email us and we'll send you a free website preview for your business — no commitment, no credit card.</p>
-    <a href="mailto:devsply@gmail.com?subject=Free Website Preview" class="btn-primary">Get My Free Preview →</a>
-  </section>
-
-  <!-- Contact -->
-  <section class="contact" id="contact">
-    <div class="contact-wrapper">
-      <div class="contact-info">
-        <div class="section-tag">Contact</div>
-        <h2>Let's build your website</h2>
-        <p>Send us a message and we'll get back to you within 24 hours with a free preview of what your site could look like.</p>
-        <div class="contact-item">
-          <div class="contact-icon">✉</div>
-          <span>devsply@gmail.com</span>
+      <!-- Step 1: Business Info -->
+      <div class="modal-step active" id="step1">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="m-name" placeholder="John Smith">
+          </div>
+          <div class="form-group">
+            <label>Business Name</label>
+            <input type="text" id="m-biz" placeholder="Smith Plumbing">
+          </div>
         </div>
-        <div class="contact-item">
-          <div class="contact-icon">🌐</div>
-          <span>devsply.com</span>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">⏱</div>
-          <span>Response within 24 hours</span>
-        </div>
-      </div>
-      <form action="mailto:devsply@gmail.com" method="get" enctype="text/plain">
-        <div class="form-group">
-          <label for="name">Your Name</label>
-          <input type="text" id="name" name="name" placeholder="John Smith" required>
+        <div class="form-row">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" id="m-city" placeholder="Chicago, IL">
+          </div>
+          <div class="form-group">
+            <label>Business Type</label>
+            <select id="m-type">
+              <option value="plumber">Plumber</option>
+              <option value="electrician">Electrician</option>
+              <option value="HVAC contractor">HVAC / AC</option>
+              <option value="roofer">Roofer</option>
+              <option value="general contractor">General Contractor</option>
+              <option value="landscaper">Landscaper</option>
+              <option value="pest control">Pest Control</option>
+              <option value="auto repair shop">Auto Repair</option>
+              <option value="cleaning service">Cleaning Service</option>
+              <option value="handyman">Handyman</option>
+              <option value="moving company">Moving Company</option>
+              <option value="painter">Painter</option>
+              <option value="other local business">Other</option>
+            </select>
+          </div>
         </div>
         <div class="form-group">
-          <label for="business">Business Name</label>
-          <input type="text" id="business" name="business" placeholder="Smith Plumbing" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="john@smithplumbing.com" required>
-        </div>
-        <div class="form-group">
-          <label for="service">I'm interested in</label>
-          <select id="service" name="service">
-            <option>A website for my business</option>
-            <option>The SaaS lead gen platform</option>
-            <option>Both</option>
+          <label>I'm interested in</label>
+          <select id="m-interest">
+            <option value="starter">Starter Website — $500</option>
+            <option value="full">Full Business Site — $900</option>
+            <option value="both">Not sure yet — just send me the free preview</option>
           </select>
         </div>
-        <div class="form-group">
-          <label for="message">Message (optional)</label>
-          <textarea id="message" name="body" placeholder="Tell us about your business..."></textarea>
-        </div>
-        <button type="submit" class="submit-btn">Send Message →</button>
-      </form>
-    </div>
-  </section>
+        <button class="submit-btn" onclick="goStep2()">Choose Email App →</button>
+      </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-top">
-      <div class="footer-brand">
-        <div class="logo">Dev<span>Sply</span></div>
-        <p>AI-powered web design for local businesses. Fast, affordable, and done for you.</p>
+      <!-- Step 2: Email client -->
+      <div class="modal-step" id="step2">
+        <p style="font-size:0.9rem;color:var(--gray-600);margin-bottom:0.5rem">Your email is ready. Pick your app to open it — just hit send:</p>
+        <div class="email-clients">
+          <button class="email-client-btn" onclick="openEmail('gmail')">
+            <span class="ec-icon">📧</span> Gmail
+          </button>
+          <button class="email-client-btn" onclick="openEmail('outlook')">
+            <span class="ec-icon">📨</span> Outlook
+          </button>
+          <button class="email-client-btn" onclick="openEmail('apple')">
+            <span class="ec-icon">✉️</span> Apple Mail
+          </button>
+          <button class="email-client-btn" onclick="openEmail('yahoo')">
+            <span class="ec-icon">📬</span> Yahoo Mail
+          </button>
+        </div>
+        <p class="modal-note">Email opens pre-written — just review and hit send.</p>
       </div>
-      <div class="footer-links">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="#how-it-works">How It Works</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#pricing">Pricing</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
+
+    </div>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav>
+  <div class="logo">Dev<span>Sply</span></div>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><button class="nav-cta btn-hero" onclick="openModal('Get a Free Preview')">Get Started</button></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">✦ AI-Powered Web Design for Local Businesses</div>
+    <h1>Your customers<br>can't find you<br><em>without a website</em></h1>
+    <p class="hero-sub">DevSply builds fast, professional websites for local businesses in under a week — and finds you a free preview before you spend a dollar.</p>
+    <div class="hero-actions">
+      <button class="btn-hero btn-gold" onclick="openModal('Get a Free Preview')">Get My Free Preview →</button>
+      <a href="#how" class="btn-hero btn-outline">See How It Works</a>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-item">
+        <span class="proof-num">$500</span>
+        <div class="proof-label">Starting price</div>
       </div>
-      <div class="footer-links">
-        <h4>Services</h4>
-        <ul>
-          <li><a href="#services">Web Design</a></li>
-          <li><a href="#services">AI Lead Gen</a></li>
-          <li><a href="mailto:devsply@gmail.com?subject=SaaS waitlist">SaaS Platform</a></li>
-        </ul>
+      <div class="proof-item">
+        <span class="proof-num">7 days</span>
+        <div class="proof-label">Delivery time</div>
       </div>
-      <div class="footer-links">
-        <h4>Contact</h4>
-        <ul>
-          <li><a href="mailto:devsply@gmail.com">devsply@gmail.com</a></li>
-          <li><a href="#">devsply.com</a></li>
-        </ul>
+      <div class="proof-item">
+        <span class="proof-num">Free</span>
+        <div class="proof-label">Preview first</div>
+      </div>
+      <div class="proof-item">
+        <span class="proof-num">AI</span>
+        <div class="proof-label">Powered design</div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <span>&copy; 2025 DevSply. All rights reserved.</span>
-      <span>Built with AI. Powered by humans.</span>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="how" id="how">
+  <div class="section-label">The Process</div>
+  <h2>Live in a week,<br>preview for free</h2>
+  <p class="section-desc">We build a custom preview of your website before you pay anything. You only commit when you love it.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Tell us about your business</h3>
+      <p>Fill out a quick form — your name, business, city, and type of work. Takes 30 seconds.</p>
     </div>
-  </footer>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>We build a free preview</h3>
+      <p>Our AI generates a custom website preview for your exact business. No templates — built specifically for you.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>You review and approve</h3>
+      <p>We send you the preview link. Love it? We refine it, add your content, and finalize everything.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Go live in 7 days</h3>
+      <p>Your real website goes live. Customers start finding you on Google. That's it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section id="services">
+  <div class="section-label">What We Offer</div>
+  <h2>Built for local businesses,<br>powered by AI</h2>
+  <p class="section-desc">Whether you need a website built fast or want to automate your own lead generation — DevSply has both.</p>
+  <div class="services-grid">
+    <div class="service-card agency">
+      <span class="service-badge">Done For You</span>
+      <h3>Web Design for Local Businesses</h3>
+      <p class="desc">Professional, mobile-first websites built in days. No drag-and-drop builders, no cookie-cutter templates — real custom design that converts visitors into calls.</p>
+      <ul>
+        <li>Custom design for your trade</li>
+        <li>Mobile-first, SEO-ready</li>
+        <li>Click-to-call & contact forms</li>
+        <li>Google Maps integration</li>
+        <li>Domain & hosting setup included</li>
+        <li>Free preview before you pay</li>
+        <li>Live in 7 days</li>
+      </ul>
+      <div class="service-price">$500 <span>one-time</span></div>
+      <button class="btn-service" onclick="openModal('Web Design')">Get a Free Preview →</button>
+    </div>
+    <div class="service-card saas">
+      <span class="service-badge">SaaS Platform</span>
+      <h3>AI Lead Generation Tool</h3>
+      <p class="desc">The automation pipeline we use to find clients — now available to agencies, freelancers, and sales teams who want to prospect at scale without the manual work.</p>
+      <ul>
+        <li>Auto-scrape businesses without websites</li>
+        <li>AI-generated personalized landing pages</li>
+        <li>Automated email + SMS outreach</li>
+        <li>Follow-up sequences (Day 3, 14, 30)</li>
+        <li>CRM dashboard with live stats</li>
+        <li>City-by-city pipeline automation</li>
+      </ul>
+      <div class="service-price">Coming Soon</div>
+      <button class="btn-service" onclick="openModal('SaaS Waitlist')">Join the Waitlist →</button>
+    </div>
+  </div>
+</section>
+
+<!-- Why DevSply -->
+<section>
+  <div class="section-label">Why DevSply</div>
+  <h2>We find you before<br>you even look for us</h2>
+  <p class="section-desc">Most agencies wait for you to come to them. We use AI to identify which businesses need help most — and reach out with a preview already built.</p>
+  <div class="features-grid">
+    <div class="feature">
+      <div class="feature-icon">🤖</div>
+      <h3>Free Preview First</h3>
+      <p>We build a real preview of your website before asking for anything. You see exactly what you're getting before you spend a dollar.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">⚡</div>
+      <h3>7-Day Turnaround</h3>
+      <p>Most agencies take 4–8 weeks. We use AI-assisted workflows to deliver polished, production-ready sites in under a week.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📱</div>
+      <h3>Mobile-First Design</h3>
+      <p>Over 65% of local searches happen on phones. Every site we build looks flawless on any screen size.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🎯</div>
+      <h3>Built for Your Trade</h3>
+      <p>Plumbers, electricians, roofers, HVAC, contractors, landscapers — we know what your customers are looking for and build sites that convert.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">💰</div>
+      <h3>Flat $500 — No Surprises</h3>
+      <p>One price. No monthly fees, no add-ons, no hosting charges. Your site is yours forever after a single payment.</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🔍</div>
+      <h3>Local SEO Built In</h3>
+      <p>Proper meta tags, Google Business Profile guidance, local schema markup, and structured data — all included so customers find you on Google.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="pricing" id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2>Simple pricing,<br>no surprises</h2>
+  <p class="section-desc">One flat payment. No monthly fees, no hosting costs, no upsells. Own your website forever.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <h3>Starter</h3>
+      <div class="pricing-amount">$500 <span>flat</span></div>
+      <p class="pricing-note">One-time · yours forever</p>
+      <hr>
+      <ul>
+        <li>Custom homepage design</li>
+        <li>Mobile responsive</li>
+        <li>Click-to-call button</li>
+        <li>Contact form</li>
+        <li>Google Maps embed</li>
+        <li>SEO meta tags</li>
+        <li>1 revision round</li>
+        <li>Live in 7 days</li>
+      </ul>
+      <button class="btn-plan btn-plan-outline" onclick="openModal('Starter Website — $500')">Get Started</button>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pop-badge">Most Popular</div>
+      <h3>Full Business Site</h3>
+      <div class="pricing-amount">$900 <span>flat</span></div>
+      <p class="pricing-note">One-time · yours forever</p>
+      <hr>
+      <ul>
+        <li>Everything in Starter</li>
+        <li>Services page</li>
+        <li>About page</li>
+        <li>Photo gallery</li>
+        <li>Google review showcase</li>
+        <li>Blog-ready structure</li>
+        <li>3 revision rounds</li>
+        <li>Priority delivery (5 days)</li>
+      </ul>
+      <button class="btn-plan btn-plan-primary" onclick="openModal('Full Business Site — $900')">Get Started</button>
+    </div>
+    <div class="pricing-card">
+      <h3>SaaS Platform</h3>
+      <div class="pricing-amount" style="font-size:2rem">Coming Soon</div>
+      <p class="pricing-note">Monthly · early access pricing</p>
+      <hr>
+      <ul>
+        <li>Lead gen automation</li>
+        <li>AI landing page generator</li>
+        <li>Email + SMS outreach</li>
+        <li>Follow-up sequences</li>
+        <li>CRM dashboard</li>
+        <li>White-label option</li>
+      </ul>
+      <button class="btn-plan btn-plan-outline" onclick="openModal('SaaS Waitlist')">Join Waitlist</button>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Ready to get found online?</h2>
+  <p>Get a free custom preview of your website — no commitment, no credit card, no catch. Just see what's possible.</p>
+  <button class="btn-hero btn-gold" onclick="openModal('Get a Free Preview')">Get My Free Preview →</button>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="section-label">Contact</div>
+      <h2>Let's build something great</h2>
+      <p>Email us and we'll get back to you within 24 hours with a free preview of your site. No commitment required.</p>
+      <div class="contact-item">
+        <div class="c-icon">✉</div>
+        <span>devsply@gmail.com</span>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">🌐</div>
+        <span>devsply.com</span>
+      </div>
+      <div class="contact-item">
+        <div class="c-icon">⚡</div>
+        <span>Response within 24 hours</span>
+      </div>
+    </div>
+    <div class="contact-form">
+      <h3>Get your free preview</h3>
+      <p class="form-sub">Fill this in and we'll open your email app — just hit send.</p>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="c-name" placeholder="John Smith">
+        </div>
+        <div class="form-group">
+          <label>Business Name</label>
+          <input type="text" id="c-biz" placeholder="Smith Plumbing">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" id="c-city" placeholder="Chicago, IL">
+        </div>
+        <div class="form-group">
+          <label>Business Type</label>
+          <select id="c-type">
+            <option value="plumber">Plumber</option>
+            <option value="electrician">Electrician</option>
+            <option value="HVAC contractor">HVAC / AC</option>
+            <option value="roofer">Roofer</option>
+            <option value="general contractor">General Contractor</option>
+            <option value="landscaper">Landscaper</option>
+            <option value="pest control">Pest Control</option>
+            <option value="auto repair shop">Auto Repair</option>
+            <option value="cleaning service">Cleaning Service</option>
+            <option value="handyman">Handyman</option>
+            <option value="moving company">Moving Company</option>
+            <option value="painter">Painter</option>
+            <option value="other local business">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>I'm interested in</label>
+        <select id="c-interest">
+          <option value="starter">Starter Website — $500</option>
+          <option value="full">Full Business Site — $900</option>
+          <option value="both">Not sure — just send me the free preview</option>
+        </select>
+      </div>
+      <button class="submit-btn" onclick="openContactEmail()">Choose My Email App →</button>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">Dev<span>Sply</span></div>
+      <p>AI-powered web design for local businesses. Fast, affordable, done for you.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="mailto:devsply@gmail.com">Email Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:devsply@gmail.com">devsply@gmail.com</a></li>
+        <li><a href="#">devsply.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2025 DevSply. All rights reserved.</span>
+    <span>Built with AI. Powered by humans.</span>
+  </div>
+</footer>
+
+<script>
+  // ── Modal ──
+  let modalSource = '';
+
+  function openModal(title) {
+    modalSource = title;
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('step1').classList.add('active');
+    document.getElementById('step2').classList.remove('active');
+    document.getElementById('modal-overlay').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modal-overlay')) closeModal();
+  }
+
+  function goStep2() {
+    const name = document.getElementById('m-name').value.trim();
+    const biz  = document.getElementById('m-biz').value.trim();
+    if (!name || !biz) { alert('Please enter your name and business name.'); return; }
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+  }
+
+  function buildEmailContent(prefix) {
+    const name     = (document.getElementById(prefix + '-name') ?? document.getElementById('m-name')).value.trim() || 'there';
+    const biz      = (document.getElementById(prefix + '-biz')  ?? document.getElementById('m-biz')).value.trim()  || 'my business';
+    const city     = (document.getElementById(prefix + '-city') ?? document.getElementById('m-city')).value.trim() || 'my city';
+    const type     = (document.getElementById(prefix + '-type') ?? document.getElementById('m-type')).value;
+    const interest = (document.getElementById(prefix + '-interest') ?? document.getElementById('m-interest')).value;
+
+    const interestText = {
+      starter: 'the Starter Website ($500)',
+      full:    'the Full Business Site ($900)',
+      both:    'a free preview to start — I can decide on the package after seeing it',
+    }[interest] ?? 'a website';
+
+    const subject = `Website inquiry — ${biz} (${type} in ${city})`;
+    const body = `Hi Zach,
+
+My name is ${name} and I run ${biz}, a ${type} based in ${city}.
+
+I'm interested in ${interestText}.
+
+A few things about my business:
+- Business name: ${biz}
+- Location: ${city}
+- Type of work: ${type}
+- Phone number: [your number here]
+- Anything else you'd like us to know:
+
+Looking forward to hearing from you!
+
+${name}`;
+
+    return { subject, body };
+  }
+
+  function openEmail(client) {
+    const prefix = document.getElementById('step2').classList.contains('active') ? 'm' : 'c';
+    const { subject, body } = buildEmailContent(prefix);
+    const to = 'devsply@gmail.com';
+    const s = encodeURIComponent(subject);
+    const b = encodeURIComponent(body);
+
+    const urls = {
+      gmail:   `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(to)}&su=${s}&body=${b}`,
+      outlook: `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(to)}&subject=${s}&body=${b}`,
+      apple:   `mailto:${to}?subject=${s}&body=${b}`,
+      yahoo:   `https://compose.mail.yahoo.com/?to=${encodeURIComponent(to)}&subject=${s}&body=${b}`,
+    };
+
+    window.open(urls[client] || urls.apple, '_blank');
+    closeModal();
+  }
+
+  function openContactEmail() {
+    const name = document.getElementById('c-name').value.trim();
+    const biz  = document.getElementById('c-biz').value.trim();
+    if (!name || !biz) { alert('Please enter your name and business name.'); return; }
+
+    // Populate modal fields from contact form
+    document.getElementById('m-name').value     = name;
+    document.getElementById('m-biz').value      = biz;
+    document.getElementById('m-city').value     = document.getElementById('c-city').value;
+    document.getElementById('m-type').value     = document.getElementById('c-type').value;
+    document.getElementById('m-interest').value = document.getElementById('c-interest').value;
+
+    document.getElementById('modal-title').textContent = 'Choose your email app';
+    document.getElementById('step1').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+    document.getElementById('modal-overlay').classList.add('open');
+  }
+</script>
 
 </body>
 </html>
