@@ -1,53 +1,51 @@
-import twilio from 'twilio';
+import axios from 'axios';
 
-const ACCOUNT_SID   = process.env.TWILIO_ACCOUNT_SID;
-const AUTH_TOKEN    = process.env.TWILIO_AUTH_TOKEN;
-const FROM_NUMBER   = process.env.TWILIO_PHONE_NUMBER;
+const TEXTBELT_KEY  = process.env.TEXTBELT_KEY;
 const SENDER_NAME   = process.env.SENDER_NAME ?? 'Zach';
-const DAILY_LIMIT   = parseInt(process.env.DAILY_SMS_LIMIT ?? '20', 10);
+const DAILY_LIMIT   = parseInt(process.env.DAILY_SMS_LIMIT ?? '40', 10);
 
 function buildSMS(lead) {
   const reviews = lead.reviews > 0 ? ` You have ${lead.reviews} Google reviews` : '';
-  return `Hi! I noticed ${lead.business_name} doesn't have a website.${reviews} — customers searching online can't find you.
-
-I build websites for local businesses starting at $500, done in a week. Want a free preview?
-
-– ${SENDER_NAME}
-
-Reply STOP to opt out.`;
+  return `Hi! I noticed ${lead.business_name} doesn't have a website.${reviews} — customers searching online can't find you. I build websites for local businesses starting at $500, done in a week. Want a free preview? – ${SENDER_NAME}`;
 }
 
 export async function sendSMSOutreach(leads) {
-  if (!ACCOUNT_SID || !AUTH_TOKEN || !FROM_NUMBER) {
-    console.log('  ⚠  SMS skipped — add TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER');
+  if (!TEXTBELT_KEY) {
+    console.log('  ⚠  SMS skipped — add TEXTBELT_KEY to env vars');
     return 0;
   }
 
-  const client = twilio(ACCOUNT_SID, AUTH_TOKEN);
   let sent = 0;
 
   for (const lead of leads.slice(0, DAILY_LIMIT)) {
     if (!lead.phone) continue;
 
-    const phone = lead.phone.replace(/[^\d+]/g, '');
+    const phone = lead.phone.replace(/[^\d]/g, '').slice(-10);
     if (phone.length < 10) continue;
 
-    const to = phone.startsWith('+') ? phone : `+1${phone.slice(-10)}`;
-    const body = buildSMS(lead);
-
     console.log(`\n  → ${lead.business_name}`);
-    console.log(`    ${to}`);
+    console.log(`    ${lead.phone}`);
 
     try {
-      await client.messages.create({ from: FROM_NUMBER, to, body });
-      sent++;
-      console.log('    ✓ SMS sent');
-      // Random 3–7 second gap to avoid carrier spam detection
-      const delay = 3000 + Math.floor(Math.random() * 4000);
-      await new Promise(r => setTimeout(r, delay));
+      const { data } = await axios.post('https://textbelt.com/text', {
+        phone,
+        message: buildSMS(lead),
+        key: TEXTBELT_KEY,
+      });
+
+      if (data.success) {
+        sent++;
+        console.log(`    ✓ Sent (${data.quotaRemaining} texts remaining)`);
+      } else {
+        console.error(`    ✗ Failed: ${data.error}`);
+      }
     } catch (err) {
       console.error(`    ✗ Failed: ${err.message}`);
     }
+
+    // Random 3–7 second gap to avoid carrier filtering
+    const delay = 3000 + Math.floor(Math.random() * 4000);
+    await new Promise(r => setTimeout(r, delay));
   }
 
   return sent;
