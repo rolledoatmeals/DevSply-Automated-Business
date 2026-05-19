@@ -25,12 +25,11 @@ async function runNext() {
   }
 }
 
-// Run once on startup so you don't have to wait until 9 AM on first launch
-console.log('Running initial pipeline pass now...');
-await runNext();
-
-// Then schedule daily at 9:00 AM Monday–Friday
+// Schedule daily at 9:00 AM Monday–Friday (UTC)
+// Does NOT run on startup — Railway restarts would otherwise trigger the pipeline
 cron.schedule('0 9 * * 1-5', async () => {
   console.log(`\n[${new Date().toLocaleString()}] Scheduled trigger fired.`);
   await runNext();
 });
+
+console.log('  Waiting for next scheduled run (9 AM Mon–Fri UTC).\n');
