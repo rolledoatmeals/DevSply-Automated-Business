@@ -515,6 +515,11 @@
               <div class="stat-label">Emails Sent</div>
               <div class="stat-number" id="stat-emails">—</div>
             </div>
+            <div class="stat-card blue">
+              <span class="stat-icon">📱</span>
+              <div class="stat-label">Texts Sent</div>
+              <div class="stat-number" id="stat-texts">—</div>
+            </div>
             <div class="stat-card purple">
               <span class="stat-icon">💬</span>
               <div class="stat-label">Replied</div>
@@ -581,7 +586,7 @@
                   <th>Business</th>
                   <th>Category</th>
                   <th>City</th>
-                  <th>Email</th>
+                  <th>Via</th>
                   <th>Website</th>
                   <th>Status</th>
                   <th>Follow-ups</th>
@@ -747,6 +752,7 @@
     document.getElementById('stat-total').textContent = s.total.toLocaleString();
     document.getElementById('stat-pages').textContent = s.with_page.toLocaleString();
     document.getElementById('stat-emails').textContent = s.emails_sent.toLocaleString();
+    document.getElementById('stat-texts').textContent = s.texts_sent.toLocaleString();
     document.getElementById('stat-replied').textContent = s.replied.toLocaleString();
     document.getElementById('stat-converted').textContent = s.converted.toLocaleString();
 
@@ -829,9 +835,12 @@
           ? `<a href="${l.landing_page_url}" target="_blank" class="website-link">View ↗</a>`
           : '<span style="color:var(--gray-400);font-size:0.8rem">—</span>';
 
-        const email = l.email
-          ? `<span style="font-size:0.8rem">${l.email}</span>`
-          : '<span style="color:var(--gray-400);font-size:0.8rem">—</span>';
+        const contacted = ['sent','replied','unresponsive'].includes(l.outreach_status);
+        const via = !contacted
+          ? '<span style="color:var(--gray-400);font-size:0.8rem">—</span>'
+          : l.email
+            ? '<span class="badge badge-blue">✉ Email</span>'
+            : '<span class="badge badge-green">📱 SMS</span>';
 
         const rating = l.rating
           ? `${l.rating}★ (${l.reviews})`
@@ -841,7 +850,7 @@
           <td><strong>${l.business_name}</strong></td>
           <td style="font-size:0.8rem;color:var(--gray-600)">${l.category ?? '—'}</td>
           <td style="font-size:0.85rem">${l.city ?? '—'}</td>
-          <td>${email}</td>
+          <td>${via}</td>
           <td>${pageLink}</td>
           <td>${statusBadge}</td>
           <td style="text-align:center">${l.follow_up_count ?? 0}/3</td>

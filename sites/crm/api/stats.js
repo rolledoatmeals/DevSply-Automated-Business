@@ -16,10 +16,15 @@ export default async function handler(req, res) {
   const correct = process.env.DASHBOARD_PASSWORD ?? 'devsply2025';
   if (password !== correct) return res.status(401).json({ error: 'Unauthorized' });
 
-  const [total, withPage, emailSent, replied, converted, runs] = await Promise.all([
+  const [total, withPage, emailSent, textsSent, replied, converted, runs] = await Promise.all([
     supabase.from('leads').select('id', { count: 'exact', head: true }),
     supabase.from('leads').select('id', { count: 'exact', head: true }).not('landing_page_url', 'is', null),
-    supabase.from('leads').select('id', { count: 'exact', head: true }).in('outreach_status', ['sent', 'replied', 'unresponsive']),
+    // emailed = contacted + has email
+    supabase.from('leads').select('id', { count: 'exact', head: true })
+      .in('outreach_status', ['sent', 'replied', 'unresponsive']).not('email', 'is', null),
+    // texted = contacted + no email + has phone
+    supabase.from('leads').select('id', { count: 'exact', head: true })
+      .in('outreach_status', ['sent', 'replied', 'unresponsive']).is('email', null).not('phone', 'is', null),
     supabase.from('leads').select('id', { count: 'exact', head: true }).eq('outreach_status', 'replied'),
     supabase.from('leads').select('id', { count: 'exact', head: true }).eq('converted', true),
     supabase.from('pipeline_runs').select('*').order('started_at', { ascending: false }).limit(10),
@@ -30,6 +35,7 @@ export default async function handler(req, res) {
       total: total.count ?? 0,
       with_page: withPage.count ?? 0,
       emails_sent: emailSent.count ?? 0,
+      texts_sent: textsSent.count ?? 0,
       replied: replied.count ?? 0,
       converted: converted.count ?? 0,
     },
