@@ -18,11 +18,14 @@
       --gray-50: #f9fafb;
       --gray-100: #f3f4f6;
       --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
       --gray-400: #9ca3af;
+      --gray-500: #6b7280;
       --gray-600: #4b5563;
       --gray-700: #374151;
       --gray-900: #111827;
       --white: #ffffff;
+      --sidebar-w: 220px;
     }
 
     body {
@@ -39,88 +42,33 @@
       align-items: center;
       justify-content: center;
       background: linear-gradient(135deg, var(--navy) 0%, #1e3a6e 100%);
+      padding: 1rem;
     }
-
     .login-box {
       background: var(--white);
       border-radius: 16px;
-      padding: 3rem 2.5rem;
+      padding: 2.5rem 2rem;
       width: 100%;
-      max-width: 400px;
+      max-width: 380px;
       box-shadow: 0 25px 60px rgba(0,0,0,0.3);
     }
-
-    .login-logo {
-      text-align: center;
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--navy);
-      margin-bottom: 0.3rem;
-    }
-
+    .login-logo { text-align: center; font-size: 1.8rem; font-weight: 900; color: var(--navy); margin-bottom: 0.25rem; }
     .login-logo span { color: var(--blue); }
-
-    .login-sub {
-      text-align: center;
-      color: var(--gray-400);
-      font-size: 0.9rem;
-      margin-bottom: 2rem;
-    }
-
-    .login-box label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--gray-700);
-      margin-bottom: 0.4rem;
-    }
-
-    .login-box input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1.5px solid var(--gray-200);
-      border-radius: 8px;
-      font-size: 1rem;
-      font-family: inherit;
-      outline: none;
-      transition: border-color 0.2s;
-      margin-bottom: 1.2rem;
-    }
-
+    .login-sub { text-align: center; color: var(--gray-400); font-size: 0.85rem; margin-bottom: 1.8rem; }
+    .login-box label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--gray-700); margin-bottom: 0.35rem; }
+    .login-box input { width: 100%; padding: 0.7rem 0.9rem; border: 1.5px solid var(--gray-200); border-radius: 8px; font-size: 0.95rem; font-family: inherit; outline: none; transition: border-color 0.2s; margin-bottom: 1rem; }
     .login-box input:focus { border-color: var(--blue); }
-
-    .login-btn {
-      width: 100%;
-      padding: 0.85rem;
-      background: var(--blue);
-      color: var(--white);
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background 0.2s;
-    }
-
+    .login-btn { width: 100%; padding: 0.8rem; background: var(--blue); color: var(--white); border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.2s; }
     .login-btn:hover { background: var(--navy); }
+    .login-error { color: var(--red); font-size: 0.8rem; text-align: center; margin-top: 0.75rem; display: none; }
 
-    .login-error {
-      color: var(--red);
-      font-size: 0.85rem;
-      text-align: center;
-      margin-top: 0.8rem;
-      display: none;
-    }
-
-    /* ── App ── */
+    /* ── App shell ── */
     #app { display: none; }
-
-    /* Sidebar */
     .layout { display: flex; min-height: 100vh; }
 
+    /* ── Sidebar ── */
     .sidebar {
-      width: 240px;
+      width: var(--sidebar-w);
       background: var(--navy);
       color: var(--white);
       display: flex;
@@ -128,423 +76,195 @@
       flex-shrink: 0;
       position: fixed;
       top: 0; left: 0; bottom: 0;
-      z-index: 50;
+      z-index: 100;
+      transition: transform 0.25s ease;
     }
-
-    .sidebar-logo {
-      padding: 1.5rem 1.5rem 1rem;
-      font-size: 1.4rem;
-      font-weight: 900;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
+    .sidebar-logo { padding: 1.2rem 1.25rem 0.9rem; font-size: 1.3rem; font-weight: 900; border-bottom: 1px solid rgba(255,255,255,0.08); }
     .sidebar-logo span { color: var(--accent); }
-    .sidebar-logo small { display: block; font-size: 0.7rem; font-weight: 400; opacity: 0.5; margin-top: 0.2rem; letter-spacing: 1px; text-transform: uppercase; }
+    .sidebar-logo small { display: block; font-size: 0.65rem; font-weight: 400; opacity: 0.45; margin-top: 0.15rem; letter-spacing: 1px; text-transform: uppercase; }
+    .sidebar-nav { flex: 1; padding: 0.75rem 0; }
+    .nav-item { display: flex; align-items: center; gap: 0.7rem; padding: 0.7rem 1.25rem; color: rgba(255,255,255,0.6); cursor: pointer; transition: background 0.15s, color 0.15s; font-size: 0.875rem; font-weight: 500; border-left: 3px solid transparent; }
+    .nav-item:hover { background: rgba(255,255,255,0.06); color: var(--white); }
+    .nav-item.active { background: rgba(26,86,219,0.25); color: var(--white); border-left-color: var(--blue-light); }
+    .nav-icon { font-size: 1rem; width: 18px; text-align: center; }
+    .sidebar-footer { padding: 1rem 1.25rem; border-top: 1px solid rgba(255,255,255,0.08); }
+    .logout-btn { width: 100%; padding: 0.55rem; background: rgba(255,255,255,0.07); border: none; border-radius: 6px; color: rgba(255,255,255,0.55); font-size: 0.8rem; cursor: pointer; font-family: inherit; transition: background 0.2s; }
+    .logout-btn:hover { background: rgba(255,255,255,0.13); color: var(--white); }
 
-    .sidebar-nav { flex: 1; padding: 1rem 0; }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.75rem 1.5rem;
-      color: rgba(255,255,255,0.65);
-      cursor: pointer;
-      transition: background 0.15s, color 0.15s;
-      font-size: 0.9rem;
-      font-weight: 500;
-      border-left: 3px solid transparent;
-    }
-
-    .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--white); }
-
-    .nav-item.active {
-      background: rgba(26,86,219,0.3);
+    /* ── Mobile header ── */
+    .mobile-header {
+      display: none;
+      background: var(--navy);
       color: var(--white);
-      border-left-color: var(--blue-light);
-    }
-
-    .nav-icon { font-size: 1.1rem; width: 20px; text-align: center; }
-
-    .sidebar-footer {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .logout-btn {
-      width: 100%;
-      padding: 0.6rem;
-      background: rgba(255,255,255,0.08);
-      border: none;
-      border-radius: 6px;
-      color: rgba(255,255,255,0.6);
-      font-size: 0.85rem;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background 0.2s;
-    }
-
-    .logout-btn:hover { background: rgba(255,255,255,0.15); color: var(--white); }
-
-    /* Main */
-    .main {
-      flex: 1;
-      margin-left: 240px;
-      padding: 0;
-      min-height: 100vh;
-    }
-
-    .topbar {
-      background: var(--white);
-      border-bottom: 1px solid var(--gray-200);
-      padding: 1rem 2rem;
-      display: flex;
+      padding: 0 1rem;
+      height: 56px;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
-      z-index: 40;
+      z-index: 90;
     }
+    .mobile-logo { font-size: 1.2rem; font-weight: 900; }
+    .mobile-logo span { color: var(--accent); }
+    .hamburger { background: none; border: none; color: var(--white); font-size: 1.4rem; cursor: pointer; padding: 0.3rem; }
+    .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; }
+    .sidebar-overlay.open { display: block; }
 
-    .topbar h1 { font-size: 1.2rem; font-weight: 700; color: var(--navy); }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .refresh-btn {
-      padding: 0.5rem 1rem;
-      background: var(--gray-100);
-      border: 1px solid var(--gray-200);
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      font-family: inherit;
-      color: var(--gray-700);
-      transition: background 0.2s;
-    }
-
+    /* ── Main content ── */
+    .main { flex: 1; margin-left: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; }
+    .topbar { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 0.9rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+    .topbar h1 { font-size: 1.1rem; font-weight: 700; color: var(--navy); }
+    .topbar-right { display: flex; align-items: center; gap: 0.75rem; }
+    .last-updated { font-size: 0.75rem; color: var(--gray-400); }
+    .refresh-btn { padding: 0.45rem 0.9rem; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: 6px; font-size: 0.8rem; font-weight: 600; cursor: pointer; font-family: inherit; color: var(--gray-700); transition: background 0.2s; }
     .refresh-btn:hover { background: var(--gray-200); }
-
-    .last-updated { font-size: 0.8rem; color: var(--gray-400); }
-
-    .content { padding: 2rem; }
+    .content { padding: 1.5rem; flex: 1; }
 
     /* ── Pages ── */
     .page { display: none; }
     .page.active { display: block; }
 
-    /* ── Stats Cards ── */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .stat-card {
-      background: var(--white);
-      border-radius: 12px;
-      padding: 1.5rem;
-      border: 1px solid var(--gray-200);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-    }
-
+    /* ── Stat cards ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .stat-card { background: var(--white); border-radius: 12px; padding: 1.25rem; border: 1px solid var(--gray-200); position: relative; overflow: hidden; }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
     .stat-card.blue::before { background: var(--blue); }
     .stat-card.green::before { background: var(--green); }
     .stat-card.accent::before { background: var(--accent); }
     .stat-card.purple::before { background: var(--purple); }
     .stat-card.red::before { background: var(--red); }
+    .stat-card.teal::before { background: #14b8a6; }
+    .stat-label { font-size: 0.72rem; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.4rem; }
+    .stat-number { font-size: 2rem; font-weight: 900; color: var(--navy); line-height: 1; }
+    .stat-sub { font-size: 0.72rem; color: var(--gray-400); margin-top: 0.3rem; }
+    .stat-icon { position: absolute; top: 0.9rem; right: 0.9rem; font-size: 1.3rem; opacity: 0.12; }
 
-    .stat-label { font-size: 0.8rem; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
-    .stat-number { font-size: 2.2rem; font-weight: 900; color: var(--navy); line-height: 1; }
-    .stat-icon { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; opacity: 0.15; }
+    /* ── Section card ── */
+    .section-card { background: var(--white); border-radius: 12px; border: 1px solid var(--gray-200); overflow: hidden; margin-bottom: 1.5rem; }
+    .section-header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--gray-100); display: flex; align-items: center; justify-content: space-between; }
+    .section-header h2 { font-size: 0.95rem; font-weight: 700; color: var(--navy); }
+    .section-count { font-size: 0.75rem; color: var(--gray-400); }
 
-    /* ── Pipeline Runs ── */
-    .section-card {
-      background: var(--white);
-      border-radius: 12px;
-      border: 1px solid var(--gray-200);
-      overflow: hidden;
-      margin-bottom: 2rem;
-    }
-
-    .section-header {
-      padding: 1.2rem 1.5rem;
-      border-bottom: 1px solid var(--gray-100);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .section-header h2 { font-size: 1rem; font-weight: 700; color: var(--navy); }
-    .section-header .count { font-size: 0.8rem; color: var(--gray-400); }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.875rem;
-    }
-
+    /* ── Tables ── */
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; min-width: 600px; }
     thead tr { background: var(--gray-50); }
-
-    th {
-      padding: 0.75rem 1rem;
-      text-align: left;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--gray-400);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-    }
-
-    td {
-      padding: 0.85rem 1rem;
-      color: var(--gray-700);
-      border-top: 1px solid var(--gray-100);
-      vertical-align: middle;
-    }
-
+    th { padding: 0.65rem 1rem; text-align: left; font-size: 0.7rem; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap; }
+    td { padding: 0.8rem 1rem; color: var(--gray-700); border-top: 1px solid var(--gray-100); vertical-align: middle; }
     tr:hover td { background: var(--gray-50); }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 0.25rem 0.6rem;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-
-    .badge-green { background: #d1fae5; color: #065f46; }
-    .badge-red { background: #fee2e2; color: #991b1b; }
+    /* ── Badges ── */
+    .badge { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0.2rem 0.55rem; border-radius: 20px; font-size: 0.72rem; font-weight: 600; white-space: nowrap; }
+    .badge-green  { background: #d1fae5; color: #065f46; }
+    .badge-red    { background: #fee2e2; color: #991b1b; }
     .badge-yellow { background: #fef3c7; color: #92400e; }
-    .badge-blue { background: #dbeafe; color: #1e40af; }
-    .badge-gray { background: var(--gray-100); color: var(--gray-600); }
+    .badge-blue   { background: #dbeafe; color: #1e40af; }
+    .badge-gray   { background: var(--gray-100); color: var(--gray-600); }
     .badge-purple { background: #ede9fe; color: #5b21b6; }
+    .badge-teal   { background: #ccfbf1; color: #0f766e; }
 
-    /* ── Leads Table ── */
-    .table-controls {
-      padding: 1rem 1.5rem;
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      border-bottom: 1px solid var(--gray-100);
-      flex-wrap: wrap;
-    }
-
-    .search-input {
-      padding: 0.55rem 0.9rem;
-      border: 1.5px solid var(--gray-200);
-      border-radius: 8px;
-      font-size: 0.875rem;
-      font-family: inherit;
-      outline: none;
-      width: 240px;
-      transition: border-color 0.2s;
-    }
-
+    /* ── Table controls ── */
+    .table-controls { padding: 0.85rem 1.25rem; display: flex; gap: 0.75rem; align-items: center; border-bottom: 1px solid var(--gray-100); flex-wrap: wrap; }
+    .search-input { padding: 0.5rem 0.85rem; border: 1.5px solid var(--gray-200); border-radius: 8px; font-size: 0.85rem; font-family: inherit; outline: none; width: 220px; transition: border-color 0.2s; }
     .search-input:focus { border-color: var(--blue); }
-
-    .filter-select {
-      padding: 0.55rem 0.9rem;
-      border: 1.5px solid var(--gray-200);
-      border-radius: 8px;
-      font-size: 0.875rem;
-      font-family: inherit;
-      outline: none;
-      background: var(--white);
-      color: var(--gray-700);
-      transition: border-color 0.2s;
-    }
-
+    .filter-select { padding: 0.5rem 0.85rem; border: 1.5px solid var(--gray-200); border-radius: 8px; font-size: 0.85rem; font-family: inherit; outline: none; background: var(--white); color: var(--gray-700); transition: border-color 0.2s; }
     .filter-select:focus { border-color: var(--blue); }
 
-    .pagination {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 1rem 1.5rem;
-      border-top: 1px solid var(--gray-100);
-      justify-content: space-between;
-    }
-
-    .pagination-info { font-size: 0.85rem; color: var(--gray-400); }
-
-    .page-btns { display: flex; gap: 0.4rem; }
-
-    .page-btn {
-      padding: 0.4rem 0.8rem;
-      border: 1px solid var(--gray-200);
-      border-radius: 6px;
-      font-size: 0.85rem;
-      cursor: pointer;
-      background: var(--white);
-      font-family: inherit;
-      color: var(--gray-700);
-      transition: background 0.15s;
-    }
-
+    /* ── Pagination ── */
+    .pagination { display: flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.25rem; border-top: 1px solid var(--gray-100); justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .pagination-info { font-size: 0.8rem; color: var(--gray-400); }
+    .page-btns { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+    .page-btn { padding: 0.35rem 0.7rem; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 0.8rem; cursor: pointer; background: var(--white); font-family: inherit; color: var(--gray-700); transition: background 0.15s; }
     .page-btn:hover { background: var(--gray-100); }
     .page-btn.active { background: var(--blue); color: var(--white); border-color: var(--blue); }
     .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-    .website-link {
-      color: var(--blue);
-      text-decoration: none;
-      font-size: 0.8rem;
-    }
+    /* ── Empty / Loading ── */
+    .no-data { text-align: center; padding: 2.5rem; color: var(--gray-400); font-size: 0.875rem; }
+    .loading  { text-align: center; padding: 1.5rem; color: var(--gray-400); font-size: 0.875rem; }
 
+    /* ── Clickable rows ── */
+    .row-sms { cursor: pointer; }
+    .row-sms:hover td { background: #eff6ff !important; }
+
+    /* ── Dot indicators ── */
+    .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 0.35rem; }
+    .dot-green  { background: var(--green); }
+    .dot-yellow { background: var(--accent); }
+    .dot-blue   { background: var(--blue); }
+    .dot-gray   { background: var(--gray-400); }
+    .dot-purple { background: var(--purple); }
+
+    .website-link { color: var(--blue); text-decoration: none; font-size: 0.8rem; }
     .website-link:hover { text-decoration: underline; }
 
-    .no-data {
-      text-align: center;
-      padding: 3rem;
-      color: var(--gray-400);
-      font-size: 0.9rem;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 2rem;
-      color: var(--gray-400);
-      font-size: 0.9rem;
-    }
-
-    .dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-right: 0.4rem;
-    }
-
-    .dot-green { background: var(--green); }
-    .dot-red { background: var(--red); }
-    .dot-yellow { background: var(--accent); }
-    .dot-blue { background: var(--blue); }
-    .dot-gray { background: var(--gray-400); }
-
-    /* ── Conversation Drawer ── */
-    .drawer-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      z-index: 200;
-    }
-
+    /* ── Lead detail / conversation drawer ── */
+    .drawer-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; }
     .drawer-overlay.open { display: block; }
-
     .drawer {
-      position: fixed;
-      top: 0; right: 0; bottom: 0;
-      width: 380px;
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: 400px; max-width: 100vw;
       background: var(--white);
       box-shadow: -4px 0 30px rgba(0,0,0,0.15);
       z-index: 201;
-      display: flex;
-      flex-direction: column;
+      display: flex; flex-direction: column;
       transform: translateX(100%);
       transition: transform 0.25s ease;
     }
-
     .drawer.open { transform: translateX(0); }
-
-    .drawer-header {
-      padding: 1.2rem 1.5rem;
-      border-bottom: 1px solid var(--gray-200);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--navy);
-      color: var(--white);
-    }
-
-    .drawer-header h3 { font-size: 1rem; font-weight: 700; }
-    .drawer-header small { font-size: 0.8rem; opacity: 0.65; display: block; margin-top: 0.2rem; }
-
-    .drawer-close {
-      background: none;
-      border: none;
-      color: var(--white);
-      font-size: 1.4rem;
-      cursor: pointer;
-      padding: 0.2rem 0.4rem;
-      line-height: 1;
-      opacity: 0.7;
-    }
-
+    .drawer-header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--gray-200); display: flex; align-items: flex-start; justify-content: space-between; background: var(--navy); color: var(--white); flex-shrink: 0; }
+    .drawer-header h3 { font-size: 0.95rem; font-weight: 700; }
+    .drawer-header small { font-size: 0.75rem; opacity: 0.6; display: block; margin-top: 0.15rem; }
+    .drawer-close { background: none; border: none; color: var(--white); font-size: 1.3rem; cursor: pointer; padding: 0.1rem 0.3rem; line-height: 1; opacity: 0.7; flex-shrink: 0; }
     .drawer-close:hover { opacity: 1; }
 
-    .drawer-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-    }
+    /* Lead info strip */
+    .drawer-meta { padding: 0.9rem 1.25rem; background: var(--gray-50); border-bottom: 1px solid var(--gray-200); display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; flex-shrink: 0; }
+    .meta-badge { font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 20px; font-weight: 600; }
 
-    .msg {
-      max-width: 85%;
-      padding: 0.7rem 1rem;
-      border-radius: 12px;
-      font-size: 0.875rem;
-      line-height: 1.5;
-    }
+    /* Status + actions bar */
+    .drawer-actions { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--gray-200); display: flex; gap: 0.5rem; flex-wrap: wrap; flex-shrink: 0; }
+    .action-btn { padding: 0.4rem 0.8rem; border-radius: 7px; font-size: 0.78rem; font-weight: 600; cursor: pointer; font-family: inherit; border: 1.5px solid transparent; transition: background 0.15s; }
+    .action-btn-green  { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
+    .action-btn-green:hover  { background: #a7f3d0; }
+    .action-btn-purple { background: #ede9fe; color: #5b21b6; border-color: #c4b5fd; }
+    .action-btn-purple:hover { background: #ddd6fe; }
+    .action-btn-gray   { background: var(--gray-100); color: var(--gray-600); border-color: var(--gray-300); }
+    .action-btn-gray:hover   { background: var(--gray-200); }
 
-    .msg-out {
-      align-self: flex-end;
-      background: var(--blue);
-      color: var(--white);
-      border-bottom-right-radius: 4px;
-    }
-
-    .msg-in {
-      align-self: flex-start;
-      background: var(--gray-100);
-      color: var(--gray-900);
-      border-bottom-left-radius: 4px;
-    }
-
-    .msg-time {
-      font-size: 0.7rem;
-      opacity: 0.6;
-      margin-top: 0.3rem;
-      display: block;
-    }
-
+    /* Messages */
+    .drawer-messages { flex: 1; overflow-y: auto; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.65rem; }
+    .msg { max-width: 82%; padding: 0.65rem 0.9rem; border-radius: 12px; font-size: 0.85rem; line-height: 1.5; }
+    .msg-out { align-self: flex-end; background: var(--blue); color: var(--white); border-bottom-right-radius: 4px; }
+    .msg-in  { align-self: flex-start; background: var(--gray-100); color: var(--gray-900); border-bottom-left-radius: 4px; }
+    .msg-time { font-size: 0.68rem; opacity: 0.6; margin-top: 0.25rem; display: block; }
     .msg-out .msg-time { text-align: right; }
+    .drawer-empty { text-align: center; color: var(--gray-400); font-size: 0.875rem; margin: auto; }
 
-    .drawer-empty {
-      text-align: center;
-      color: var(--gray-400);
-      font-size: 0.9rem;
-      margin: auto;
-    }
+    /* Reply box */
+    .drawer-reply { padding: 0.9rem 1.25rem; border-top: 1px solid var(--gray-200); display: flex; gap: 0.6rem; flex-shrink: 0; background: var(--white); }
+    .reply-input { flex: 1; padding: 0.6rem 0.85rem; border: 1.5px solid var(--gray-200); border-radius: 8px; font-size: 0.875rem; font-family: inherit; outline: none; resize: none; transition: border-color 0.2s; }
+    .reply-input:focus { border-color: var(--blue); }
+    .reply-send { padding: 0.6rem 1rem; background: var(--blue); color: var(--white); border: none; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.15s; white-space: nowrap; }
+    .reply-send:hover { background: #1746c0; }
+    .reply-send:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    .row-clickable { cursor: pointer; }
-    .row-clickable:hover td { background: #eff6ff !important; }
+    /* ── Info banner ── */
+    .info-banner { background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.8rem; color: #92400e; margin-bottom: 1.5rem; }
+    .info-banner strong { font-weight: 700; }
 
+    /* ── Responsive ── */
     @media (max-width: 768px) {
-      .sidebar { transform: translateX(-100%); }
+      :root { --sidebar-w: 0px; }
+      .sidebar { transform: translateX(-100%); width: 220px; }
+      .sidebar.open { transform: translateX(0); }
+      .mobile-header { display: flex; }
       .main { margin-left: 0; }
+      .topbar { display: none; }
+      .content { padding: 1rem; }
       .stats-grid { grid-template-columns: 1fr 1fr; }
+      .search-input { width: 100%; }
+      .table-controls { flex-direction: column; align-items: stretch; }
       .drawer { width: 100%; }
     }
   </style>
@@ -556,17 +276,26 @@
 <div class="drawer" id="drawer">
   <div class="drawer-header">
     <div>
-      <h3 id="drawer-title">Conversation</h3>
+      <h3 id="drawer-title">—</h3>
       <small id="drawer-phone"></small>
     </div>
     <button class="drawer-close" onclick="closeDrawer()">✕</button>
   </div>
+  <div class="drawer-meta" id="drawer-meta"></div>
+  <div class="drawer-actions" id="drawer-actions"></div>
   <div class="drawer-messages" id="drawer-messages">
-    <p class="drawer-empty">Loading...</p>
+    <p class="drawer-empty">Loading…</p>
+  </div>
+  <div class="drawer-reply" id="drawer-reply" style="display:none">
+    <textarea class="reply-input" id="reply-text" rows="2" placeholder="Type a reply…"></textarea>
+    <button class="reply-send" id="reply-btn" onclick="sendReply()">Send</button>
   </div>
 </div>
 
-<!-- Login Screen -->
+<!-- Sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- Login -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">Dev<span>Sply</span></div>
@@ -580,30 +309,27 @@
 
 <!-- App -->
 <div id="app">
+
+  <!-- Mobile header -->
+  <div class="mobile-header">
+    <div class="mobile-logo">Dev<span>Sply</span></div>
+    <button class="hamburger" onclick="openSidebar()">☰</button>
+  </div>
+
   <div class="layout">
-    <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
       <div class="sidebar-logo">Dev<span>Sply</span><small>CRM Dashboard</small></div>
       <nav class="sidebar-nav">
-        <div class="nav-item active" onclick="showPage('overview')">
-          <span class="nav-icon">📊</span> Overview
-        </div>
-        <div class="nav-item" onclick="showPage('leads')">
-          <span class="nav-icon">👥</span> Leads
-        </div>
-        <div class="nav-item" onclick="showPage('pipeline')">
-          <span class="nav-icon">⚙️</span> Pipeline Runs
-        </div>
-        <div class="nav-item" onclick="showPage('calllist')">
-          <span class="nav-icon">📞</span> Call List
-        </div>
+        <div class="nav-item active" onclick="showPage('overview')"><span class="nav-icon">📊</span> Overview</div>
+        <div class="nav-item" onclick="showPage('leads')"><span class="nav-icon">👥</span> Leads</div>
+        <div class="nav-item" onclick="showPage('pipeline')"><span class="nav-icon">⚙️</span> Pipeline Runs</div>
+        <div class="nav-item" onclick="showPage('calllist')"><span class="nav-icon">📞</span> Call List</div>
       </nav>
       <div class="sidebar-footer">
         <button class="logout-btn" onclick="logout()">Sign Out</button>
       </div>
     </div>
 
-    <!-- Main -->
     <div class="main">
       <div class="topbar">
         <h1 id="page-title">Overview</h1>
@@ -615,81 +341,75 @@
 
       <div class="content">
 
-        <!-- Overview Page -->
+        <!-- Overview -->
         <div class="page active" id="page-overview">
           <div class="stats-grid">
             <div class="stat-card blue">
               <span class="stat-icon">👥</span>
               <div class="stat-label">Total Leads</div>
               <div class="stat-number" id="stat-total">—</div>
+              <div class="stat-sub">scraped from Google</div>
             </div>
             <div class="stat-card green">
               <span class="stat-icon">🌐</span>
               <div class="stat-label">Pages Built</div>
               <div class="stat-number" id="stat-pages">—</div>
+              <div class="stat-sub">AI preview sites</div>
             </div>
             <div class="stat-card accent">
               <span class="stat-icon">✉️</span>
               <div class="stat-label">Emails Sent</div>
               <div class="stat-number" id="stat-emails">—</div>
+              <div class="stat-sub" id="sub-emails">via Gmail</div>
             </div>
-            <div class="stat-card blue">
+            <div class="stat-card teal">
               <span class="stat-icon">📱</span>
               <div class="stat-label">Texts Sent</div>
               <div class="stat-number" id="stat-texts">—</div>
+              <div class="stat-sub">phone-only leads</div>
             </div>
             <div class="stat-card purple">
               <span class="stat-icon">💬</span>
               <div class="stat-label">Replied</div>
               <div class="stat-number" id="stat-replied">—</div>
+              <div class="stat-sub">leads who responded</div>
             </div>
             <div class="stat-card red">
               <span class="stat-icon">💰</span>
               <div class="stat-label">Converted</div>
               <div class="stat-number" id="stat-converted">—</div>
+              <div class="stat-sub">paying clients</div>
             </div>
           </div>
 
           <div class="section-card">
             <div class="section-header">
               <h2>Recent Pipeline Runs</h2>
-              <span class="count" id="runs-count"></span>
+              <span class="section-count" id="runs-count"></span>
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>City</th>
-                  <th>Status</th>
-                  <th>Leads</th>
-                  <th>Pages</th>
-                  <th>Emails</th>
-                  <th>Texts</th>
-                  <th>Started</th>
-                  <th>Duration</th>
-                </tr>
-              </thead>
-              <tbody id="runs-tbody">
-                <tr><td colspan="8" class="loading">Loading...</td></tr>
-              </tbody>
-            </table>
+            <div class="table-wrap">
+              <table>
+                <thead><tr>
+                  <th>City</th><th>Status</th><th>Leads</th><th>Pages</th><th>Emails</th><th>Texts</th><th>Started</th><th>Duration</th>
+                </tr></thead>
+                <tbody id="runs-tbody"><tr><td colspan="8" class="loading">Loading…</td></tr></tbody>
+              </table>
+            </div>
           </div>
         </div>
 
-        <!-- Leads Page -->
+        <!-- Leads -->
         <div class="page" id="page-leads">
+          <div id="leads-banner" class="info-banner" style="display:none">
+            <strong>Tip:</strong> Click any <span style="background:#d1fae5;color:#065f46;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.75rem;font-weight:600">📱 SMS</span> row to open the conversation and send a reply.
+          </div>
           <div class="section-card">
             <div class="section-header">
               <h2>All Leads</h2>
-              <span class="count" id="leads-count"></span>
+              <span class="section-count" id="leads-count"></span>
             </div>
             <div class="table-controls">
-              <input
-                class="search-input"
-                id="leads-search"
-                type="text"
-                placeholder="Search business or city..."
-                oninput="debounceSearch()"
-              >
+              <input class="search-input" id="leads-search" type="text" placeholder="Search name or city…" oninput="debounceSearch()">
               <select class="filter-select" id="leads-filter" onchange="filterLeads()">
                 <option value="">All Status</option>
                 <option value="pending">Pending</option>
@@ -699,23 +419,14 @@
                 <option value="converted">Converted</option>
               </select>
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Business</th>
-                  <th>Category</th>
-                  <th>City</th>
-                  <th>Via</th>
-                  <th>Website</th>
-                  <th>Status</th>
-                  <th>Follow-ups</th>
-                  <th>Rating</th>
-                </tr>
-              </thead>
-              <tbody id="leads-tbody">
-                <tr><td colspan="8" class="loading">Loading...</td></tr>
-              </tbody>
-            </table>
+            <div class="table-wrap">
+              <table>
+                <thead><tr>
+                  <th>Business</th><th>City</th><th>Via</th><th>Website</th><th>Status</th><th>Rating</th>
+                </tr></thead>
+                <tbody id="leads-tbody"><tr><td colspan="6" class="loading">Loading…</td></tr></tbody>
+              </table>
+            </div>
             <div class="pagination">
               <span class="pagination-info" id="leads-pagination-info"></span>
               <div class="page-btns" id="page-btns"></div>
@@ -723,60 +434,42 @@
           </div>
         </div>
 
-        <!-- Call List Page -->
+        <!-- Call List -->
         <div class="page" id="page-calllist">
           <div class="section-card">
             <div class="section-header">
               <h2>📞 Call List — Phone-Only Leads</h2>
-              <span class="count" id="calllist-count"></span>
+              <span class="section-count" id="calllist-count"></span>
             </div>
-            <div style="padding:1rem 1.5rem;background:var(--accent-light,#fef3c7);border-bottom:1px solid var(--gray-100);font-size:0.875rem;color:#92400e;">
-              These leads have a phone number but no email found. Call or text them directly — personal outreach converts better than automation.
+            <div style="padding:0.75rem 1.25rem;background:#fffbeb;border-bottom:1px solid var(--gray-100);font-size:0.8rem;color:#92400e;">
+              These leads have a phone number but no email. The system already texted them — call for a personal follow-up.
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Business</th>
-                  <th>Category</th>
-                  <th>City</th>
-                  <th>Phone</th>
-                  <th>Reviews</th>
-                  <th>Rating</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody id="calllist-tbody">
-                <tr><td colspan="7" class="loading">Loading...</td></tr>
-              </tbody>
-            </table>
+            <div class="table-wrap">
+              <table>
+                <thead><tr>
+                  <th>Business</th><th>City</th><th>Phone</th><th>Reviews</th><th>Status</th><th>Actions</th>
+                </tr></thead>
+                <tbody id="calllist-tbody"><tr><td colspan="6" class="loading">Loading…</td></tr></tbody>
+              </table>
+            </div>
           </div>
         </div>
 
-        <!-- Pipeline Page -->
+        <!-- Pipeline -->
         <div class="page" id="page-pipeline">
           <div class="section-card">
             <div class="section-header">
               <h2>Pipeline Run History</h2>
-              <span class="count" id="pipeline-count"></span>
+              <span class="section-count" id="pipeline-count"></span>
             </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>City</th>
-                  <th>Status</th>
-                  <th>Leads Scraped</th>
-                  <th>Pages Built</th>
-                  <th>Emails Sent</th>
-                  <th>Texts Sent</th>
-                  <th>Started</th>
-                  <th>Completed</th>
-                  <th>Duration</th>
-                </tr>
-              </thead>
-              <tbody id="pipeline-tbody">
-                <tr><td colspan="9" class="loading">Loading...</td></tr>
-              </tbody>
-            </table>
+            <div class="table-wrap">
+              <table>
+                <thead><tr>
+                  <th>City</th><th>Status</th><th>Leads</th><th>Pages</th><th>Emails</th><th>Texts</th><th>Started</th><th>Completed</th><th>Duration</th>
+                </tr></thead>
+                <tbody id="pipeline-tbody"><tr><td colspan="9" class="loading">Loading…</td></tr></tbody>
+              </table>
+            </div>
           </div>
         </div>
 
@@ -793,39 +486,21 @@
     const pw = document.getElementById('pw').value;
     const err = document.getElementById('login-error');
     err.style.display = 'none';
-
     try {
-      const r = await fetch('/api/auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: pw }),
-      });
+      const r = await fetch('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: pw }) });
       const data = await r.json();
-      if (data.ok) {
-        AUTH_TOKEN = pw;
-        sessionStorage.setItem('crm_token', pw);
-        showApp();
-      } else {
-        err.style.display = 'block';
-      }
-    } catch {
-      err.textContent = 'Connection error. Try again.';
-      err.style.display = 'block';
-    }
+      if (data.ok) { AUTH_TOKEN = pw; sessionStorage.setItem('crm_token', pw); showApp(); }
+      else err.style.display = 'block';
+    } catch { err.textContent = 'Connection error. Try again.'; err.style.display = 'block'; }
   }
 
   function logout() {
-    AUTH_TOKEN = '';
-    sessionStorage.removeItem('crm_token');
+    AUTH_TOKEN = ''; sessionStorage.removeItem('crm_token');
     document.getElementById('app').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
   }
 
-  document.getElementById('pw').addEventListener('keydown', e => {
-    if (e.key === 'Enter') login();
-  });
-
-  // ── Auto-login if token exists ──
+  document.getElementById('pw').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
   if (AUTH_TOKEN) showApp();
 
   function showApp() {
@@ -834,31 +509,39 @@
     loadOverview();
   }
 
+  // ── Mobile sidebar ──
+  function openSidebar() {
+    document.getElementById('sidebar').classList.add('open');
+    document.getElementById('sidebar-overlay').classList.add('open');
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebar-overlay').classList.remove('open');
+  }
+
   // ── Navigation ──
   let currentPage = 'overview';
 
   function showPage(name) {
+    closeSidebar();
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-
     document.getElementById(`page-${name}`).classList.add('active');
     document.querySelector(`.nav-item[onclick="showPage('${name}')"]`).classList.add('active');
-
     const titles = { overview: 'Overview', leads: 'Leads', pipeline: 'Pipeline Runs', calllist: '📞 Call List' };
     document.getElementById('page-title').textContent = titles[name];
     currentPage = name;
-
     if (name === 'overview') loadOverview();
-    if (name === 'leads') { leadsPage = 1; loadLeads(); }
+    if (name === 'leads')    { leadsPage = 1; loadLeads(); }
     if (name === 'pipeline') loadPipeline();
     if (name === 'calllist') loadCallList();
   }
 
   function refresh() { showPage(currentPage); }
 
-  // ── API ──
-  async function apiFetch(url) {
-    const r = await fetch(url, { headers: { Authorization: `Bearer ${AUTH_TOKEN}` } });
+  // ── API helpers ──
+  async function apiFetch(url, opts = {}) {
+    const r = await fetch(url, { ...opts, headers: { Authorization: `Bearer ${AUTH_TOKEN}`, 'Content-Type': 'application/json', ...(opts.headers ?? {}) } });
     if (r.status === 401) { logout(); return null; }
     return r.json();
   }
@@ -867,15 +550,14 @@
   async function loadOverview() {
     const data = await apiFetch('/api/stats');
     if (!data) return;
-
     const s = data.stats;
-    document.getElementById('stat-total').textContent = s.total.toLocaleString();
-    document.getElementById('stat-pages').textContent = s.with_page.toLocaleString();
-    document.getElementById('stat-emails').textContent = s.emails_sent.toLocaleString();
-    document.getElementById('stat-texts').textContent = s.texts_sent.toLocaleString();
-    document.getElementById('stat-replied').textContent = s.replied.toLocaleString();
+    document.getElementById('stat-total').textContent     = s.total.toLocaleString();
+    document.getElementById('stat-pages').textContent     = s.with_page.toLocaleString();
+    document.getElementById('stat-emails').textContent    = s.emails_sent.toLocaleString();
+    document.getElementById('stat-texts').textContent     = s.texts_sent.toLocaleString();
+    document.getElementById('stat-replied').textContent   = s.replied.toLocaleString();
     document.getElementById('stat-converted').textContent = s.converted.toLocaleString();
-
+    if (s.emails_sent === 0) document.getElementById('sub-emails').textContent = 'need email finder key';
     renderRuns(data.runs, 'runs-tbody', 'runs-count');
     setUpdated();
   }
@@ -883,26 +565,13 @@
   function renderRuns(runs, tbodyId, countId) {
     const tbody = document.getElementById(tbodyId);
     if (countId) document.getElementById(countId).textContent = `${runs.length} runs`;
-
-    if (!runs.length) {
-      tbody.innerHTML = `<tr><td colspan="${tbodyId === 'pipeline-tbody' ? 9 : 8}" class="no-data">No pipeline runs yet.</td></tr>`;
-      return;
-    }
+    if (!runs.length) { tbody.innerHTML = `<tr><td colspan="8" class="no-data">No pipeline runs yet.</td></tr>`; return; }
 
     tbody.innerHTML = runs.map(r => {
-      const started = r.started_at ? new Date(r.started_at) : null;
+      const started   = r.started_at   ? new Date(r.started_at)   : null;
       const completed = r.completed_at ? new Date(r.completed_at) : null;
-      const duration = started && completed
-        ? formatDuration((completed - started) / 1000)
-        : started ? 'Running...' : '—';
-      const startedStr = started ? started.toLocaleString() : '—';
-
-      const statusBadge = {
-        completed: '<span class="badge badge-green">✓ Completed</span>',
-        running:   '<span class="badge badge-yellow">● Running</span>',
-        failed:    '<span class="badge badge-red">✗ Failed</span>',
-      }[r.status] ?? `<span class="badge badge-gray">${r.status}</span>`;
-
+      const duration  = started && completed ? formatDuration((completed - started) / 1000) : started ? 'Running…' : '—';
+      const statusBadge = { completed: '<span class="badge badge-green">✓ Done</span>', running: '<span class="badge badge-yellow">● Running</span>', failed: '<span class="badge badge-red">✗ Failed</span>' }[r.status] ?? `<span class="badge badge-gray">${r.status}</span>`;
       return `<tr>
         <td><strong>${r.city ?? '—'}</strong></td>
         <td>${statusBadge}</td>
@@ -910,21 +579,16 @@
         <td>${r.pages_generated ?? 0}</td>
         <td>${r.emails_sent ?? 0}</td>
         <td>${r.texts_sent ?? 0}</td>
-        <td style="color:var(--gray-400);font-size:0.8rem">${startedStr}</td>
-        <td style="color:var(--gray-400);font-size:0.8rem">${duration}</td>
+        <td style="color:var(--gray-400);font-size:0.78rem">${started ? started.toLocaleString() : '—'}</td>
+        <td style="color:var(--gray-400);font-size:0.78rem">${duration}</td>
       </tr>`;
     }).join('');
   }
 
   // ── Leads ──
-  let leadsPage = 1;
-  let searchTimeout;
+  let leadsPage = 1, searchTimeout;
 
-  function debounceSearch() {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => { leadsPage = 1; loadLeads(); }, 350);
-  }
-
+  function debounceSearch() { clearTimeout(searchTimeout); searchTimeout = setTimeout(() => { leadsPage = 1; loadLeads(); }, 350); }
   function filterLeads() { leadsPage = 1; loadLeads(); }
 
   async function loadLeads() {
@@ -933,58 +597,53 @@
     const params = new URLSearchParams({ page: leadsPage });
     if (search) params.set('search', search);
     if (status) params.set('status', status);
-
     const data = await apiFetch(`/api/leads?${params}`);
     if (!data) return;
 
     document.getElementById('leads-count').textContent = `${data.total.toLocaleString()} leads`;
 
+    const hasSMS = data.leads.some(l => ['sent','replied','unresponsive'].includes(l.outreach_status) && !l.email && l.phone);
+    document.getElementById('leads-banner').style.display = hasSMS ? 'block' : 'none';
+
     const tbody = document.getElementById('leads-tbody');
     if (!data.leads.length) {
-      tbody.innerHTML = '<tr><td colspan="8" class="no-data">No leads found.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" class="no-data">No leads found.</td></tr>';
     } else {
       tbody.innerHTML = data.leads.map(l => {
+        const contacted = ['sent','replied','unresponsive'].includes(l.outreach_status);
+        const isSMS = contacted && !l.email && l.phone;
         const statusBadge = {
-          pending:      '<span class="badge badge-yellow">Pending</span>',
-          sent:         '<span class="badge badge-blue">Sent</span>',
-          replied:      '<span class="badge badge-green">Replied</span>',
-          unresponsive: '<span class="badge badge-gray">Unresponsive</span>',
-          converted:    '<span class="badge badge-purple">Converted</span>',
+          pending:      '<span class="badge badge-yellow"><span class="dot dot-yellow"></span>Pending</span>',
+          sent:         '<span class="badge badge-blue"><span class="dot dot-blue"></span>Sent</span>',
+          replied:      '<span class="badge badge-green"><span class="dot dot-green"></span>Replied</span>',
+          unresponsive: '<span class="badge badge-gray"><span class="dot dot-gray"></span>No response</span>',
+          converted:    '<span class="badge badge-purple"><span class="dot dot-purple"></span>Converted ✓</span>',
         }[l.outreach_status] ?? `<span class="badge badge-gray">${l.outreach_status ?? '—'}</span>`;
 
         const pageLink = l.landing_page_url
-          ? `<a href="${l.landing_page_url}" target="_blank" class="website-link">View ↗</a>`
-          : '<span style="color:var(--gray-400);font-size:0.8rem">—</span>';
+          ? `<a href="${l.landing_page_url}" target="_blank" class="website-link">Preview ↗</a>`
+          : '<span style="color:var(--gray-400);font-size:0.78rem">—</span>';
 
-        const contacted = ['sent','replied','unresponsive'].includes(l.outreach_status);
-        const isSMS = contacted && !l.email && l.phone;
         const via = !contacted
-          ? '<span style="color:var(--gray-400);font-size:0.8rem">—</span>'
-          : l.email
-            ? '<span class="badge badge-blue">✉ Email</span>'
-            : '<span class="badge badge-green">📱 SMS</span>';
+          ? '<span style="color:var(--gray-400);font-size:0.78rem">—</span>'
+          : l.email ? '<span class="badge badge-blue">✉ Email</span>' : '<span class="badge badge-teal">📱 SMS</span>';
 
-        const rating = l.rating
-          ? `${l.rating}★ (${l.reviews})`
-          : l.reviews ? `${l.reviews} reviews` : '—';
+        const rating = l.rating ? `${l.rating}★` : '—';
 
-        const rowClick = isSMS
-          ? `class="row-clickable" onclick="openDrawer('${l.place_id}', '${l.business_name.replace(/'/g,"\\'")}', '${l.phone ?? ''}')"`
+        const clickAttr = isSMS
+          ? `class="row-sms" onclick="openDrawer('${l.place_id}','${l.business_name.replace(/'/g,"\\'")}','${l.phone ?? ''}','${l.outreach_status}')"`
           : '';
 
-        return `<tr ${rowClick}>
-          <td><strong>${l.business_name}</strong></td>
-          <td style="font-size:0.8rem;color:var(--gray-600)">${l.category ?? '—'}</td>
-          <td style="font-size:0.85rem">${l.city ?? '—'}</td>
+        return `<tr ${clickAttr}>
+          <td><strong>${l.business_name}</strong><br><span style="font-size:0.75rem;color:var(--gray-500)">${l.category ?? ''}</span></td>
+          <td style="font-size:0.82rem">${l.city ?? '—'}</td>
           <td>${via}</td>
           <td>${pageLink}</td>
           <td>${statusBadge}</td>
-          <td style="text-align:center">${l.follow_up_count ?? 0}/3</td>
-          <td style="font-size:0.85rem;color:var(--gray-600)">${rating}</td>
+          <td style="font-size:0.82rem;color:var(--gray-600)">${rating}</td>
         </tr>`;
       }).join('');
     }
-
     renderPagination(data.total, data.limit, data.page);
     setUpdated();
   }
@@ -993,33 +652,25 @@
     const totalPages = Math.ceil(total / limit);
     const start = ((page - 1) * limit) + 1;
     const end = Math.min(page * limit, total);
-    document.getElementById('leads-pagination-info').textContent =
-      total ? `Showing ${start}–${end} of ${total.toLocaleString()}` : '';
-
+    document.getElementById('leads-pagination-info').textContent = total ? `Showing ${start}–${end} of ${total.toLocaleString()}` : '';
     const btns = document.getElementById('page-btns');
-    let html = `<button class="page-btn" onclick="gotoPage(${page - 1})" ${page <= 1 ? 'disabled' : ''}>← Prev</button>`;
-
-    const range = pageRange(page, totalPages);
-    range.forEach(p => {
-      if (p === '...') {
-        html += `<span style="padding:0.4rem 0.3rem;color:var(--gray-400)">…</span>`;
-      } else {
-        html += `<button class="page-btn ${p === page ? 'active' : ''}" onclick="gotoPage(${p})">${p}</button>`;
-      }
+    let html = `<button class="page-btn" onclick="gotoPage(${page-1})" ${page<=1?'disabled':''}>← Prev</button>`;
+    pageRange(page, totalPages).forEach(p => {
+      if (p === '...') html += `<span style="padding:0.35rem 0.3rem;color:var(--gray-400)">…</span>`;
+      else html += `<button class="page-btn ${p===page?'active':''}" onclick="gotoPage(${p})">${p}</button>`;
     });
-
-    html += `<button class="page-btn" onclick="gotoPage(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>Next →</button>`;
+    html += `<button class="page-btn" onclick="gotoPage(${page+1})" ${page>=totalPages?'disabled':''}>Next →</button>`;
     btns.innerHTML = html;
   }
 
-  function pageRange(current, total) {
-    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
-    const pages = [1];
-    if (current > 3) pages.push('...');
-    for (let p = Math.max(2, current - 1); p <= Math.min(total - 1, current + 1); p++) pages.push(p);
-    if (current < total - 2) pages.push('...');
-    pages.push(total);
-    return pages;
+  function pageRange(cur, total) {
+    if (total <= 7) return Array.from({length:total},(_,i)=>i+1);
+    const p = [1];
+    if (cur > 3) p.push('...');
+    for (let i = Math.max(2,cur-1); i <= Math.min(total-1,cur+1); i++) p.push(i);
+    if (cur < total-2) p.push('...');
+    p.push(total);
+    return p;
   }
 
   function gotoPage(p) { leadsPage = p; loadLeads(); }
@@ -1028,36 +679,32 @@
   async function loadCallList() {
     const data = await apiFetch('/api/calllist');
     if (!data) return;
-
     document.getElementById('calllist-count').textContent = `${data.total.toLocaleString()} leads`;
     const tbody = document.getElementById('calllist-tbody');
-
     if (!data.leads.length) {
-      tbody.innerHTML = '<tr><td colspan="7" class="no-data">No phone-only leads right now. Check back after the next pipeline run.</td></tr>';
-      setUpdated();
-      return;
+      tbody.innerHTML = '<tr><td colspan="6" class="no-data">No phone-only leads right now.</td></tr>';
+      setUpdated(); return;
     }
-
     tbody.innerHTML = data.leads.map(l => {
       const phone = l.phone ?? '';
-      const cleanPhone = phone.replace(/[^\d]/g, '');
-      const dialable = cleanPhone.length >= 10 ? `+1${cleanPhone.slice(-10)}` : phone;
-      const rating = l.rating ? `${l.rating}★` : '—';
-
+      const dialable = `+1${phone.replace(/[^\d]/g,'').slice(-10)}`;
+      const statusBadge = {
+        pending: '<span class="badge badge-yellow">Pending</span>',
+        sent:    '<span class="badge badge-teal">Texted</span>',
+        replied: '<span class="badge badge-green">Replied</span>',
+      }[l.outreach_status] ?? `<span class="badge badge-gray">${l.outreach_status}</span>`;
       return `<tr>
         <td><strong>${l.business_name}</strong></td>
-        <td style="font-size:0.8rem;color:var(--gray-600)">${l.category ?? '—'}</td>
-        <td style="font-size:0.85rem">${l.city ?? '—'}</td>
+        <td style="font-size:0.82rem">${l.city ?? '—'}</td>
         <td><a href="tel:${dialable}" style="color:var(--navy);font-weight:600;text-decoration:none">${phone}</a></td>
-        <td style="font-size:0.85rem">${l.reviews ?? 0}</td>
-        <td style="font-size:0.85rem">${rating}</td>
+        <td style="font-size:0.82rem">${l.reviews ?? 0} reviews</td>
+        <td>${statusBadge}</td>
         <td>
-          <a href="tel:${dialable}" style="display:inline-block;padding:0.3rem 0.7rem;background:var(--green);color:white;border-radius:6px;font-size:0.8rem;font-weight:600;text-decoration:none;margin-right:0.4rem">📞 Call</a>
-          <a href="sms:${dialable}&body=Hi%2C%20I%20noticed%20${encodeURIComponent(l.business_name)}%20doesn't%20have%20a%20website.%20I%20build%20sites%20for%20local%20businesses%20starting%20at%20%24500%2C%20done%20in%20a%20week.%20Want%20a%20free%20preview%3F%20%E2%80%93%20Zach" style="display:inline-block;padding:0.3rem 0.7rem;background:var(--blue);color:white;border-radius:6px;font-size:0.8rem;font-weight:600;text-decoration:none">💬 Text</a>
+          <a href="tel:${dialable}" style="display:inline-block;padding:0.3rem 0.65rem;background:var(--green);color:white;border-radius:6px;font-size:0.75rem;font-weight:600;text-decoration:none;margin-right:0.3rem">📞 Call</a>
+          <button onclick="openDrawer('${l.place_id}','${l.business_name.replace(/'/g,"\\'")}','${phone}','${l.outreach_status}')" style="padding:0.3rem 0.65rem;background:var(--blue);color:white;border-radius:6px;font-size:0.75rem;font-weight:600;border:none;cursor:pointer;font-family:inherit">💬 Messages</button>
         </td>
       </tr>`;
     }).join('');
-
     setUpdated();
   }
 
@@ -1065,59 +712,143 @@
   async function loadPipeline() {
     const data = await apiFetch('/api/stats');
     if (!data) return;
-    renderRuns(data.runs, 'pipeline-tbody', 'pipeline-count');
+    const runs = data.runs;
+    document.getElementById('pipeline-count').textContent = `${runs.length} runs`;
+    const tbody = document.getElementById('pipeline-tbody');
+    if (!runs.length) { tbody.innerHTML = '<tr><td colspan="9" class="no-data">No runs yet.</td></tr>'; setUpdated(); return; }
+    tbody.innerHTML = runs.map(r => {
+      const started   = r.started_at   ? new Date(r.started_at)   : null;
+      const completed = r.completed_at ? new Date(r.completed_at) : null;
+      const duration  = started && completed ? formatDuration((completed-started)/1000) : started ? 'Running…' : '—';
+      const statusBadge = { completed:'<span class="badge badge-green">✓ Done</span>', running:'<span class="badge badge-yellow">● Running</span>', failed:'<span class="badge badge-red">✗ Failed</span>' }[r.status] ?? `<span class="badge badge-gray">${r.status}</span>`;
+      return `<tr>
+        <td><strong>${r.city ?? '—'}</strong></td>
+        <td>${statusBadge}</td>
+        <td>${r.leads_scraped ?? 0}</td><td>${r.pages_generated ?? 0}</td>
+        <td>${r.emails_sent ?? 0}</td><td>${r.texts_sent ?? 0}</td>
+        <td style="color:var(--gray-400);font-size:0.78rem">${started ? started.toLocaleString() : '—'}</td>
+        <td style="color:var(--gray-400);font-size:0.78rem">${completed ? completed.toLocaleString() : '—'}</td>
+        <td style="color:var(--gray-400);font-size:0.78rem">${duration}</td>
+      </tr>`;
+    }).join('');
     setUpdated();
   }
 
-  // ── Helpers ──
-  function formatDuration(secs) {
-    if (secs < 60) return `${Math.round(secs)}s`;
-    if (secs < 3600) return `${Math.round(secs / 60)}m`;
-    return `${(secs / 3600).toFixed(1)}h`;
-  }
-
-  function setUpdated() {
-    document.getElementById('last-updated').textContent =
-      'Updated ' + new Date().toLocaleTimeString();
-  }
-
-  // Auto-refresh every 60 seconds
-  setInterval(() => { if (AUTH_TOKEN) showPage(currentPage); }, 60000);
-
   // ── Conversation Drawer ──
-  async function openDrawer(placeId, name, phone) {
+  let drawerPlaceId = null, drawerPhone = null, drawerStatus = null;
+
+  async function openDrawer(placeId, name, phone, status) {
+    drawerPlaceId = placeId; drawerPhone = phone; drawerStatus = status;
     document.getElementById('drawer-title').textContent = name;
     document.getElementById('drawer-phone').textContent = phone || '';
-    document.getElementById('drawer-messages').innerHTML = '<p class="drawer-empty">Loading...</p>';
+    document.getElementById('drawer-messages').innerHTML = '<p class="drawer-empty">Loading…</p>';
     document.getElementById('drawer').classList.add('open');
     document.getElementById('drawer-overlay').classList.add('open');
 
-    const data = await apiFetch(`/api/conversation?place_id=${encodeURIComponent(placeId)}`);
+    // Meta badges
+    const statusLabels = { sent:'Sent', replied:'Replied', unresponsive:'No Response', pending:'Pending', converted:'Converted' };
+    const statusColors = { sent:'badge-blue', replied:'badge-green', unresponsive:'badge-gray', pending:'badge-yellow', converted:'badge-purple' };
+    document.getElementById('drawer-meta').innerHTML =
+      `<span class="meta-badge badge ${statusColors[status] ?? 'badge-gray'}">${statusLabels[status] ?? status}</span>` +
+      `<span class="meta-badge" style="background:var(--gray-100);color:var(--gray-600);font-size:0.72rem;padding:0.2rem 0.55rem;border-radius:20px;font-weight:600">📱 SMS</span>`;
+
+    // Action buttons
+    const actions = [];
+    if (status !== 'converted') actions.push(`<button class="action-btn action-btn-purple" onclick="markConverted()">💰 Mark Converted</button>`);
+    if (status === 'sent')      actions.push(`<button class="action-btn action-btn-gray" onclick="markStatus('unresponsive')">No Response</button>`);
+    if (status === 'unresponsive') actions.push(`<button class="action-btn action-btn-green" onclick="markStatus('sent')">Mark Active</button>`);
+    document.getElementById('drawer-actions').innerHTML = actions.join('');
+
+    // Show reply box only if phone exists
+    document.getElementById('drawer-reply').style.display = phone ? 'flex' : 'none';
+    document.getElementById('reply-text').value = '';
+
+    await loadMessages();
+  }
+
+  async function loadMessages() {
+    const data = await apiFetch(`/api/conversation?place_id=${encodeURIComponent(drawerPlaceId)}`);
     const msgs = data?.messages ?? [];
     const container = document.getElementById('drawer-messages');
-
     if (!msgs.length) {
-      container.innerHTML = '<p class="drawer-empty">No messages logged yet.<br><small style="font-size:0.8rem;opacity:0.7">Future texts will appear here automatically.</small></p>';
+      container.innerHTML = '<p class="drawer-empty">No messages yet.<br><small style="font-size:0.75rem;opacity:0.7">Future texts will appear here.</small></p>';
       return;
     }
-
     container.innerHTML = msgs.map(m => {
       const isOut = m.direction === 'outbound';
-      const time = new Date(m.created_at).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      const time = new Date(m.created_at).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
       return `<div class="msg ${isOut ? 'msg-out' : 'msg-in'}">
         ${m.body}
         <span class="msg-time">${isOut ? 'You · ' : ''}${time}</span>
       </div>`;
     }).join('');
-
     container.scrollTop = container.scrollHeight;
+  }
+
+  async function sendReply() {
+    const text = document.getElementById('reply-text').value.trim();
+    if (!text) return;
+    const btn = document.getElementById('reply-btn');
+    btn.disabled = true; btn.textContent = 'Sending…';
+
+    const result = await apiFetch('/api/send-sms', {
+      method: 'POST',
+      body: JSON.stringify({ place_id: drawerPlaceId, phone: drawerPhone, message: text }),
+    });
+
+    btn.disabled = false; btn.textContent = 'Send';
+    if (result?.ok) {
+      document.getElementById('reply-text').value = '';
+      await loadMessages();
+      if (drawerStatus !== 'replied') {
+        await apiFetch('/api/update-lead', { method: 'PATCH', body: JSON.stringify({ place_id: drawerPlaceId, status: 'replied' }) });
+        drawerStatus = 'replied';
+      }
+    } else {
+      alert('Failed to send: ' + (result?.error ?? 'unknown error'));
+    }
+  }
+
+  async function markConverted() {
+    await apiFetch('/api/update-lead', { method: 'PATCH', body: JSON.stringify({ place_id: drawerPlaceId, status: 'converted', converted: true }) });
+    drawerStatus = 'converted';
+    closeDrawer();
+    showPage(currentPage);
+  }
+
+  async function markStatus(status) {
+    await apiFetch('/api/update-lead', { method: 'PATCH', body: JSON.stringify({ place_id: drawerPlaceId, status }) });
+    drawerStatus = status;
+    document.getElementById('drawer-meta').innerHTML =
+      `<span class="meta-badge badge ${status === 'replied' ? 'badge-green' : 'badge-gray'}">${status}</span>` +
+      `<span class="meta-badge" style="background:var(--gray-100);color:var(--gray-600);font-size:0.72rem;padding:0.2rem 0.55rem;border-radius:20px;font-weight:600">📱 SMS</span>`;
+    document.getElementById('drawer-actions').innerHTML =
+      status !== 'converted' ? `<button class="action-btn action-btn-purple" onclick="markConverted()">💰 Mark Converted</button>` : '';
   }
 
   function closeDrawer() {
     document.getElementById('drawer').classList.remove('open');
     document.getElementById('drawer-overlay').classList.remove('open');
   }
-</script>
 
+  // ── Enter key sends SMS reply ──
+  document.getElementById('reply-text').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendReply(); }
+  });
+
+  // ── Helpers ──
+  function formatDuration(secs) {
+    if (secs < 60) return `${Math.round(secs)}s`;
+    if (secs < 3600) return `${Math.round(secs/60)}m`;
+    return `${(secs/3600).toFixed(1)}h`;
+  }
+
+  function setUpdated() {
+    document.getElementById('last-updated').textContent = 'Updated ' + new Date().toLocaleTimeString();
+  }
+
+  // Auto-refresh every 60s
+  setInterval(() => { if (AUTH_TOKEN) showPage(currentPage); }, 60000);
+</script>
 </body>
 </html>
