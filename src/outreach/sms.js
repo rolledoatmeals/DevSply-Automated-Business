@@ -42,7 +42,9 @@ export async function sendSMSOutreach(leads) {
       await client.messages.create({ from: FROM_NUMBER, to, body });
       sent++;
       console.log('    ✓ SMS sent');
-      await new Promise(r => setTimeout(r, 500));
+      // Random 3–7 second gap to avoid carrier spam detection
+      const delay = 3000 + Math.floor(Math.random() * 4000);
+      await new Promise(r => setTimeout(r, delay));
     } catch (err) {
       console.error(`    ✗ Failed: ${err.message}`);
     }
