@@ -40,8 +40,21 @@ export async function getLeadsNeedingPages() {
     .select('*')
     .or('landing_page_url.is.null,landing_page_url.eq.')
     .eq('outreach_status', 'pending')
+    .not('email', 'is', null)
     .order('reviews', { ascending: false });
   if (error) console.error('getLeadsNeedingPages error:', error.message);
+  return data ?? [];
+}
+
+export async function getLeadsNeedingPhoneOutreach() {
+  const { data, error } = await supabase
+    .from('leads')
+    .select('*')
+    .eq('outreach_status', 'pending')
+    .is('email', null)
+    .not('phone', 'is', null)
+    .order('reviews', { ascending: false });
+  if (error) console.error('getLeadsNeedingPhoneOutreach error:', error.message);
   return data ?? [];
 }
 

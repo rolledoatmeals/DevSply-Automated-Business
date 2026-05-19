@@ -3,6 +3,7 @@ import { scrapeLeads } from './scraper/googlePlaces.js';
 import { findEmail } from './scraper/emailFinder.js';
 import { createLandingPage } from './generator/landingPage.js';
 import { sendOutreach, nextFollowUpDate } from './outreach/gmail.js';
+import { sendSMSOutreach } from './outreach/sms.js';
 import {
   saveLead,
   updateLead,
@@ -10,6 +11,7 @@ import {
   getLeadsNeedingEmails,
   getLeadsNeedingOutreach,
   getLeadsNeedingFollowUp,
+  getLeadsNeedingPhoneOutreach,
   nextCity,
   markCityDone,
   cityProgress,
@@ -149,6 +151,26 @@ export async function runCity(city) {
         });
       }
       console.log(`\n  ✉  ${fuSent} follow-up${fuSent !== 1 ? 's' : ''} sent.`);
+    }
+
+    // ── Step 6: SMS leads with no email ─────────────────────────
+    console.log('\nSTEP 6 — SMS leads with phone but no email');
+    const needPhone = await getLeadsNeedingPhoneOutreach();
+    if (!needPhone.length) {
+      console.log('  No phone-only leads to text.');
+    } else {
+      console.log(`  ${needPhone.length} leads with phone but no email...`);
+      const smsSent = await sendSMSOutreach(needPhone);
+      for (const lead of needPhone.slice(0, smsSent)) {
+        await updateLead(lead.place_id, {
+          outreach_status: 'sent',
+          contacted: true,
+          follow_up_count: 0,
+          last_contacted_at: new Date().toISOString(),
+          next_follow_up_at: nextFollowUpDate(0),
+        });
+      }
+      if (smsSent > 0) console.log(`\n  📱 ${smsSent} SMS sent.`);
     }
 
     // ── Done ────────────────────────────────────────────────────
