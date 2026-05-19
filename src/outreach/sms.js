@@ -31,6 +31,7 @@ export async function sendSMSOutreach(leads) {
         phone,
         message: buildSMS(lead),
         key: TEXTBELT_KEY,
+        replyWebhookUrl: 'https://app.devsply.com/api/sms-reply',
       });
 
       if (data.success) {
