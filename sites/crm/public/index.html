@@ -476,6 +476,9 @@
         <div class="nav-item" onclick="showPage('pipeline')">
           <span class="nav-icon">⚙️</span> Pipeline Runs
         </div>
+        <div class="nav-item" onclick="showPage('calllist')">
+          <span class="nav-icon">📞</span> Call List
+        </div>
       </nav>
       <div class="sidebar-footer">
         <button class="logout-btn" onclick="logout()">Sign Out</button>
@@ -596,6 +599,35 @@
           </div>
         </div>
 
+        <!-- Call List Page -->
+        <div class="page" id="page-calllist">
+          <div class="section-card">
+            <div class="section-header">
+              <h2>📞 Call List — Phone-Only Leads</h2>
+              <span class="count" id="calllist-count"></span>
+            </div>
+            <div style="padding:1rem 1.5rem;background:var(--accent-light,#fef3c7);border-bottom:1px solid var(--gray-100);font-size:0.875rem;color:#92400e;">
+              These leads have a phone number but no email found. Call or text them directly — personal outreach converts better than automation.
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Business</th>
+                  <th>Category</th>
+                  <th>City</th>
+                  <th>Phone</th>
+                  <th>Reviews</th>
+                  <th>Rating</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="calllist-tbody">
+                <tr><td colspan="7" class="loading">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- Pipeline Page -->
         <div class="page" id="page-pipeline">
           <div class="section-card">
@@ -687,13 +719,14 @@
     document.getElementById(`page-${name}`).classList.add('active');
     document.querySelector(`.nav-item[onclick="showPage('${name}')"]`).classList.add('active');
 
-    const titles = { overview: 'Overview', leads: 'Leads', pipeline: 'Pipeline Runs' };
+    const titles = { overview: 'Overview', leads: 'Leads', pipeline: 'Pipeline Runs', calllist: '📞 Call List' };
     document.getElementById('page-title').textContent = titles[name];
     currentPage = name;
 
     if (name === 'overview') loadOverview();
     if (name === 'leads') { leadsPage = 1; loadLeads(); }
     if (name === 'pipeline') loadPipeline();
+    if (name === 'calllist') loadCallList();
   }
 
   function refresh() { showPage(currentPage); }
@@ -855,6 +888,43 @@
   }
 
   function gotoPage(p) { leadsPage = p; loadLeads(); }
+
+  // ── Call List ──
+  async function loadCallList() {
+    const data = await apiFetch('/api/calllist');
+    if (!data) return;
+
+    document.getElementById('calllist-count').textContent = `${data.total.toLocaleString()} leads`;
+    const tbody = document.getElementById('calllist-tbody');
+
+    if (!data.leads.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="no-data">No phone-only leads right now. Check back after the next pipeline run.</td></tr>';
+      setUpdated();
+      return;
+    }
+
+    tbody.innerHTML = data.leads.map(l => {
+      const phone = l.phone ?? '';
+      const cleanPhone = phone.replace(/[^\d]/g, '');
+      const dialable = cleanPhone.length >= 10 ? `+1${cleanPhone.slice(-10)}` : phone;
+      const rating = l.rating ? `${l.rating}★` : '—';
+
+      return `<tr>
+        <td><strong>${l.business_name}</strong></td>
+        <td style="font-size:0.8rem;color:var(--gray-600)">${l.category ?? '—'}</td>
+        <td style="font-size:0.85rem">${l.city ?? '—'}</td>
+        <td><a href="tel:${dialable}" style="color:var(--navy);font-weight:600;text-decoration:none">${phone}</a></td>
+        <td style="font-size:0.85rem">${l.reviews ?? 0}</td>
+        <td style="font-size:0.85rem">${rating}</td>
+        <td>
+          <a href="tel:${dialable}" style="display:inline-block;padding:0.3rem 0.7rem;background:var(--green);color:white;border-radius:6px;font-size:0.8rem;font-weight:600;text-decoration:none;margin-right:0.4rem">📞 Call</a>
+          <a href="sms:${dialable}&body=Hi%2C%20I%20noticed%20${encodeURIComponent(l.business_name)}%20doesn't%20have%20a%20website.%20I%20build%20sites%20for%20local%20businesses%20starting%20at%20%24500%2C%20done%20in%20a%20week.%20Want%20a%20free%20preview%3F%20%E2%80%93%20Zach" style="display:inline-block;padding:0.3rem 0.7rem;background:var(--blue);color:white;border-radius:6px;font-size:0.8rem;font-weight:600;text-decoration:none">💬 Text</a>
+        </td>
+      </tr>`;
+    }).join('');
+
+    setUpdated();
+  }
 
   // ── Pipeline ──
   async function loadPipeline() {

@@ -153,8 +153,8 @@ export async function runCity(city) {
       console.log(`\n  ✉  ${fuSent} follow-up${fuSent !== 1 ? 's' : ''} sent.`);
     }
 
-    // ── Step 6: SMS leads with no email ─────────────────────────
-    console.log('\nSTEP 6 — SMS leads with phone but no email');
+    // ── Step 6: SMS phone-only leads ─────────────────────────────
+    console.log('\nSTEP 6 — Text leads with phone but no email');
     const needPhone = await getLeadsNeedingPhoneOutreach();
     if (!needPhone.length) {
       console.log('  No phone-only leads to text.');
@@ -170,7 +170,7 @@ export async function runCity(city) {
           next_follow_up_at: nextFollowUpDate(0),
         });
       }
-      if (smsSent > 0) console.log(`\n  📱 ${smsSent} SMS sent.`);
+      if (smsSent > 0) console.log(`\n  📱 ${smsSent} text${smsSent !== 1 ? 's' : ''} sent.`);
     }
 
     // ── Done ────────────────────────────────────────────────────
