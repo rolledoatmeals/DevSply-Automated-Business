@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevSply CRM</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0f1e3d;
+      --blue: #1a56db;
+      --blue-light: #3b82f6;
+      --accent: #f59e0b;
+      --green: #10b981;
+      --red: #ef4444;
+      --purple: #8b5cf6;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-400: #9ca3af;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-900: #111827;
+      --white: #ffffff;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-900);
+      min-height: 100vh;
+    }
+
+    /* ── Login ── */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--navy) 0%, #1e3a6e 100%);
+    }
+
+    .login-box {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    }
+
+    .login-logo {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 0.3rem;
+    }
+
+    .login-logo span { color: var(--blue); }
+
+    .login-sub {
+      text-align: center;
+      color: var(--gray-400);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .login-box label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 0.4rem;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 1.2rem;
+    }
+
+    .login-box input:focus { border-color: var(--blue); }
+
+    .login-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    .login-btn:hover { background: var(--navy); }
+
+    .login-error {
+      color: var(--red);
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 0.8rem;
+      display: none;
+    }
+
+    /* ── App ── */
+    #app { display: none; }
+
+    /* Sidebar */
+    .layout { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: 240px;
+      background: var(--navy);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 50;
+    }
+
+    .sidebar-logo {
+      padding: 1.5rem 1.5rem 1rem;
+      font-size: 1.4rem;
+      font-weight: 900;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-logo span { color: var(--accent); }
+    .sidebar-logo small { display: block; font-size: 0.7rem; font-weight: 400; opacity: 0.5; margin-top: 0.2rem; letter-spacing: 1px; text-transform: uppercase; }
+
+    .sidebar-nav { flex: 1; padding: 1rem 0; }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      color: rgba(255,255,255,0.65);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-left: 3px solid transparent;
+    }
+
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+
+    .nav-item.active {
+      background: rgba(26,86,219,0.3);
+      color: var(--white);
+      border-left-color: var(--blue-light);
+    }
+
+    .nav-icon { font-size: 1.1rem; width: 20px; text-align: center; }
+
+    .sidebar-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .logout-btn {
+      width: 100%;
+      padding: 0.6rem;
+      background: rgba(255,255,255,0.08);
+      border: none;
+      border-radius: 6px;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+
+    .logout-btn:hover { background: rgba(255,255,255,0.15); color: var(--white); }
+
+    /* Main */
+    .main {
+      flex: 1;
+      margin-left: 240px;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+    }
+
+    .topbar h1 { font-size: 1.2rem; font-weight: 700; color: var(--navy); }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .refresh-btn {
+      padding: 0.5rem 1rem;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      color: var(--gray-700);
+      transition: background 0.2s;
+    }
+
+    .refresh-btn:hover { background: var(--gray-200); }
+
+    .last-updated { font-size: 0.8rem; color: var(--gray-400); }
+
+    .content { padding: 2rem; }
+
+    /* ── Pages ── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ── Stats Cards ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid var(--gray-200);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+
+    .stat-card.blue::before { background: var(--blue); }
+    .stat-card.green::before { background: var(--green); }
+    .stat-card.accent::before { background: var(--accent); }
+    .stat-card.purple::before { background: var(--purple); }
+    .stat-card.red::before { background: var(--red); }
+
+    .stat-label { font-size: 0.8rem; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.5rem; }
+    .stat-number { font-size: 2.2rem; font-weight: 900; color: var(--navy); line-height: 1; }
+    .stat-icon { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; opacity: 0.15; }
+
+    /* ── Pipeline Runs ── */
+    .section-card {
+      background: var(--white);
+      border-radius: 12px;
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .section-header {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-header h2 { font-size: 1rem; font-weight: 700; color: var(--navy); }
+    .section-header .count { font-size: 0.8rem; color: var(--gray-400); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    thead tr { background: var(--gray-50); }
+
+    th {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gray-400);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 0.85rem 1rem;
+      color: var(--gray-700);
+      border-top: 1px solid var(--gray-100);
+      vertical-align: middle;
+    }
+
+    tr:hover td { background: var(--gray-50); }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-green { background: #d1fae5; color: #065f46; }
+    .badge-red { background: #fee2e2; color: #991b1b; }
+    .badge-yellow { background: #fef3c7; color: #92400e; }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-gray { background: var(--gray-100); color: var(--gray-600); }
+    .badge-purple { background: #ede9fe; color: #5b21b6; }
+
+    /* ── Leads Table ── */
+    .table-controls {
+      padding: 1rem 1.5rem;
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      border-bottom: 1px solid var(--gray-100);
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      padding: 0.55rem 0.9rem;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-family: inherit;
+      outline: none;
+      width: 240px;
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus { border-color: var(--blue); }
+
+    .filter-select {
+      padding: 0.55rem 0.9rem;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-family: inherit;
+      outline: none;
+      background: var(--white);
+      color: var(--gray-700);
+      transition: border-color 0.2s;
+    }
+
+    .filter-select:focus { border-color: var(--blue); }
+
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--gray-100);
+      justify-content: space-between;
+    }
+
+    .pagination-info { font-size: 0.85rem; color: var(--gray-400); }
+
+    .page-btns { display: flex; gap: 0.4rem; }
+
+    .page-btn {
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--gray-200);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      background: var(--white);
+      font-family: inherit;
+      color: var(--gray-700);
+      transition: background 0.15s;
+    }
+
+    .page-btn:hover { background: var(--gray-100); }
+    .page-btn.active { background: var(--blue); color: var(--white); border-color: var(--blue); }
+    .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .website-link {
+      color: var(--blue);
+      text-decoration: none;
+      font-size: 0.8rem;
+    }
+
+    .website-link:hover { text-decoration: underline; }
+
+    .no-data {
+      text-align: center;
+      padding: 3rem;
+      color: var(--gray-400);
+      font-size: 0.9rem;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray-400);
+      font-size: 0.9rem;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 0.4rem;
+    }
+
+    .dot-green { background: var(--green); }
+    .dot-red { background: var(--red); }
+    .dot-yellow { background: var(--accent); }
+    .dot-blue { background: var(--blue); }
+    .dot-gray { background: var(--gray-400); }
+
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .main { margin-left: 0; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">Dev<span>Sply</span></div>
+    <p class="login-sub">CRM Dashboard</p>
+    <label for="pw">Password</label>
+    <input type="password" id="pw" placeholder="Enter dashboard password" autocomplete="current-password">
+    <button class="login-btn" onclick="login()">Sign In →</button>
+    <p class="login-error" id="login-error">Incorrect password. Try again.</p>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app">
+  <div class="layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-logo">Dev<span>Sply</span><small>CRM Dashboard</small></div>
+      <nav class="sidebar-nav">
+        <div class="nav-item active" onclick="showPage('overview')">
+          <span class="nav-icon">📊</span> Overview
+        </div>
+        <div class="nav-item" onclick="showPage('leads')">
+          <span class="nav-icon">👥</span> Leads
+        </div>
+        <div class="nav-item" onclick="showPage('pipeline')">
+          <span class="nav-icon">⚙️</span> Pipeline Runs
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="logout()">Sign Out</button>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+      <div class="topbar">
+        <h1 id="page-title">Overview</h1>
+        <div class="topbar-right">
+          <span class="last-updated" id="last-updated"></span>
+          <button class="refresh-btn" onclick="refresh()">↻ Refresh</button>
+        </div>
+      </div>
+
+      <div class="content">
+
+        <!-- Overview Page -->
+        <div class="page active" id="page-overview">
+          <div class="stats-grid">
+            <div class="stat-card blue">
+              <span class="stat-icon">👥</span>
+              <div class="stat-label">Total Leads</div>
+              <div class="stat-number" id="stat-total">—</div>
+            </div>
+            <div class="stat-card green">
+              <span class="stat-icon">🌐</span>
+              <div class="stat-label">Pages Built</div>
+              <div class="stat-number" id="stat-pages">—</div>
+            </div>
+            <div class="stat-card accent">
+              <span class="stat-icon">✉️</span>
+              <div class="stat-label">Emails Sent</div>
+              <div class="stat-number" id="stat-emails">—</div>
+            </div>
+            <div class="stat-card purple">
+              <span class="stat-icon">💬</span>
+              <div class="stat-label">Replied</div>
+              <div class="stat-number" id="stat-replied">—</div>
+            </div>
+            <div class="stat-card red">
+              <span class="stat-icon">💰</span>
+              <div class="stat-label">Converted</div>
+              <div class="stat-number" id="stat-converted">—</div>
+            </div>
+          </div>
+
+          <div class="section-card">
+            <div class="section-header">
+              <h2>Recent Pipeline Runs</h2>
+              <span class="count" id="runs-count"></span>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>City</th>
+                  <th>Status</th>
+                  <th>Leads</th>
+                  <th>Pages</th>
+                  <th>Emails</th>
+                  <th>Started</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+              <tbody id="runs-tbody">
+                <tr><td colspan="7" class="loading">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Leads Page -->
+        <div class="page" id="page-leads">
+          <div class="section-card">
+            <div class="section-header">
+              <h2>All Leads</h2>
+              <span class="count" id="leads-count"></span>
+            </div>
+            <div class="table-controls">
+              <input
+                class="search-input"
+                id="leads-search"
+                type="text"
+                placeholder="Search business or city..."
+                oninput="debounceSearch()"
+              >
+              <select class="filter-select" id="leads-filter" onchange="filterLeads()">
+                <option value="">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="sent">Sent</option>
+                <option value="replied">Replied</option>
+                <option value="unresponsive">Unresponsive</option>
+                <option value="converted">Converted</option>
+              </select>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Business</th>
+                  <th>Category</th>
+                  <th>City</th>
+                  <th>Email</th>
+                  <th>Website</th>
+                  <th>Status</th>
+                  <th>Follow-ups</th>
+                  <th>Rating</th>
+                </tr>
+              </thead>
+              <tbody id="leads-tbody">
+                <tr><td colspan="8" class="loading">Loading...</td></tr>
+              </tbody>
+            </table>
+            <div class="pagination">
+              <span class="pagination-info" id="leads-pagination-info"></span>
+              <div class="page-btns" id="page-btns"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pipeline Page -->
+        <div class="page" id="page-pipeline">
+          <div class="section-card">
+            <div class="section-header">
+              <h2>Pipeline Run History</h2>
+              <span class="count" id="pipeline-count"></span>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>City</th>
+                  <th>Status</th>
+                  <th>Leads Scraped</th>
+                  <th>Pages Built</th>
+                  <th>Emails Sent</th>
+                  <th>Started</th>
+                  <th>Completed</th>
+                  <th>Duration</th>
+                </tr>
+              </thead>
+              <tbody id="pipeline-tbody">
+                <tr><td colspan="8" class="loading">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Auth ──
+  let AUTH_TOKEN = sessionStorage.getItem('crm_token') ?? '';
+
+  async function login() {
+    const pw = document.getElementById('pw').value;
+    const err = document.getElementById('login-error');
+    err.style.display = 'none';
+
+    try {
+      const r = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw }),
+      });
+      const data = await r.json();
+      if (data.ok) {
+        AUTH_TOKEN = pw;
+        sessionStorage.setItem('crm_token', pw);
+        showApp();
+      } else {
+        err.style.display = 'block';
+      }
+    } catch {
+      err.textContent = 'Connection error. Try again.';
+      err.style.display = 'block';
+    }
+  }
+
+  function logout() {
+    AUTH_TOKEN = '';
+    sessionStorage.removeItem('crm_token');
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('login-screen').style.display = 'flex';
+  }
+
+  document.getElementById('pw').addEventListener('keydown', e => {
+    if (e.key === 'Enter') login();
+  });
+
+  // ── Auto-login if token exists ──
+  if (AUTH_TOKEN) showApp();
+
+  function showApp() {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    loadOverview();
+  }
+
+  // ── Navigation ──
+  let currentPage = 'overview';
+
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+    document.getElementById(`page-${name}`).classList.add('active');
+    document.querySelector(`.nav-item[onclick="showPage('${name}')"]`).classList.add('active');
+
+    const titles = { overview: 'Overview', leads: 'Leads', pipeline: 'Pipeline Runs' };
+    document.getElementById('page-title').textContent = titles[name];
+    currentPage = name;
+
+    if (name === 'overview') loadOverview();
+    if (name === 'leads') { leadsPage = 1; loadLeads(); }
+    if (name === 'pipeline') loadPipeline();
+  }
+
+  function refresh() { showPage(currentPage); }
+
+  // ── API ──
+  async function apiFetch(url) {
+    const r = await fetch(url, { headers: { Authorization: `Bearer ${AUTH_TOKEN}` } });
+    if (r.status === 401) { logout(); return null; }
+    return r.json();
+  }
+
+  // ── Overview ──
+  async function loadOverview() {
+    const data = await apiFetch('/api/stats');
+    if (!data) return;
+
+    const s = data.stats;
+    document.getElementById('stat-total').textContent = s.total.toLocaleString();
+    document.getElementById('stat-pages').textContent = s.with_page.toLocaleString();
+    document.getElementById('stat-emails').textContent = s.emails_sent.toLocaleString();
+    document.getElementById('stat-replied').textContent = s.replied.toLocaleString();
+    document.getElementById('stat-converted').textContent = s.converted.toLocaleString();
+
+    renderRuns(data.runs, 'runs-tbody', 'runs-count');
+    setUpdated();
+  }
+
+  function renderRuns(runs, tbodyId, countId) {
+    const tbody = document.getElementById(tbodyId);
+    if (countId) document.getElementById(countId).textContent = `${runs.length} runs`;
+
+    if (!runs.length) {
+      tbody.innerHTML = '<tr><td colspan="8" class="no-data">No pipeline runs yet.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = runs.map(r => {
+      const started = r.started_at ? new Date(r.started_at) : null;
+      const completed = r.completed_at ? new Date(r.completed_at) : null;
+      const duration = started && completed
+        ? formatDuration((completed - started) / 1000)
+        : started ? 'Running...' : '—';
+      const startedStr = started ? started.toLocaleString() : '—';
+
+      const statusBadge = {
+        completed: '<span class="badge badge-green">✓ Completed</span>',
+        running:   '<span class="badge badge-yellow">● Running</span>',
+        failed:    '<span class="badge badge-red">✗ Failed</span>',
+      }[r.status] ?? `<span class="badge badge-gray">${r.status}</span>`;
+
+      return `<tr>
+        <td><strong>${r.city ?? '—'}</strong></td>
+        <td>${statusBadge}</td>
+        <td>${r.leads_scraped ?? 0}</td>
+        <td>${r.pages_generated ?? 0}</td>
+        <td>${r.emails_sent ?? 0}</td>
+        <td style="color:var(--gray-400);font-size:0.8rem">${startedStr}</td>
+        <td style="color:var(--gray-400);font-size:0.8rem">${duration}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  // ── Leads ──
+  let leadsPage = 1;
+  let searchTimeout;
+
+  function debounceSearch() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => { leadsPage = 1; loadLeads(); }, 350);
+  }
+
+  function filterLeads() { leadsPage = 1; loadLeads(); }
+
+  async function loadLeads() {
+    const search = document.getElementById('leads-search').value;
+    const status = document.getElementById('leads-filter').value;
+    const params = new URLSearchParams({ page: leadsPage });
+    if (search) params.set('search', search);
+    if (status) params.set('status', status);
+
+    const data = await apiFetch(`/api/leads?${params}`);
+    if (!data) return;
+
+    document.getElementById('leads-count').textContent = `${data.total.toLocaleString()} leads`;
+
+    const tbody = document.getElementById('leads-tbody');
+    if (!data.leads.length) {
+      tbody.innerHTML = '<tr><td colspan="8" class="no-data">No leads found.</td></tr>';
+    } else {
+      tbody.innerHTML = data.leads.map(l => {
+        const statusBadge = {
+          pending:      '<span class="badge badge-yellow">Pending</span>',
+          sent:         '<span class="badge badge-blue">Sent</span>',
+          replied:      '<span class="badge badge-green">Replied</span>',
+          unresponsive: '<span class="badge badge-gray">Unresponsive</span>',
+          converted:    '<span class="badge badge-purple">Converted</span>',
+        }[l.outreach_status] ?? `<span class="badge badge-gray">${l.outreach_status ?? '—'}</span>`;
+
+        const pageLink = l.landing_page_url
+          ? `<a href="${l.landing_page_url}" target="_blank" class="website-link">View ↗</a>`
+          : '<span style="color:var(--gray-400);font-size:0.8rem">—</span>';
+
+        const email = l.email
+          ? `<span style="font-size:0.8rem">${l.email}</span>`
+          : '<span style="color:var(--gray-400);font-size:0.8rem">—</span>';
+
+        const rating = l.rating
+          ? `${l.rating}★ (${l.reviews})`
+          : l.reviews ? `${l.reviews} reviews` : '—';
+
+        return `<tr>
+          <td><strong>${l.business_name}</strong></td>
+          <td style="font-size:0.8rem;color:var(--gray-600)">${l.category ?? '—'}</td>
+          <td style="font-size:0.85rem">${l.city ?? '—'}</td>
+          <td>${email}</td>
+          <td>${pageLink}</td>
+          <td>${statusBadge}</td>
+          <td style="text-align:center">${l.follow_up_count ?? 0}/3</td>
+          <td style="font-size:0.85rem;color:var(--gray-600)">${rating}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    renderPagination(data.total, data.limit, data.page);
+    setUpdated();
+  }
+
+  function renderPagination(total, limit, page) {
+    const totalPages = Math.ceil(total / limit);
+    const start = ((page - 1) * limit) + 1;
+    const end = Math.min(page * limit, total);
+    document.getElementById('leads-pagination-info').textContent =
+      total ? `Showing ${start}–${end} of ${total.toLocaleString()}` : '';
+
+    const btns = document.getElementById('page-btns');
+    let html = `<button class="page-btn" onclick="gotoPage(${page - 1})" ${page <= 1 ? 'disabled' : ''}>← Prev</button>`;
+
+    const range = pageRange(page, totalPages);
+    range.forEach(p => {
+      if (p === '...') {
+        html += `<span style="padding:0.4rem 0.3rem;color:var(--gray-400)">…</span>`;
+      } else {
+        html += `<button class="page-btn ${p === page ? 'active' : ''}" onclick="gotoPage(${p})">${p}</button>`;
+      }
+    });
+
+    html += `<button class="page-btn" onclick="gotoPage(${page + 1})" ${page >= totalPages ? 'disabled' : ''}>Next →</button>`;
+    btns.innerHTML = html;
+  }
+
+  function pageRange(current, total) {
+    if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+    const pages = [1];
+    if (current > 3) pages.push('...');
+    for (let p = Math.max(2, current - 1); p <= Math.min(total - 1, current + 1); p++) pages.push(p);
+    if (current < total - 2) pages.push('...');
+    pages.push(total);
+    return pages;
+  }
+
+  function gotoPage(p) { leadsPage = p; loadLeads(); }
+
+  // ── Pipeline ──
+  async function loadPipeline() {
+    const data = await apiFetch('/api/stats');
+    if (!data) return;
+    renderRuns(data.runs, 'pipeline-tbody', 'pipeline-count');
+    setUpdated();
+  }
+
+  // ── Helpers ──
+  function formatDuration(secs) {
+    if (secs < 60) return `${Math.round(secs)}s`;
+    if (secs < 3600) return `${Math.round(secs / 60)}m`;
+    return `${(secs / 3600).toFixed(1)}h`;
+  }
+
+  function setUpdated() {
+    document.getElementById('last-updated').textContent =
+      'Updated ' + new Date().toLocaleTimeString();
+  }
+
+  // Auto-refresh every 60 seconds
+  setInterval(() => { if (AUTH_TOKEN) showPage(currentPage); }, 60000);
+</script>
+
+</body>
+</html>

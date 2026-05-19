@@ -1,0 +1,24 @@
+{
+  "name": "devsply-automated-business",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Automated lead generation and outreach system for local businesses without websites",
+  "main": "server.js",
+  "scripts": {
+    "start": "node scheduler.js",
+    "pipeline": "node src/pipeline.js",
+    "schedule": "node scheduler.js",
+    "setup-campaign": "node src/outreach/setup.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.55.0",
+    "@supabase/supabase-js": "^2.50.0",
+    "archiver": "^7.0.1",
+    "axios": "^1.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^8.0.7"
+  }
+}
