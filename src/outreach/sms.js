@@ -1,19 +1,20 @@
 import axios from 'axios';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
-const TEXTBELT_KEY  = process.env.TEXTBELT_KEY;
-const SENDER_NAME   = process.env.SENDER_NAME ?? 'Zach';
-const DAILY_LIMIT   = parseInt(process.env.DAILY_SMS_LIMIT ?? '40', 10);
+const supabase   = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
+const API_KEY    = process.env.TELNYX_API_KEY;
+const FROM       = process.env.TELNYX_PHONE_NUMBER;
+const SENDER     = process.env.SENDER_NAME ?? 'Zach';
+const DAILY_LIMIT = parseInt(process.env.DAILY_SMS_LIMIT ?? '40', 10);
 
-function buildSMS(lead) {
+export function buildSMS(lead) {
   const reviews = lead.reviews > 0 ? ` You have ${lead.reviews} Google reviews` : '';
-  return `Hi! I noticed ${lead.business_name} doesn't have a website.${reviews} — customers searching online can't find you. I build websites for local businesses starting at $500, done in a week. Want a free preview? – ${SENDER_NAME}`;
+  return `Hi! I noticed ${lead.business_name} doesn't have a website.${reviews} — customers searching online can't find you. I build websites for local businesses starting at $500, done in a week. Want a free preview? – ${SENDER}`;
 }
 
 export async function sendSMSOutreach(leads) {
-  if (!TEXTBELT_KEY) {
-    console.log('  ⚠  SMS skipped — add TEXTBELT_KEY to env vars');
+  if (!API_KEY || !FROM) {
+    console.log('  ⚠  SMS skipped — add TELNYX_API_KEY and TELNYX_PHONE_NUMBER');
     return 0;
   }
 
@@ -21,38 +22,31 @@ export async function sendSMSOutreach(leads) {
 
   for (const lead of leads.slice(0, DAILY_LIMIT)) {
     if (!lead.phone) continue;
+    const digits = lead.phone.replace(/[^\d]/g, '').slice(-10);
+    if (digits.length < 10) continue;
+    const to = `+1${digits}`;
 
-    const phone = lead.phone.replace(/[^\d]/g, '').slice(-10);
-    if (phone.length < 10) continue;
-
-    console.log(`\n  → ${lead.business_name}`);
-    console.log(`    ${lead.phone}`);
+    console.log(`\n  → ${lead.business_name} (${lead.phone})`);
 
     try {
-      const { data } = await axios.post('https://textbelt.com/text', {
-        phone,
-        message: buildSMS(lead),
-        key: TEXTBELT_KEY,
-        replyWebhookUrl: 'https://app.devsply.com/api/sms-reply',
-      });
+      const { data } = await axios.post(
+        'https://api.telnyx.com/v2/messages',
+        { from: FROM, to, text: buildSMS(lead), webhook_url: 'https://app.devsply.com/api/sms-reply' },
+        { headers: { Authorization: `Bearer ${API_KEY}`, 'Content-Type': 'application/json' } }
+      );
 
-      if (data.success) {
-        sent++;
-        console.log(`    ✓ Sent (${data.quotaRemaining} texts remaining)`);
-        await supabase.from('sms_messages').insert({
-          place_id: lead.place_id,
-          direction: 'outbound',
-          body: buildSMS(lead),
-          phone: lead.phone,
-        });
-      } else {
-        console.error(`    ✗ Failed: ${data.error}`);
-      }
+      sent++;
+      console.log(`    ✓ Sent (id: ${data.data?.id})`);
+      await supabase.from('sms_messages').insert({
+        place_id: lead.place_id,
+        direction: 'outbound',
+        body: buildSMS(lead),
+        phone: lead.phone,
+      });
     } catch (err) {
-      console.error(`    ✗ Failed: ${err.message}`);
+      console.error(`    ✗ Failed: ${err.response?.data?.errors?.[0]?.detail ?? err.message}`);
     }
 
-    // Random 3–7 second gap to avoid carrier filtering
     const delay = 3000 + Math.floor(Math.random() * 4000);
     await new Promise(r => setTimeout(r, delay));
   }

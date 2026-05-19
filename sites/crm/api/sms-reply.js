@@ -8,8 +8,18 @@ const supabase = createClient(
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).end();
 
-  const { fromNumber, text } = req.body ?? {};
-  if (!fromNumber) return res.status(400).json({ error: 'Missing fromNumber' });
+  // Telnyx inbound SMS format
+  let fromNumber, text;
+  if (req.body?.data?.event_type === 'message.received') {
+    fromNumber = req.body.data.payload?.from?.phone_number;
+    text       = req.body.data.payload?.text;
+  } else {
+    // Legacy TextBelt format (fallback)
+    fromNumber = req.body?.fromNumber;
+    text       = req.body?.text;
+  }
+
+  if (!fromNumber) return res.status(200).json({ success: true });
 
   const digits = fromNumber.replace(/[^\d]/g, '').slice(-10);
 
@@ -25,10 +35,10 @@ export default async function handler(req, res) {
     await Promise.all([
       supabase.from('leads').update({ outreach_status: 'replied' }).eq('place_id', lead.place_id),
       supabase.from('sms_messages').insert({
-        place_id: lead.place_id,
+        place_id:  lead.place_id,
         direction: 'inbound',
-        body: text,
-        phone: fromNumber,
+        body:      text ?? '',
+        phone:     fromNumber,
       }),
     ]);
     console.log(`SMS reply from ${lead.business_name}: "${text}"`);

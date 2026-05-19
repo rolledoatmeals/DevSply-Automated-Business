@@ -4,6 +4,7 @@ import { findEmail } from './scraper/emailFinder.js';
 import { createLandingPage } from './generator/landingPage.js';
 import { sendOutreach, nextFollowUpDate } from './outreach/gmail.js';
 import { sendSMSOutreach } from './outreach/sms.js';
+import { placeCallOutreach } from './outreach/call.js';
 import {
   saveLead,
   updateLead,
@@ -158,15 +159,22 @@ export async function runCity(city) {
       console.log(`\n  ✉  ${fuSent} follow-up${fuSent !== 1 ? 's' : ''} sent.`);
     }
 
-    // ── Step 6: SMS phone-only leads ─────────────────────────────
-    console.log('\nSTEP 6 — Text leads with phone but no email');
+    // ── Step 6: Call + text phone-only leads ─────────────────────
+    console.log('\nSTEP 6 — Call + text phone-only leads');
     const needPhone = await getLeadsNeedingPhoneOutreach();
     if (!needPhone.length) {
-      console.log('  No phone-only leads to text.');
+      console.log('  No phone-only leads to contact.');
     } else {
       console.log(`  ${needPhone.length} leads with phone but no email...`);
+
+      // Place calls (async — outcomes come back via webhook to CRM)
+      const callsPlaced = await placeCallOutreach(needPhone);
+
+      // Also text them — higher combined response rate
       textsSent = await sendSMSOutreach(needPhone);
-      for (const lead of needPhone.slice(0, textsSent)) {
+
+      const contacted = Math.max(callsPlaced, textsSent);
+      for (const lead of needPhone.slice(0, contacted)) {
         await updateLead(lead.place_id, {
           outreach_status: 'sent',
           contacted: true,
@@ -175,7 +183,9 @@ export async function runCity(city) {
           next_follow_up_at: nextFollowUpDate(0),
         });
       }
-      if (textsSent > 0) console.log(`\n  📱 ${textsSent} text${textsSent !== 1 ? 's' : ''} sent.`);
+
+      if (callsPlaced > 0) console.log(`\n  📞 ${callsPlaced} call${callsPlaced !== 1 ? 's' : ''} placed.`);
+      if (textsSent > 0)   console.log(`  📱 ${textsSent} text${textsSent !== 1 ? 's' : ''} sent.`);
     }
 
     // ── Done ────────────────────────────────────────────────────

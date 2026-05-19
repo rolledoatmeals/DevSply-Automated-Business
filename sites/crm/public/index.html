@@ -235,8 +235,9 @@
     /* Messages */
     .drawer-messages { flex: 1; overflow-y: auto; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.65rem; }
     .msg { max-width: 82%; padding: 0.65rem 0.9rem; border-radius: 12px; font-size: 0.85rem; line-height: 1.5; }
-    .msg-out { align-self: flex-end; background: var(--blue); color: var(--white); border-bottom-right-radius: 4px; }
-    .msg-in  { align-self: flex-start; background: var(--gray-100); color: var(--gray-900); border-bottom-left-radius: 4px; }
+    .msg-out  { align-self: flex-end; background: var(--blue); color: var(--white); border-bottom-right-radius: 4px; }
+    .msg-in   { align-self: flex-start; background: var(--gray-100); color: var(--gray-900); border-bottom-left-radius: 4px; }
+    .msg-call { align-self: center; background: var(--gray-50); color: var(--gray-600); border: 1px solid var(--gray-200); font-size: 0.78rem; padding: 0.35rem 0.75rem; border-radius: 20px; max-width: 90%; text-align: center; }
     .msg-time { font-size: 0.68rem; opacity: 0.6; margin-top: 0.25rem; display: block; }
     .msg-out .msg-time { text-align: right; }
     .drawer-empty { text-align: center; color: var(--gray-400); font-size: 0.875rem; margin: auto; }
@@ -775,8 +776,11 @@
       return;
     }
     container.innerHTML = msgs.map(m => {
-      const isOut = m.direction === 'outbound';
       const time = new Date(m.created_at).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+      if (m.kind === 'call') {
+        return `<div class="msg msg-call">${m.body}<span class="msg-time">${time}</span></div>`;
+      }
+      const isOut = m.direction === 'outbound';
       return `<div class="msg ${isOut ? 'msg-out' : 'msg-in'}">
         ${m.body}
         <span class="msg-time">${isOut ? 'You · ' : ''}${time}</span>
