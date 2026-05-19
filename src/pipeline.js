@@ -93,14 +93,19 @@ export async function runCity(city) {
     }
 
     // ── Step 3: Generate landing pages ─────────────────────────
+    const MAX_PAGES   = parseInt(process.env.MAX_PAGES_PER_RUN ?? '10', 10);
+    const MIN_REVIEWS = parseInt(process.env.MIN_REVIEWS_FOR_PAGE ?? '10', 10);
     console.log('\nSTEP 3 — Generate landing pages with Claude');
-    const needPages = await getLeadsNeedingPages();
+    console.log(`  Limit: ${MAX_PAGES} pages/run | Min reviews: ${MIN_REVIEWS}`);
+    const needPages = (await getLeadsNeedingPages())
+      .filter(l => (l.reviews ?? 0) >= MIN_REVIEWS)
+      .slice(0, MAX_PAGES);
     if (!needPages.length) {
       console.log('  No leads need a landing page right now.');
     } else {
       console.log(`  Building pages for ${needPages.length} leads...`);
       for (const lead of needPages) {
-        console.log(`\n  [${lead.business_name}]`);
+        console.log(`\n  [${lead.business_name}] (${lead.reviews} reviews)`);
         const url = await createLandingPage(lead);
         if (url) {
           await updateLead(lead.place_id, { landing_page_url: url });
