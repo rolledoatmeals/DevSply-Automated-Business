@@ -59,7 +59,7 @@ export async function runCity(city) {
 
   const run = await createPipelineRun(city);
   const runId = run?.id;
-  let leadsScraped = 0, pagesGenerated = 0, emailsSent = 0;
+  let leadsScraped = 0, pagesGenerated = 0, emailsSent = 0, textsSent = 0;
 
   try {
     // ── Step 1: Scrape ──────────────────────────────────────────
@@ -165,8 +165,8 @@ export async function runCity(city) {
       console.log('  No phone-only leads to text.');
     } else {
       console.log(`  ${needPhone.length} leads with phone but no email...`);
-      const smsSent = await sendSMSOutreach(needPhone);
-      for (const lead of needPhone.slice(0, smsSent)) {
+      textsSent = await sendSMSOutreach(needPhone);
+      for (const lead of needPhone.slice(0, textsSent)) {
         await updateLead(lead.place_id, {
           outreach_status: 'sent',
           contacted: true,
@@ -175,7 +175,7 @@ export async function runCity(city) {
           next_follow_up_at: nextFollowUpDate(0),
         });
       }
-      if (smsSent > 0) console.log(`\n  📱 ${smsSent} text${smsSent !== 1 ? 's' : ''} sent.`);
+      if (textsSent > 0) console.log(`\n  📱 ${textsSent} text${textsSent !== 1 ? 's' : ''} sent.`);
     }
 
     // ── Done ────────────────────────────────────────────────────
@@ -184,6 +184,7 @@ export async function runCity(city) {
         leads_scraped: leadsScraped,
         pages_generated: pagesGenerated,
         emails_sent: emailsSent,
+        texts_sent: textsSent,
         status: 'completed',
         completed_at: new Date().toISOString(),
       });

@@ -663,12 +663,13 @@
                   <th>Leads</th>
                   <th>Pages</th>
                   <th>Emails</th>
+                  <th>Texts</th>
                   <th>Started</th>
                   <th>Duration</th>
                 </tr>
               </thead>
               <tbody id="runs-tbody">
-                <tr><td colspan="7" class="loading">Loading...</td></tr>
+                <tr><td colspan="8" class="loading">Loading...</td></tr>
               </tbody>
             </table>
           </div>
@@ -766,13 +767,14 @@
                   <th>Leads Scraped</th>
                   <th>Pages Built</th>
                   <th>Emails Sent</th>
+                  <th>Texts Sent</th>
                   <th>Started</th>
                   <th>Completed</th>
                   <th>Duration</th>
                 </tr>
               </thead>
               <tbody id="pipeline-tbody">
-                <tr><td colspan="8" class="loading">Loading...</td></tr>
+                <tr><td colspan="9" class="loading">Loading...</td></tr>
               </tbody>
             </table>
           </div>
@@ -883,7 +885,7 @@
     if (countId) document.getElementById(countId).textContent = `${runs.length} runs`;
 
     if (!runs.length) {
-      tbody.innerHTML = '<tr><td colspan="8" class="no-data">No pipeline runs yet.</td></tr>';
+      tbody.innerHTML = `<tr><td colspan="${tbodyId === 'pipeline-tbody' ? 9 : 8}" class="no-data">No pipeline runs yet.</td></tr>`;
       return;
     }
 
@@ -907,6 +909,7 @@
         <td>${r.leads_scraped ?? 0}</td>
         <td>${r.pages_generated ?? 0}</td>
         <td>${r.emails_sent ?? 0}</td>
+        <td>${r.texts_sent ?? 0}</td>
         <td style="color:var(--gray-400);font-size:0.8rem">${startedStr}</td>
         <td style="color:var(--gray-400);font-size:0.8rem">${duration}</td>
       </tr>`;
@@ -954,6 +957,7 @@
           : '<span style="color:var(--gray-400);font-size:0.8rem">—</span>';
 
         const contacted = ['sent','replied','unresponsive'].includes(l.outreach_status);
+        const isSMS = contacted && !l.email && l.phone;
         const via = !contacted
           ? '<span style="color:var(--gray-400);font-size:0.8rem">—</span>'
           : l.email
@@ -964,7 +968,11 @@
           ? `${l.rating}★ (${l.reviews})`
           : l.reviews ? `${l.reviews} reviews` : '—';
 
-        return `<tr class="row-clickable" onclick="openDrawer('${l.place_id}', '${l.business_name.replace(/'/g,"\\'")}', '${l.phone ?? ''}')">
+        const rowClick = isSMS
+          ? `class="row-clickable" onclick="openDrawer('${l.place_id}', '${l.business_name.replace(/'/g,"\\'")}', '${l.phone ?? ''}')"`
+          : '';
+
+        return `<tr ${rowClick}>
           <td><strong>${l.business_name}</strong></td>
           <td style="font-size:0.8rem;color:var(--gray-600)">${l.category ?? '—'}</td>
           <td style="font-size:0.85rem">${l.city ?? '—'}</td>
@@ -1089,7 +1097,7 @@
     const container = document.getElementById('drawer-messages');
 
     if (!msgs.length) {
-      container.innerHTML = '<p class="drawer-empty">No messages yet.<br>Texts will appear here once sent.</p>';
+      container.innerHTML = '<p class="drawer-empty">No messages logged yet.<br><small style="font-size:0.8rem;opacity:0.7">Future texts will appear here automatically.</small></p>';
       return;
     }
 
