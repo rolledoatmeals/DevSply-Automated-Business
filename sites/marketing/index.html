@@ -594,7 +594,7 @@
     <div class="modal-header">
       <div>
         <h3 id="modal-title">Get a Free Preview</h3>
-        <p>We'll build it before you commit to anything</p>
+        <p id="modal-header-sub">We'll build it before you commit to anything</p>
       </div>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
@@ -645,6 +645,45 @@
           </select>
         </div>
         <button class="submit-btn" onclick="goStep2()">Choose Email App →</button>
+      </div>
+
+      <!-- Step 1: SaaS Waitlist -->
+      <div class="modal-step" id="step1-saas">
+        <p style="font-size:0.875rem;color:var(--gray-600);margin-bottom:1.2rem">Get early access to the AI lead generation platform. We'll reach out with pricing and onboarding details.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" id="s-name" placeholder="Alex Johnson">
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="s-email" placeholder="alex@agency.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Company / Agency Name</label>
+          <input type="text" id="s-company" placeholder="Johnson Digital Agency">
+        </div>
+        <div class="form-group">
+          <label>How would you use this?</label>
+          <select id="s-role">
+            <option value="agency">Digital / Marketing Agency</option>
+            <option value="freelancer">Freelance Web Designer</option>
+            <option value="sales">Sales Team / SDR</option>
+            <option value="entrepreneur">Solo Entrepreneur</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>How many leads/mo would you target?</label>
+          <select id="s-volume">
+            <option value="under50">Under 50</option>
+            <option value="50to200">50–200</option>
+            <option value="200to500">200–500</option>
+            <option value="500plus">500+</option>
+          </select>
+        </div>
+        <button class="submit-btn" onclick="goStep2Saas()">Choose Email App →</button>
       </div>
 
       <!-- Step 2: Email client -->
@@ -997,11 +1036,18 @@
 <script>
   // ── Modal ──
   let modalSource = '';
+  let isSaasModal = false;
 
   function openModal(title) {
     modalSource = title;
-    document.getElementById('modal-title').textContent = title;
-    document.getElementById('step1').classList.add('active');
+    isSaasModal = (title === 'SaaS Waitlist');
+    document.getElementById('modal-title').textContent = isSaasModal ? 'Join the SaaS Waitlist' : title;
+    document.getElementById('modal-header-sub').textContent = isSaasModal
+      ? 'Early access — limited spots available'
+      : 'We\'ll build it before you commit to anything';
+
+    document.getElementById('step1').classList.toggle('active', !isSaasModal);
+    document.getElementById('step1-saas').classList.toggle('active', isSaasModal);
     document.getElementById('step2').classList.remove('active');
     document.getElementById('modal-overlay').classList.add('open');
   }
@@ -1022,7 +1068,43 @@
     document.getElementById('step2').classList.add('active');
   }
 
+  function goStep2Saas() {
+    const name    = document.getElementById('s-name').value.trim();
+    const email   = document.getElementById('s-email').value.trim();
+    const company = document.getElementById('s-company').value.trim();
+    if (!name || !email) { alert('Please enter your name and email.'); return; }
+    document.getElementById('step1-saas').classList.remove('active');
+    document.getElementById('step2').classList.add('active');
+  }
+
   function buildEmailContent(prefix) {
+    if (isSaasModal) {
+      const name    = document.getElementById('s-name').value.trim()    || 'there';
+      const email   = document.getElementById('s-email').value.trim()   || '';
+      const company = document.getElementById('s-company').value.trim() || 'my company';
+      const roleMap = { agency: 'a digital/marketing agency', freelancer: 'a freelance web designer', sales: 'a sales team / SDR', entrepreneur: 'a solo entrepreneur', other: 'other' };
+      const role    = roleMap[document.getElementById('s-role').value] ?? 'other';
+      const volMap  = { under50: 'under 50', '50to200': '50–200', '200to500': '200–500', '500plus': '500+' };
+      const volume  = volMap[document.getElementById('s-volume').value] ?? 'unsure';
+
+      const subject = `SaaS Waitlist — ${company}`;
+      const body = `Hi Zach,
+
+My name is ${name} and I'd like to join the waitlist for the DevSply SaaS lead generation platform.
+
+About me:
+- Name: ${name}
+- Email: ${email}
+- Company / Agency: ${company}
+- I work as: ${role}
+- Estimated leads/month I'd target: ${volume}
+
+Looking forward to early access!
+
+${name}`;
+      return { subject, body };
+    }
+
     const name     = (document.getElementById(prefix + '-name') ?? document.getElementById('m-name')).value.trim() || 'there';
     const biz      = (document.getElementById(prefix + '-biz')  ?? document.getElementById('m-biz')).value.trim()  || 'my business';
     const city     = (document.getElementById(prefix + '-city') ?? document.getElementById('m-city')).value.trim() || 'my city';
@@ -1057,8 +1139,7 @@ ${name}`;
   }
 
   function openEmail(client) {
-    const prefix = document.getElementById('step2').classList.contains('active') ? 'm' : 'c';
-    const { subject, body } = buildEmailContent(prefix);
+    const { subject, body } = buildEmailContent('m');
     const to = 'devsply@gmail.com';
     const s = encodeURIComponent(subject);
     const b = encodeURIComponent(body);
@@ -1079,7 +1160,7 @@ ${name}`;
     const biz  = document.getElementById('c-biz').value.trim();
     if (!name || !biz) { alert('Please enter your name and business name.'); return; }
 
-    // Populate modal fields from contact form
+    isSaasModal = false;
     document.getElementById('m-name').value     = name;
     document.getElementById('m-biz').value      = biz;
     document.getElementById('m-city').value     = document.getElementById('c-city').value;
@@ -1087,7 +1168,9 @@ ${name}`;
     document.getElementById('m-interest').value = document.getElementById('c-interest').value;
 
     document.getElementById('modal-title').textContent = 'Choose your email app';
+    document.getElementById('modal-header-sub').textContent = 'Your email is pre-written — just pick your app and send.';
     document.getElementById('step1').classList.remove('active');
+    document.getElementById('step1-saas').classList.remove('active');
     document.getElementById('step2').classList.add('active');
     document.getElementById('modal-overlay').classList.add('open');
   }
