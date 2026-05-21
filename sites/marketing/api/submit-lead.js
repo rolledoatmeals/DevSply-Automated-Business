@@ -153,18 +153,19 @@ export default async function handler(req, res) {
   const place_id   = `form_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
   const source_city = city || 'Tampa, FL';
 
-  // The leads table has no `source`/`notes` columns — store the contact person's
-  // name in `address` and fold their interest into `category` so the CRM can show it.
+  // Contact person's name is stored in `address` (the table has no contact_name column).
   const interestShort = { website:'website', ai_agent:'AI agent', both:'website + AI agent', explore:'exploring' }[interest] ?? 'website';
 
   const { error: dbErr } = await supabase.from('leads').upsert({
     place_id,
     business_name,
     city:            source_city,
-    category:        `${business_type ?? 'local business'} · wants ${interestShort}`,
+    category:        business_type ?? 'local business',
     phone:           phone ?? null,
     email:           email ?? null,
     address:         name,
+    source:          'website_form',
+    notes:           `Wants: ${interestShort}`,
     reviews:         0,
     rating:          null,
     outreach_status: 'new',
