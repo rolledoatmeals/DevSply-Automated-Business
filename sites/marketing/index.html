@@ -71,7 +71,7 @@
       --red:   #ef4444;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; background: #060c19; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
       background: var(--white);
@@ -528,7 +528,7 @@
 
     <div class="hero-copy">
       <div class="hero-tag">⚡ Tampa Bay Web Design</div>
-      <h1>Your customers<br>are Googling you.<br><span class="hl">Show up.</span></h1>
+      <h1 id="lcp-hero">Your customers<br>are Googling you.<br><span class="hl">Show up.</span></h1>
       <p class="hero-sub">I build fast, custom websites for Tampa Bay contractors and service businesses — live in 7 days, free preview before you pay a dollar.</p>
 
       <div class="terminal">
@@ -945,6 +945,7 @@
     btn.classList.add('sel');
     sfData[field] = value;
     document.getElementById('sf-n1').disabled = false;
+    setTimeout(() => sfGo(2), 280);
   }
 
   function sfCheck2() {
