@@ -1472,8 +1472,11 @@
 
         return `<tr ${rowAttr}>
           <td>
-            <strong style="font-size:0.875rem">${l.business_name ?? '—'}</strong>
-            ${l.category ? `<br><span style="font-size:0.72rem;color:var(--gray-400)">${l.category}</span>` : ''}
+            <div style="display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap">
+              <strong style="font-size:0.875rem">${l.business_name ?? '—'}</strong>
+              ${l.source === 'website_form' ? '<span style="font-size:0.62rem;font-weight:700;background:#d1fae5;color:#065f46;padding:0.1rem 0.45rem;border-radius:20px;white-space:nowrap">🌐 Website</span>' : ''}
+            </div>
+            ${l.category ? `<span style="font-size:0.72rem;color:var(--gray-400)">${l.category}</span>` : ''}
           </td>
           <td style="font-size:0.82rem;color:var(--gray-600)">${l.city ?? '—'}</td>
           <td>${via}</td>
