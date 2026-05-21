@@ -15,7 +15,7 @@ const TYPE_DESCRIPTIONS = {
 };
 
 // Weighted toward replies (worth 27x a like) and value — promo-style posts perform worst.
-const CYCLE = ['engagement', 'web_tip', 'hot_take', 'behind_scenes', 'stat', 'story', 'engagement', 'ai_agent', 'fun_fact', 'tampa_local'];
+const CYCLE = ['engagement', 'web_tip', 'poll', 'hot_take', 'behind_scenes', 'stat', 'story', 'engagement', 'ai_agent', 'fun_fact', 'tampa_local'];
 
 export function nextContentType(recentTypes = []) {
   for (const type of CYCLE) {
@@ -65,6 +65,36 @@ Return ONLY valid JSON (no markdown):
   } catch {
     return { tweet: raw, headline: 'DevSply', subtitle: 'Tampa Bay Web Design + AI Agents' };
   }
+}
+
+export async function generatePoll(recentPosts = []) {
+  const recentBlock = recentPosts.length
+    ? `Recent posts (avoid repeating these themes):\n${recentPosts.map(p => `- ${p}`).join('\n')}`
+    : '';
+
+  const prompt = `You write Twitter polls for Zach Shepelsky — runs DevSply, builds websites and AI tools for local businesses.
+
+Write a poll small business owners will want to vote on. Topic: how they run or market their business — websites, getting customers, online presence, AI. Pick something with no obvious "right" answer so people are genuinely split and want to vote.
+
+${recentBlock}
+
+Return ONLY valid JSON (no markdown):
+{
+  "tweet": "the poll question plus one short line of context. under 200 chars. casual, real, no hashtags.",
+  "options": ["2 to 4 options", "each UNDER 25 characters", "short and distinct"]
+}`;
+
+  const msg = await anthropic.messages.create({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 250,
+    messages: [{ role: 'user', content: prompt }],
+  });
+
+  const raw = msg.content[0].text.trim().replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```$/i, '').trim();
+  const data = JSON.parse(raw);
+  data.options = (data.options ?? []).slice(0, 4).map(o => String(o).slice(0, 25));
+  if (data.options.length < 2) throw new Error('poll needs at least 2 options');
+  return data;
 }
 
 export async function generateBeforeAfterCaption(businessName, city, category, reviews) {

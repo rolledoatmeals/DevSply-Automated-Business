@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import fs from 'fs';
 import { twitter } from './src/twitter/client.js';
-import { generatePost, nextContentType } from './src/twitter/content.js';
+import { generatePost, generatePoll, nextContentType } from './src/twitter/content.js';
 import { findNextPair, postBeforeAfter } from './src/twitter/beforeAfter.js';
 import { generateCard, cleanupCard } from './src/twitter/imageCard.js';
 import { autoFollow } from './src/twitter/autoFollow.js';
@@ -9,8 +9,25 @@ import { autoEngage } from './src/twitter/autoEngage.js';
 import { autoRetweet } from './src/twitter/autoRetweet.js';
 
 const LOG_FILE = './posts/.twitter-log.json';
-const POST_INTERVAL_HOURS = parseFloat(process.env.TWITTER_POST_INTERVAL_HOURS ?? '24');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// Post 3x/day at these Eastern-time hours — business hours, when owners are online.
+const POST_SLOTS_ET = [10, 13, 16];
+
+function msUntilNextSlot() {
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York', hour12: false, hour: '2-digit', minute: '2-digit',
+  }).formatToParts(new Date());
+  let h = 0, m = 0;
+  for (const p of parts) {
+    if (p.type === 'hour')   h = parseInt(p.value, 10) % 24;
+    if (p.type === 'minute') m = parseInt(p.value, 10);
+  }
+  const nowMin = h * 60 + m;
+  let targetMin = POST_SLOTS_ET.map(s => s * 60).find(sm => sm > nowMin);
+  if (targetMin == null) targetMin = POST_SLOTS_ET[0] * 60 + 1440; // tomorrow's first slot
+  return (targetMin - nowMin) * 60000;
+}
 
 function loadLog() {
   try {
@@ -59,32 +76,57 @@ async function postOnce() {
     }
   } else {
     postType = nextContentType(recentTypes);
-    console.log(`\n✍️   Generating ${postType} post...`);
 
-    let post;
-    try {
-      post = await generatePost(postType, recentTexts);
-    } catch (err) {
-      console.error('  ✗ Content generation failed:', err.message);
-      return;
-    }
+    if (postType === 'poll') {
+      console.log('\n📊  Generating poll...');
+      let poll;
+      try {
+        poll = await generatePoll(recentTexts);
+      } catch (err) {
+        console.error('  ✗ Poll generation failed:', err.message);
+        return;
+      }
+      tweetText = poll.tweet;
+      console.log(`\n  Poll:    "${tweetText}"`);
+      console.log(`  Options: ${poll.options.join('  |  ')}\n`);
+      try {
+        const result = await twitter.v2.tweet({
+          text: tweetText,
+          poll: { duration_minutes: 1440, options: poll.options },
+        });
+        tweetId = result.data.id;
+      } catch (err) {
+        console.error('  ✗ Poll tweet failed:', err.message);
+        return;
+      }
+    } else {
+      console.log(`\n✍️   Generating ${postType} post...`);
 
-    tweetText = post.tweet;
-    console.log(`\n  Tweet:    "${tweetText}"`);
-    console.log(`  Headline: "${post.headline}"`);
-    console.log(`  Subtitle: "${post.subtitle}"\n`);
+      let post;
+      try {
+        post = await generatePost(postType, recentTexts);
+      } catch (err) {
+        console.error('  ✗ Content generation failed:', err.message);
+        return;
+      }
 
-    let cardPath = null;
-    try {
-      cardPath = await generateCard(post.headline, post.subtitle);
-      const mediaId = await twitter.v1.uploadMedia(cardPath);
-      const result = await twitter.v2.tweet({ text: tweetText, media: { media_ids: [mediaId] } });
-      tweetId = result.data.id;
-    } catch (err) {
-      console.error('  ✗ Tweet failed:', err.message);
-      return;
-    } finally {
-      if (cardPath) cleanupCard(cardPath);
+      tweetText = post.tweet;
+      console.log(`\n  Tweet:    "${tweetText}"`);
+      console.log(`  Headline: "${post.headline}"`);
+      console.log(`  Subtitle: "${post.subtitle}"\n`);
+
+      let cardPath = null;
+      try {
+        cardPath = await generateCard(post.headline, post.subtitle);
+        const mediaId = await twitter.v1.uploadMedia(cardPath);
+        const result = await twitter.v2.tweet({ text: tweetText, media: { media_ids: [mediaId] } });
+        tweetId = result.data.id;
+      } catch (err) {
+        console.error('  ✗ Tweet failed:', err.message);
+        return;
+      } finally {
+        if (cardPath) cleanupCard(cardPath);
+      }
     }
   }
 
@@ -129,13 +171,14 @@ async function loop() {
 
   console.log('\n══════════════════════════════════════════');
   console.log('  DevSply Twitter Poster — Running');
-  console.log(`  Interval: every ${POST_INTERVAL_HOURS}h`);
+  console.log(`  Posting daily at ${POST_SLOTS_ET.map(h => h + ':00').join(', ')} ET`);
   console.log('  Press Ctrl+C to stop.\n');
 
-  // Wait BEFORE the first post so a restart/redeploy never fires an extra tweet.
+  // Wait for the next slot before posting — a restart/redeploy never fires an extra tweet.
   while (true) {
-    console.log(`\n⏳  Next post in ${POST_INTERVAL_HOURS}h`);
-    await sleep(POST_INTERVAL_HOURS * 60 * 60 * 1000);
+    const wait = msUntilNextSlot();
+    console.log(`\n⏳  Next post in ${(wait / 3600000).toFixed(1)}h`);
+    await sleep(wait);
     console.log(`\n[${new Date().toLocaleTimeString()}] Posting to Twitter...`);
     await postOnce();
   }
