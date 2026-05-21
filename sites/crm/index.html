@@ -498,7 +498,6 @@
     renderPlaybooks();
     loadOverview();
   }
-  if (AUTH_TOKEN) showApp();
 
   /* ── SIDEBAR ── */
   function openSidebar()  { document.getElementById('sidebar').classList.add('open'); document.getElementById('sb-overlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
@@ -835,6 +834,9 @@
 
   /* ── AUTO-REFRESH ── */
   setInterval(() => { if (AUTH_TOKEN && !document.hidden && (currentPage === 'overview' || currentPage === 'leads')) refresh(); }, 90000);
+
+  // Resume session — runs last so all playbook data and functions are initialized.
+  if (AUTH_TOKEN) showApp();
 </script>
 </body>
 </html>
