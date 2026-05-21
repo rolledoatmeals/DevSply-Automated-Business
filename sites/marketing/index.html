@@ -15,21 +15,33 @@
   <!-- Google Search Console — paste your token below when ready -->
   <!-- <meta name="google-site-verification" content="PASTE_TOKEN_HERE"> -->
 
-  <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LBTH5H5TRN"></script>
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://www.clarity.ms">
+
+  <!-- Google Analytics 4 — deferred to not block LCP -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-LBTH5H5TRN');
+    window.addEventListener('load', function() {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LBTH5H5TRN';
+      document.head.appendChild(s);
+    });
   </script>
 
-  <!-- Microsoft Clarity — replace PROJECT_ID at clarity.microsoft.com -->
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window,document,"clarity","script","PROJECT_ID");
+  <!-- Microsoft Clarity — deferred after page load -->
+  <script>
+    window.addEventListener('load', function() {
+      (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window,document,"clarity","script","PROJECT_ID");
+    });
   </script>
 
   <meta property="og:type" content="website">
@@ -214,14 +226,55 @@
     .hs-val { font-size: 1.55rem; font-weight: 900; color: #fff; letter-spacing: -1px; line-height: 1; }
     .hs-lbl { font-size: .7rem; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: .5px; margin-top: .2rem; }
 
-    /* ── FORM CARD ── */
+    /* ── SLIDE FORM ── */
     .form-card {
       background: #fff; border-radius: 16px; padding: 1.75rem;
       box-shadow: 0 28px 70px rgba(0,0,0,.4);
+      overflow: hidden;
     }
-    .fc-title { font-size: 1.05rem; font-weight: 800; color: var(--g900); margin-bottom: .2rem; }
-    .fc-sub { font-size: .81rem; color: var(--g500); margin-bottom: 1.2rem; line-height: 1.45; }
 
+    /* Progress bar */
+    .sf-bar { height: 3px; background: var(--g100); border-radius: 3px; margin-bottom: 1.25rem; }
+    .sf-fill { height: 100%; background: var(--amber); border-radius: 3px; transition: width .4s ease; width: 0%; }
+
+    .sf-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.1rem; }
+    .sf-title { font-size: 1rem; font-weight: 800; color: var(--g900); }
+    .sf-step { font-size: .72rem; color: var(--g400); font-weight: 600; }
+
+    /* Slide container */
+    .sf-slides { position: relative; overflow: hidden; }
+    .sf-slide {
+      display: none;
+      animation: slideIn .3s ease forwards;
+    }
+    .sf-slide.active { display: block; }
+    .sf-slide.exit { animation: slideOut .3s ease forwards; }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(40px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideOut {
+      from { opacity: 1; transform: translateX(0); }
+      to   { opacity: 0; transform: translateX(-40px); }
+    }
+
+    /* Step 1 — option buttons */
+    .sf-q { font-size: .95rem; font-weight: 700; color: var(--g900); margin-bottom: .25rem; }
+    .sf-hint { font-size: .78rem; color: var(--g400); margin-bottom: 1rem; }
+    .sf-opts { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1rem; }
+    .sf-opt {
+      display: flex; align-items: center; gap: .75rem;
+      padding: .75rem 1rem; border: 1.5px solid var(--g200); border-radius: 10px;
+      cursor: pointer; background: #fff; text-align: left; width: 100%;
+      font-family: inherit; font-size: .9rem; font-weight: 600; color: var(--g700);
+      transition: border-color .18s, background .18s, color .18s;
+    }
+    .sf-opt:hover { border-color: var(--amber); background: rgba(245,158,11,.04); }
+    .sf-opt.sel { border-color: var(--amber); background: rgba(245,158,11,.08); color: var(--navy); }
+    .sf-opt .oi { font-size: 1.15rem; flex-shrink: 0; }
+
+    /* Step 2/3 — inputs */
     .fg { margin-bottom: .7rem; }
     .fg label { display: block; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--g700); margin-bottom: .28rem; }
     .fg input, .fg select {
@@ -233,14 +286,21 @@
     .fg input:focus, .fg select:focus { border-color: var(--amber); box-shadow: 0 0 0 3px rgba(245,158,11,.12); }
     .fg-row { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
 
-    .f-btn {
+    /* Buttons */
+    .sf-next {
       width: 100%; background: var(--amber); color: var(--navy);
-      font-weight: 800; font-size: .98rem; padding: .87rem;
-      border: none; border-radius: 10px; cursor: pointer; margin-top: .6rem;
+      font-weight: 800; font-size: .97rem; padding: .87rem;
+      border: none; border-radius: 10px; cursor: pointer; margin-top: .5rem;
       transition: transform .15s, box-shadow .15s;
     }
-    .f-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,158,11,.35); }
-    .f-btn:disabled { opacity: .7; cursor: default; }
+    .sf-next:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(245,158,11,.35); }
+    .sf-next:disabled { opacity: .5; cursor: default; }
+    .sf-back {
+      background: none; border: none; color: var(--g400); font-size: .8rem;
+      cursor: pointer; margin-top: .5rem; display: block;
+      font-family: inherit; padding: .25rem 0;
+    }
+    .sf-back:hover { color: var(--g600); }
 
     .f-note {
       display: flex; align-items: center; justify-content: center; gap: .35rem;
@@ -505,53 +565,88 @@
       </div>
     </div>
 
-    <!-- FORM -->
+    <!-- SLIDE FORM -->
     <div id="contact">
       <div class="form-card" id="form-card">
-        <div id="form-fields">
-          <div class="fc-title">Get your free website preview</div>
-          <div class="fc-sub">I'll build a real preview for your business within 24 hours — no templates, no commitment.</div>
 
-          <div class="fg-row">
-            <div class="fg">
-              <label>Your Name *</label>
-              <input type="text" id="f-name" placeholder="John Smith" autocomplete="name">
-            </div>
-            <div class="fg">
-              <label>Business Name *</label>
-              <input type="text" id="f-biz" placeholder="Smith Plumbing" autocomplete="organization">
-            </div>
-          </div>
-          <div class="fg-row">
-            <div class="fg">
-              <label>Phone Number *</label>
-              <input type="tel" id="f-phone" placeholder="(813) 555-0100" autocomplete="tel">
-            </div>
-            <div class="fg">
-              <label>Business Type</label>
-              <select id="f-type">
-                <option value="">Select...</option>
-                <option>Plumber</option><option>Electrician</option><option>HVAC / AC</option>
-                <option>Roofer</option><option>General Contractor</option><option>Landscaper</option>
-                <option>Pest Control</option><option>Auto Repair</option><option>Cleaning Service</option>
-                <option>Handyman</option><option>Moving Company</option><option>Painter</option>
-                <option>Other</option>
-              </select>
-            </div>
-          </div>
-          <div class="fg">
-            <label>Email <span style="font-weight:400;color:var(--g400);text-transform:none;letter-spacing:0">(optional — we'll send your preview here)</span></label>
-            <input type="email" id="f-email" placeholder="john@smithplumbing.com" autocomplete="email">
-          </div>
-
-          <button class="f-btn" id="f-btn" onclick="submitForm()">Send Me My Free Preview →</button>
-          <div class="f-note"><span class="ck">✓</span> Free preview · No commitment · No spam</div>
+        <!-- Progress -->
+        <div class="sf-bar"><div class="sf-fill" id="sf-fill"></div></div>
+        <div class="sf-header">
+          <span class="sf-title" id="sf-title">What are you looking for?</span>
+          <span class="sf-step" id="sf-step">Step 1 of 3</span>
         </div>
 
-        <div class="fc-success" id="fc-success">
-          <div class="ic">✅</div>
-          <h3>You're all set!</h3>
-          <p>I'm building your free preview now. You'll hear from me within <strong>24 hours</strong> — check your phone.</p>
+        <div class="sf-slides" id="sf-slides">
+
+          <!-- STEP 1: Interest -->
+          <div class="sf-slide active" id="sf-s1">
+            <div class="sf-hint">Pick the one that fits best</div>
+            <div class="sf-opts">
+              <button class="sf-opt" onclick="sfSelect(this,'interest','website')" type="button"><span class="oi">🌐</span> A professional website</button>
+              <button class="sf-opt" onclick="sfSelect(this,'interest','ai_agent')" type="button"><span class="oi">🤖</span> A custom AI agent</button>
+              <button class="sf-opt" onclick="sfSelect(this,'interest','both')" type="button"><span class="oi">⚡</span> Website + AI agent</button>
+              <button class="sf-opt" onclick="sfSelect(this,'interest','explore')" type="button"><span class="oi">💬</span> Just exploring options</button>
+            </div>
+            <button class="sf-next" id="sf-n1" onclick="sfGo(2)" disabled>Continue →</button>
+          </div>
+
+          <!-- STEP 2: Business -->
+          <div class="sf-slide" id="sf-s2">
+            <div class="sf-hint">Tell me about your business</div>
+            <div class="fg-row">
+              <div class="fg">
+                <label>Business Name *</label>
+                <input type="text" id="f-biz" placeholder="Smith Plumbing" autocomplete="organization" oninput="sfCheck2()">
+              </div>
+              <div class="fg">
+                <label>Business Type *</label>
+                <select id="f-type" onchange="sfCheck2()">
+                  <option value="">Select...</option>
+                  <option>Plumber</option><option>Electrician</option><option>HVAC / AC</option>
+                  <option>Roofer</option><option>General Contractor</option><option>Landscaper</option>
+                  <option>Pest Control</option><option>Auto Repair</option><option>Cleaning Service</option>
+                  <option>Handyman</option><option>Moving Company</option><option>Painter</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="fg">
+              <label>City</label>
+              <input type="text" id="f-city" placeholder="Tampa, FL" autocomplete="address-level2">
+            </div>
+            <button class="sf-next" id="sf-n2" onclick="sfGo(3)" disabled>Continue →</button>
+            <button class="sf-back" onclick="sfGo(1)">← Back</button>
+          </div>
+
+          <!-- STEP 3: Contact -->
+          <div class="sf-slide" id="sf-s3">
+            <div class="sf-hint">Where do I send your preview?</div>
+            <div class="fg">
+              <label>Your Name *</label>
+              <input type="text" id="f-name" placeholder="John Smith" autocomplete="name" oninput="sfCheck3()">
+            </div>
+            <div class="fg">
+              <label>Phone Number *</label>
+              <input type="tel" id="f-phone" placeholder="(813) 555-0100" autocomplete="tel" oninput="sfCheck3()">
+            </div>
+            <div class="fg">
+              <label>Email <span style="font-weight:400;color:var(--g400);text-transform:none;letter-spacing:0">(optional)</span></label>
+              <input type="email" id="f-email" placeholder="john@smithplumbing.com" autocomplete="email">
+            </div>
+            <button class="sf-next" id="sf-n3" onclick="submitForm()" disabled>Send Me My Free Preview →</button>
+            <button class="sf-back" onclick="sfGo(2)">← Back</button>
+            <div class="f-note"><span class="ck">✓</span> Free preview · No commitment · No spam</div>
+          </div>
+
+          <!-- SUCCESS -->
+          <div class="sf-slide" id="sf-s4">
+            <div class="fc-success" style="display:block">
+              <div class="ic">✅</div>
+              <h3>You're all set!</h3>
+              <p>I'm building your free preview now. You'll hear from me within <strong>24 hours</strong> — check your phone.</p>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -828,8 +923,50 @@
 
   function scrollToForm() {
     document.getElementById('form-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(() => { const n = document.getElementById('f-name'); if (n) n.focus(); }, 600);
     trackEvent('cta_click');
+  }
+
+  /* ── SLIDE FORM ── */
+  const sfData = { interest: null };
+  let sfStep = 1;
+
+  const sfTitles = {
+    1: 'What are you looking for?',
+    2: 'Your business',
+    3: 'Where do I send your preview?',
+    4: "You're all set!",
+  };
+
+  function sfGo(step) {
+    document.getElementById(`sf-s${sfStep}`).classList.remove('active');
+    sfStep = step;
+    const slide = document.getElementById(`sf-s${step}`);
+    slide.classList.add('active');
+    const pct = step >= 4 ? 100 : Math.round(((step - 1) / 3) * 100);
+    document.getElementById('sf-fill').style.width = pct + '%';
+    document.getElementById('sf-title').textContent = sfTitles[step] ?? '';
+    document.getElementById('sf-step').textContent = step <= 3 ? `Step ${step} of 3` : '';
+    if (step <= 3) trackEvent('lead_form_step', { step });
+    if (step === 3) setTimeout(() => { const n = document.getElementById('f-name'); if (n) n.focus(); }, 100);
+  }
+
+  function sfSelect(btn, field, value) {
+    btn.closest('.sf-opts').querySelectorAll('.sf-opt').forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+    sfData[field] = value;
+    document.getElementById('sf-n1').disabled = false;
+  }
+
+  function sfCheck2() {
+    const biz  = document.getElementById('f-biz').value.trim();
+    const type = document.getElementById('f-type').value;
+    document.getElementById('sf-n2').disabled = !(biz && type);
+  }
+
+  function sfCheck3() {
+    const name  = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    document.getElementById('sf-n3').disabled = !(name && phone);
   }
 
   function toggleFaq(btn) {
@@ -840,11 +977,7 @@
   }
 
   async function submitForm() {
-    const name  = document.getElementById('f-name').value.trim();
-    const biz   = document.getElementById('f-biz').value.trim();
-    const phone = document.getElementById('f-phone').value.trim();
-    if (!name || !biz || !phone) { alert('Please fill in your name, business name, and phone number.'); return; }
-    const btn = document.getElementById('f-btn');
+    const btn = document.getElementById('sf-n3');
     btn.disabled = true; btn.textContent = 'Sending…';
     trackEvent('lead_form_submit');
     try {
@@ -852,18 +985,17 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name,
-          business_name: biz,
-          phone,
+          name:          document.getElementById('f-name').value.trim(),
+          business_name: document.getElementById('f-biz').value.trim(),
+          phone:         document.getElementById('f-phone').value.trim(),
           email:         document.getElementById('f-email').value.trim() || null,
           business_type: document.getElementById('f-type').value || null,
-          interest:      'website',
-          city:          'Tampa, FL',
+          city:          document.getElementById('f-city').value.trim() || 'Tampa, FL',
+          interest:      sfData.interest ?? 'website',
         }),
       });
     } catch {}
-    document.getElementById('form-fields').style.display = 'none';
-    document.getElementById('fc-success').style.display = 'block';
+    sfGo(4);
   }
 
   function trackEvent(name, params) {
