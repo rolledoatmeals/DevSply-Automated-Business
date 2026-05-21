@@ -5,3 +5,6 @@ landing-pages/
 .vercel-manifest.json
 *.log
 .DS_Store
+.vercel
+posts/temp/
+posts/.twitter-log.json

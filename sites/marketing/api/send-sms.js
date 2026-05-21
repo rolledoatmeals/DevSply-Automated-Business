@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     phone: digits,
     message,
     key: TEXTBELT_KEY,
-    replyWebhookUrl: 'https://app.devsply.com/api/sms-reply',
+    replyWebhookUrl: 'https://devsply.com/api/sms-reply',
   });
 
   if (!data.success) return res.status(500).json({ error: data.error ?? 'TextBelt error' });

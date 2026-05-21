@@ -17,13 +17,15 @@ export default async function handler(req, res) {
   const correct = process.env.DASHBOARD_PASSWORD ?? 'devsply2025';
   if (password !== correct) return res.status(401).json({ error: 'Unauthorized' });
 
-  const { place_id, status, notes, converted } = req.body ?? {};
+  const { place_id, status, notes, converted, landing_page_url, email } = req.body ?? {};
   if (!place_id) return res.status(400).json({ error: 'Missing place_id' });
 
   const updates = {};
-  if (status !== undefined)    updates.outreach_status = status;
-  if (notes !== undefined)     updates.notes = notes;
-  if (converted !== undefined) updates.converted = converted;
+  if (status !== undefined)           updates.outreach_status = status;
+  if (notes !== undefined)            updates.notes = notes;
+  if (converted !== undefined)        updates.converted = converted;
+  if (landing_page_url !== undefined) updates.landing_page_url = landing_page_url;
+  if (email !== undefined)            updates.email = email;
 
   if (!Object.keys(updates).length) return res.status(400).json({ error: 'Nothing to update' });
 

@@ -8,7 +8,8 @@
     "start": "node scheduler.js",
     "pipeline": "node src/pipeline.js",
     "schedule": "node scheduler.js",
-    "setup-campaign": "node src/outreach/setup.js"
+    "setup-campaign": "node src/outreach/setup.js",
+    "twitter": "node twitter-poster.js"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.55.0",
@@ -20,6 +21,8 @@
     "express": "^5.1.0",
     "node-cron": "^3.0.3",
     "nodemailer": "^8.0.7",
-    "twilio": "^6.0.2"
+    "sharp": "^0.34.5",
+    "twilio": "^6.0.2",
+    "twitter-api-v2": "^1.29.0"
   }
 }

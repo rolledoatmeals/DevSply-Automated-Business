@@ -3,7 +3,6 @@ import { scrapeLeads } from './scraper/googlePlaces.js';
 import { findEmail } from './scraper/emailFinder.js';
 import { createLandingPage } from './generator/landingPage.js';
 import { sendOutreach, nextFollowUpDate } from './outreach/gmail.js';
-import { sendSMSOutreach } from './outreach/sms.js';
 import { placeCallOutreach } from './outreach/call.js';
 import {
   saveLead,
@@ -170,10 +169,7 @@ export async function runCity(city) {
       // Place calls (async — outcomes come back via webhook to CRM)
       const callsPlaced = await placeCallOutreach(needPhone);
 
-      // Also text them — higher combined response rate
-      textsSent = await sendSMSOutreach(needPhone);
-
-      const contacted = Math.max(callsPlaced, textsSent);
+      const contacted = callsPlaced;
       for (const lead of needPhone.slice(0, contacted)) {
         await updateLead(lead.place_id, {
           outreach_status: 'sent',
@@ -185,7 +181,6 @@ export async function runCity(city) {
       }
 
       if (callsPlaced > 0) console.log(`\n  📞 ${callsPlaced} call${callsPlaced !== 1 ? 's' : ''} placed.`);
-      if (textsSent > 0)   console.log(`  📱 ${textsSent} text${textsSent !== 1 ? 's' : ''} sent.`);
     }
 
     // ── Done ────────────────────────────────────────────────────
