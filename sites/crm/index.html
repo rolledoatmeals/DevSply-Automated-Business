@@ -261,6 +261,7 @@
     .btn-blue  { background: var(--blue); color: #fff; border-color: var(--blue); flex: 1; min-width: 130px; }
     .btn-green { background: rgba(16,185,129,.1); color: #059669; border-color: rgba(16,185,129,.35); }
     .btn-gray  { background: var(--g100); color: var(--g600); border-color: var(--g200); }
+    .btn-red   { background: rgba(239,68,68,.1); color: #dc2626; border-color: rgba(239,68,68,.35); margin-left: auto; }
     .drawer-msg { font-size: .8rem; padding: 0 1.25rem; min-height: 0; }
     .drawer-msg.show { padding: .5rem 1.25rem 0; }
 
@@ -464,6 +465,7 @@
     <button class="btn btn-blue" id="d-send" onclick="sendEmail()">✉ Send Email</button>
     <button class="btn btn-green" onclick="setStatus('converted')">💰 Won</button>
     <button class="btn btn-gray" onclick="setStatus('lost')">Lost</button>
+    <button class="btn btn-red" onclick="deleteLead()">🗑 Delete</button>
   </div>
 </div>
 
@@ -734,6 +736,14 @@
     }) });
     if (r?.ok) { closeDrawer(); refresh(); }
     else showMsg('Error: ' + (r?.error ?? 'failed'));
+  }
+
+  async function deleteLead() {
+    if (!activeLead) return;
+    if (!confirm(`Delete "${activeLead.business_name}"? This permanently removes the lead and can't be undone.`)) return;
+    const r = await api('/api/delete-lead', { method: 'DELETE', body: JSON.stringify({ place_id: activeLead.place_id }) });
+    if (r?.ok) { closeDrawer(); refresh(); }
+    else showMsg('Error: ' + (r?.error ?? 'failed to delete'));
   }
 
   /* ── PLAYBOOKS (static content) ── */
