@@ -144,7 +144,7 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { name, business_name, city, business_type, interest, phone, email } = req.body ?? {};
+  const { name, business_name, city, business_type, interest, phone, email, website } = req.body ?? {};
 
   if (!name || !business_name) {
     return res.status(400).json({ error: 'name and business_name are required' });
@@ -163,6 +163,7 @@ export default async function handler(req, res) {
     category:        business_type ?? 'local business',
     phone:           phone ?? null,
     email:           email ?? null,
+    website:         website ?? null,
     address:         name,
     source:          'website_form',
     notes:           `Wants: ${interestShort}`,

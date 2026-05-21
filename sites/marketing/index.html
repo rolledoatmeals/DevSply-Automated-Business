@@ -563,7 +563,7 @@
         <div class="sf-bar"><div class="sf-fill" id="sf-fill"></div></div>
         <div class="sf-header">
           <span class="sf-title" id="sf-title">What are you looking for?</span>
-          <span class="sf-step" id="sf-step">Step 1 of 5</span>
+          <span class="sf-step" id="sf-step">Step 1 of 6</span>
         </div>
 
         <div class="sf-slides" id="sf-slides">
@@ -618,28 +618,39 @@
             <button class="sf-back" onclick="sfGo(3)">← Back</button>
           </div>
 
-          <!-- STEP 5: Contact -->
+          <!-- STEP 5: Current website -->
           <div class="sf-slide" id="sf-s5">
+            <div class="sf-hint">Do you have a website right now?</div>
+            <div class="fg">
+              <label>Current Website <span style="font-weight:400;color:var(--g400);text-transform:none;letter-spacing:0">(leave blank if you don't have one)</span></label>
+              <input type="text" id="f-website" placeholder="yourbusiness.com" autocomplete="url" onkeydown="sfEnter(event,'sf-n5')">
+            </div>
+            <button class="sf-next" id="sf-n5" onclick="sfGo(6)">Continue →</button>
+            <button class="sf-back" onclick="sfGo(4)">← Back</button>
+          </div>
+
+          <!-- STEP 6: Contact -->
+          <div class="sf-slide" id="sf-s6">
             <div class="sf-hint">Where do I send your preview?</div>
             <div class="fg">
               <label>Your Name *</label>
-              <input type="text" id="f-name" placeholder="John Smith" autocomplete="name" oninput="sfCheck5()">
+              <input type="text" id="f-name" placeholder="John Smith" autocomplete="name" oninput="sfCheck6()">
             </div>
             <div class="fg">
               <label>Phone Number *</label>
-              <input type="tel" id="f-phone" placeholder="(813) 555-0100" autocomplete="tel" oninput="sfCheck5()">
+              <input type="tel" id="f-phone" placeholder="(813) 555-0100" autocomplete="tel" oninput="sfCheck6()">
             </div>
             <div class="fg">
               <label>Email <span style="font-weight:400;color:var(--g400);text-transform:none;letter-spacing:0">(optional)</span></label>
               <input type="email" id="f-email" placeholder="john@smithplumbing.com" autocomplete="email">
             </div>
-            <button class="sf-next" id="sf-n5" onclick="submitForm()" disabled>Send Me My Free Preview →</button>
-            <button class="sf-back" onclick="sfGo(4)">← Back</button>
+            <button class="sf-next" id="sf-n6" onclick="submitForm()" disabled>Send Me My Free Preview →</button>
+            <button class="sf-back" onclick="sfGo(5)">← Back</button>
             <div class="f-note"><span class="ck">✓</span> Free preview · No commitment · No spam</div>
           </div>
 
           <!-- SUCCESS -->
-          <div class="sf-slide" id="sf-s6">
+          <div class="sf-slide" id="sf-s7">
             <div class="fc-success" style="display:block">
               <div class="ic">✅</div>
               <h3>You're all set!</h3>
@@ -929,15 +940,16 @@
   /* ── SLIDE FORM ── */
   const sfData = { interest: null };
   let sfStep = 1;
-  const SF_TOTAL = 5;
+  const SF_TOTAL = 6;
 
   const sfTitles = {
     1: 'What are you looking for?',
     2: 'Your business name',
     3: 'Your business type',
     4: 'Your location',
-    5: 'Where do I send your preview?',
-    6: "You're all set!",
+    5: 'Your current website',
+    6: 'Where do I send your preview?',
+    7: "You're all set!",
   };
 
   function sfGo(step) {
@@ -949,7 +961,7 @@
     document.getElementById('sf-title').textContent = sfTitles[step] ?? '';
     document.getElementById('sf-step').textContent = step <= SF_TOTAL ? `Step ${step} of ${SF_TOTAL}` : '';
     if (step <= SF_TOTAL) trackEvent('lead_form_step', { step });
-    const focusId = { 2: 'f-biz', 4: 'f-city', 5: 'f-name' }[step];
+    const focusId = { 2: 'f-biz', 4: 'f-city', 5: 'f-website', 6: 'f-name' }[step];
     if (focusId) setTimeout(() => document.getElementById(focusId)?.focus(), 320);
   }
 
@@ -968,10 +980,10 @@
     if (document.getElementById('f-type').value) setTimeout(() => sfGo(4), 220);
   }
 
-  function sfCheck5() {
+  function sfCheck6() {
     const name  = document.getElementById('f-name').value.trim();
     const phone = document.getElementById('f-phone').value.trim();
-    document.getElementById('sf-n5').disabled = !(name && phone);
+    document.getElementById('sf-n6').disabled = !(name && phone);
   }
 
   function sfEnter(e, btnId) {
@@ -989,7 +1001,7 @@
   }
 
   async function submitForm() {
-    const btn = document.getElementById('sf-n5');
+    const btn = document.getElementById('sf-n6');
     btn.disabled = true; btn.textContent = 'Sending…';
     trackEvent('lead_form_submit');
     try {
@@ -1003,11 +1015,12 @@
           email:         document.getElementById('f-email').value.trim() || null,
           business_type: document.getElementById('f-type').value || null,
           city:          document.getElementById('f-city').value.trim() || 'Tampa, FL',
+          website:       document.getElementById('f-website').value.trim() || null,
           interest:      sfData.interest ?? 'website',
         }),
       });
     } catch {}
-    sfGo(6);
+    sfGo(7);
   }
 
   function trackEvent(name, params) {

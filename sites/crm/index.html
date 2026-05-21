@@ -441,6 +441,7 @@
     <div class="dl-row"><span class="dl-k">Phone</span><span class="dl-v" id="d-phone">—</span></div>
     <div class="dl-row"><span class="dl-k">City</span><span class="dl-v" id="d-city">—</span></div>
     <div class="dl-row"><span class="dl-k">Type</span><span class="dl-v" id="d-type">—</span></div>
+    <div class="dl-row"><span class="dl-k">Website</span><span class="dl-v" id="d-website">—</span></div>
     <div class="dl-row"><span class="dl-k">Wants</span><span class="dl-v" id="d-wants">—</span></div>
     <div class="dl-row"><span class="dl-k">Came in</span><span class="dl-v" id="d-date">—</span></div>
 
@@ -667,6 +668,10 @@
     document.getElementById('d-phone').innerHTML = l.phone ? `<a href="tel:${escHtml(l.phone)}">${escHtml(l.phone)}</a>` : '<span style="color:var(--g400)">none given</span>';
     document.getElementById('d-city').textContent = l.city || '—';
     document.getElementById('d-type').textContent = l.category || '—';
+    const wsite = (l.website || '').trim();
+    document.getElementById('d-website').innerHTML = wsite
+      ? `<a href="${/^https?:\/\//i.test(wsite) ? wsite : 'https://' + wsite}" target="_blank" rel="noopener">${escHtml(wsite)}</a>`
+      : '<span style="color:var(--g400)">none — needs one</span>';
     document.getElementById('d-wants').textContent = (l.notes || '').replace(/^Wants:\s*/i, '') || '—';
     document.getElementById('d-date').textContent = l.created_at ? new Date(l.created_at).toLocaleString([], { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' }) : '—';
 
