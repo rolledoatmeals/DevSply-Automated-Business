@@ -1,24 +1,31 @@
 import axios from 'axios';
 
-const API_KEY = process.env.GOOGLE_PLACES_API_KEY;
-const MAX_LEADS = parseInt(process.env.MAX_LEADS_PER_CITY ?? '60', 10);
+const API_KEY   = process.env.GOOGLE_PLACES_API_KEY;
+const MAX_LEADS = parseInt(process.env.MAX_LEADS_PER_CITY ?? '25', 10);
 
+// Minimum Google reviews a business must have to be worth contacting.
+// Too few = might be fake/dead. Too many = already established, won't pay $500.
+const MIN_REVIEWS = parseInt(process.env.MIN_REVIEWS ?? '3', 10);
+const MAX_REVIEWS = parseInt(process.env.MAX_REVIEWS ?? '150', 10);
+
+// Minimum rating — don't chase dying businesses
+const MIN_RATING = parseFloat(process.env.MIN_RATING ?? '3.5');
+
+// Ordered by cold-outreach conversion rate for web design in Tampa Bay:
+// Trades that rely heavily on phone calls from Google rank first.
 const CATEGORIES = [
-  'plumber',
-  'electrician',
-  'HVAC contractor',
-  'roofing contractor',
-  'general contractor',
-  'landscaping company',
-  'pest control',
-  'auto repair shop',
-  'locksmith',
-  'painting contractor',
-  'cleaning service',
-  'handyman',
-  'moving company',
-  'garage door repair',
-  'fence contractor',
+  'plumber',              // #1 — urgent need, Google is how they're found
+  'electrician',          // #2 — licensed, credibility matters
+  'HVAC contractor',      // #3 — Florida essential, hot summers
+  'roofing contractor',   // #4 — post-storm surge, high ticket
+  'pest control',         // #5 — Florida staple, high search volume
+  'landscaping company',  // #6 — recurring, losing word-of-mouth to search
+  'painting contractor',  // #7 — visual trade, benefits most from gallery page
+  'cleaning service',     // #8 — very active owners, strong conversion
+  'auto repair shop',     // #9 — local mechanics need to stand out
+  'handyman',             // #10 — broad services, phone call is how they book
+  'fence contractor',     // #11 — high-ticket, infrequent referrals
+  'moving company',       // #12 — seasonal spikes, need visibility
 ];
 
 const FIELD_MASK = [
@@ -89,11 +96,24 @@ export async function scrapeLeads(city, maxLeads = MAX_LEADS) {
         if (seen.has(placeId)) continue;
         seen.add(placeId);
 
-        // Skip if they already have a website
+        // Must not already have a website
         if (place.websiteUri) continue;
 
+        // Must have a phone number (we can actually reach them)
         const phone = place.nationalPhoneNumber ?? null;
         if (!phone) continue;
+
+        const reviews = place.userRatingCount ?? 0;
+        const rating  = place.rating ?? 0;
+
+        // Must be an active, established business (not brand-new or inactive)
+        if (reviews < MIN_REVIEWS) continue;
+
+        // Skip very large businesses — they already have marketing budgets and staff
+        if (reviews > MAX_REVIEWS) continue;
+
+        // Skip low-rated businesses — hard to convert, risky portfolio
+        if (rating > 0 && rating < MIN_RATING) continue;
 
         leads.push({
           place_id: placeId,
@@ -102,8 +122,8 @@ export async function scrapeLeads(city, maxLeads = MAX_LEADS) {
           city,
           phone,
           address: place.formattedAddress ?? null,
-          rating: place.rating ?? null,
-          reviews: place.userRatingCount ?? 0,
+          rating,
+          reviews,
           email: null,
           outreach_status: 'pending',
           contacted: false,
