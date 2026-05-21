@@ -6,7 +6,8 @@ const API_KEY        = process.env.TELNYX_API_KEY;
 const FROM           = process.env.TELNYX_PHONE_NUMBER;
 const CONNECTION_ID  = process.env.TELNYX_CONNECTION_ID;
 const SENDER         = process.env.SENDER_NAME ?? 'Zach';
-const DAILY_LIMIT    = parseInt(process.env.DAILY_CALL_LIMIT ?? '20', 10);
+const DAILY_LIMIT    = parseInt(process.env.DAILY_CALL_LIMIT ?? '10', 10);
+const CALL_GAP_MS    = parseInt(process.env.CALL_GAP_SECONDS ?? '300', 10) * 1000; // 5 min between calls
 
 function buildScript(lead) {
   const reviews = lead.reviews > 0
@@ -50,7 +51,7 @@ export async function placeCallOutreach(leads) {
           connection_id: CONNECTION_ID,
           to,
           from: FROM,
-          webhook_url: 'https://app.devsply.com/api/call-webhook',
+          webhook_url: 'https://devsply.com/api/call-webhook',
           client_state: clientState,
         },
         { headers: { Authorization: `Bearer ${API_KEY}`, 'Content-Type': 'application/json' } }
@@ -68,7 +69,7 @@ export async function placeCallOutreach(leads) {
       console.error(`    ✗ Call failed: ${err.response?.data?.errors?.[0]?.detail ?? err.message}`);
     }
 
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, CALL_GAP_MS));
   }
 
   return placed;
