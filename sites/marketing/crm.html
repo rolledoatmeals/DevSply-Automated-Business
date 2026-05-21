@@ -1177,52 +1177,14 @@
             <p>Ready-to-copy posts for Tampa Bay Facebook groups — manual posting, max engagement</p>
           </div>
 
-          <!-- Groups to join -->
+          <!-- Groups to join — rotates daily -->
           <div class="groups-card">
-            <h3>📍 Tampa Bay Facebook Groups to Join</h3>
-            <div class="group-list">
-              <div class="group-item">
-                <span class="group-icon">💼</span>
-                <div>
-                  <div class="group-name">Tampa Bay Small Business Network</div>
-                  <div class="group-desc">15k+ members · post tips, transformations, questions</div>
-                </div>
-              </div>
-              <div class="group-item">
-                <span class="group-icon">🚀</span>
-                <div>
-                  <div class="group-name">Tampa Bay Entrepreneurs &amp; Business Owners</div>
-                  <div class="group-desc">Engaged owner community · great for before/afters &amp; value posts</div>
-                </div>
-              </div>
-              <div class="group-item">
-                <span class="group-icon">🏙️</span>
-                <div>
-                  <div class="group-name">I Love Tampa Bay</div>
-                  <div class="group-desc">Local pride group · good for local spotlights &amp; shoutouts</div>
-                </div>
-              </div>
-              <div class="group-item">
-                <span class="group-icon">🤝</span>
-                <div>
-                  <div class="group-name">Support Local Tampa Bay Businesses</div>
-                  <div class="group-desc">Community-focused · value posts, transformations, no hard selling</div>
-                </div>
-              </div>
-              <div class="group-item">
-                <span class="group-icon">🔧</span>
-                <div>
-                  <div class="group-name">Tampa Bay Contractors &amp; Trades</div>
-                  <div class="group-desc">Direct niche · your target customer is here</div>
-                </div>
-              </div>
-              <div class="group-item">
-                <span class="group-icon">📊</span>
-                <div>
-                  <div class="group-name">St. Pete / Clearwater Business Owners</div>
-                  <div class="group-desc">Pinellas side of the bay · same audience, less competition</div>
-                </div>
-              </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.5rem">
+              <h3 style="margin:0">📍 Today's Groups to Post In</h3>
+              <span id="groups-date-tag" style="font-size:0.72rem;color:var(--gray-400);background:var(--gray-100);padding:0.2rem 0.65rem;border-radius:20px"></span>
+            </div>
+            <div class="group-list" id="groups-list">
+              <!-- filled by JS -->
             </div>
           </div>
 
@@ -1831,6 +1793,70 @@
   }
 
   // ── POSTS PAGE ──
+
+  const ALL_GROUPS = [
+    // ── Tampa Bay core ──
+    { icon: '💼', name: 'Tampa Bay Small Business Network', desc: '15k+ members · tips, transformations, questions work great here' },
+    { icon: '🚀', name: 'Tampa Bay Entrepreneurs & Business Owners', desc: 'Engaged owner community · before/afters perform well' },
+    { icon: '🏙️', name: 'I Love Tampa Bay', desc: 'Local pride group · spotlights and community posts shine here' },
+    { icon: '🤝', name: 'Support Local Tampa Bay Businesses', desc: 'Community-focused · value posts only, no hard pitching' },
+    { icon: '🔧', name: 'Tampa Bay Contractors & Trades', desc: 'Your exact target customer · keep it helpful, not salesy' },
+    { icon: '📊', name: 'St. Pete / Clearwater Business Owners', desc: 'Pinellas side · less saturated, same buyer profile' },
+    { icon: '🌴', name: 'Brandon & Riverview Business Owners', desc: 'Fast-growing suburb · high concentration of tradespeople' },
+    { icon: '🏗️', name: 'Wesley Chapel Business & Community', desc: 'Pasco County boom town · lots of new small businesses' },
+    { icon: '🐊', name: 'Lakeland & Polk County Business Network', desc: 'Adjacent market · easy expansion target outside Tampa' },
+    { icon: '⭐', name: 'Sarasota Business Owners & Entrepreneurs', desc: 'Affluent market · higher avg project budgets' },
+    { icon: '🔑', name: 'New Port Richey & Holiday Business Network', desc: 'North Pinellas / Pasco · underserved, less competition' },
+    { icon: '🌊', name: 'Clearwater Beach Businesses & Entrepreneurs', desc: 'Tourism + local mix · seasonal patterns, great for spotlights' },
+
+    // ── Niche trade groups ──
+    { icon: '💧', name: 'Florida Plumbers & HVAC Pros', desc: 'Trade-specific · build credibility, not a hard pitch' },
+    { icon: '🌿', name: 'Florida Landscapers & Lawn Care Pros', desc: 'Landscaping niche · before/after site transformations land well' },
+    { icon: '🏠', name: 'Florida Roofing Contractors', desc: 'Roofers · post about getting leads online, they always respond' },
+    { icon: '🚗', name: 'Florida Auto Repair Shop Owners', desc: 'Auto shops rarely have good websites · easy pitch environment' },
+    { icon: '🧹', name: 'Florida Cleaning Business Owners', desc: 'Cleaning service owners · very active, love business tips' },
+    { icon: '🐛', name: 'Florida Pest Control Operators', desc: 'Licensed operators · seasonal lead spikes make website ROI obvious' },
+
+    // ── Broader Florida ──
+    { icon: '☀️', name: 'Florida Small Business Owners', desc: 'Statewide group · wide reach, good for stat/tip posts' },
+    { icon: '🦅', name: 'Florida Entrepreneurs Network', desc: 'Growth-mindset crowd · AI agent posts resonate here' },
+    { icon: '💰', name: 'Florida Business & Marketing Tips', desc: 'Marketing-focused · tips and hot takes do best' },
+    { icon: '📱', name: 'Florida Digital Marketing & SEO', desc: 'Marketing pros & biz owners · good for SEO/AEO tips' },
+    { icon: '🤖', name: 'AI Tools for Small Business (National)', desc: 'National group · AI agent posts, automation tips, no location needed' },
+    { icon: '💡', name: 'Small Business Marketing Ideas (National)', desc: 'Giant national group · broad value tips, no Tampa flavor needed' },
+    { icon: '🏆', name: 'Website Design & Development for Small Biz', desc: 'National · before/afters and transformation stories do very well' },
+    { icon: '🔑', name: 'Local SEO & Google Business Profile Help', desc: 'Business owners looking for exactly what you sell · very hot leads' },
+  ];
+
+  function getDailyGroups() {
+    // Seed from today's date so it changes every day but stays consistent all day
+    const today = new Date();
+    const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+    const shuffled = seededShuffle(ALL_GROUPS, seed);
+    return shuffled.slice(0, 4);
+  }
+
+  function renderGroups() {
+    const list = document.getElementById('groups-list');
+    const tag  = document.getElementById('groups-date-tag');
+    const groups = getDailyGroups();
+
+    const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const now = new Date();
+    tag.textContent = `${days[now.getDay()]} ${months[now.getMonth()]} ${now.getDate()}`;
+
+    list.innerHTML = groups.map(g => `
+      <div class="group-item">
+        <span class="group-icon">${g.icon}</span>
+        <div>
+          <div class="group-name">${g.name}</div>
+          <div class="group-desc">${g.desc}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
   const FACEBOOK_POSTS = [
     {
       type: 'Value Tip',
@@ -1904,6 +1930,7 @@
   }
 
   function renderPosts() {
+    renderGroups();
     const grid = document.getElementById('posts-grid');
     const shuffled = seededShuffle(FACEBOOK_POSTS, postSeed);
 
