@@ -19,8 +19,6 @@
   <!-- Preconnect for performance -->
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="dns-prefetch" href="https://www.googletagmanager.com">
-  <link rel="preconnect" href="https://www.clarity.ms">
-
   <!-- Google Analytics 4 — deferred to not block LCP -->
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -32,16 +30,6 @@
       s.async = true;
       s.src = 'https://www.googletagmanager.com/gtag/js?id=G-LBTH5H5TRN';
       document.head.appendChild(s);
-    });
-  </script>
-
-  <!-- Microsoft Clarity — deferred after page load -->
-  <script>
-    window.addEventListener('load', function() {
-      (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window,document,"clarity","script","PROJECT_ID");
     });
   </script>
 
@@ -333,7 +321,7 @@
     .stag {
       display: inline-block; font-size: .67rem; font-weight: 800;
       letter-spacing: 2px; text-transform: uppercase;
-      color: var(--amber); background: rgba(245,158,11,.08);
+      color: #a16207; background: rgba(245,158,11,.08);
       border: 1px solid rgba(245,158,11,.2);
       padding: .23rem .7rem; border-radius: 100px; margin-bottom: .85rem;
     }
@@ -477,12 +465,12 @@
     .ft { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,.06); margin-bottom: 1.5rem; }
     .ft-logo { font-size: 1.1rem; color: #fff; text-decoration: none; font-weight: 900; letter-spacing: -.5px; }
     .ft-logo span { color: var(--amber); }
-    .ft-tag { font-size: .8rem; color: rgba(255,255,255,.28); margin-top: .3rem; }
+    .ft-tag { font-size: .8rem; color: rgba(255,255,255,.55); margin-top: .3rem; }
     .ft-links { display: flex; gap: 1.75rem; flex-wrap: wrap; }
-    .ft-links a { color: rgba(255,255,255,.32); text-decoration: none; font-size: .82rem; transition: color .2s; }
-    .ft-links a:hover { color: rgba(255,255,255,.65); }
+    .ft-links a { color: rgba(255,255,255,.55); text-decoration: none; font-size: .82rem; transition: color .2s; }
+    .ft-links a:hover { color: rgba(255,255,255,.8); }
     .fb { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; }
-    .fb span { font-size: .74rem; color: rgba(255,255,255,.18); }
+    .fb span { font-size: .74rem; color: rgba(255,255,255,.5); }
 
     /* ── STICKY MOBILE ── */
     .sticky { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; background: var(--amber); padding: 13px 1rem; }
