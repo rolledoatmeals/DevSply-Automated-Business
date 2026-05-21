@@ -132,11 +132,12 @@ async function loop() {
   console.log(`  Interval: every ${POST_INTERVAL_HOURS}h`);
   console.log('  Press Ctrl+C to stop.\n');
 
+  // Wait BEFORE the first post so a restart/redeploy never fires an extra tweet.
   while (true) {
-    console.log(`\n[${new Date().toLocaleTimeString()}] Posting to Twitter...`);
-    await postOnce();
     console.log(`\n⏳  Next post in ${POST_INTERVAL_HOURS}h`);
     await sleep(POST_INTERVAL_HOURS * 60 * 60 * 1000);
+    console.log(`\n[${new Date().toLocaleTimeString()}] Posting to Twitter...`);
+    await postOnce();
   }
 }
 
