@@ -1,0 +1,5 @@
+# Railway/Nixpacks build config.
+# fontconfig + Liberation fonts are required so sharp can render the SVG text
+# on the Twitter image cards (Liberation Sans substitutes Arial).
+[phases.setup]
+aptPkgs = ['fontconfig', 'fonts-liberation']
