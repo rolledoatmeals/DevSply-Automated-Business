@@ -7,13 +7,15 @@ const TYPE_DESCRIPTIONS = {
   stat:        'Share a surprising stat about small businesses, websites, or local search. Make it visceral — tie it to lost money or missed customers. Keep it broad and relatable to any business owner.',
   ai_agent:    'Explain one concrete, specific thing an AI agent can do for a small business (auto-qualify leads, book appointments, answer after-hours questions, follow up automatically). Be specific, not vague. Broad audience.',
   tampa_local: 'One post out of eight — make this one Tampa Bay specific. Reference the Tampa Bay area naturally, not forced. Could be a local shoutout, a local stat, or calling out Florida small businesses.',
-  engagement:  'Ask a pointed question aimed at small business owners that makes them want to reply. About how they get customers, what stops them from getting a website, or what they think about AI. Conversational, no location.',
+  engagement:  'Ask a pointed question aimed at small business owners that makes them want to reply. About how they get customers, what stops them from getting a website, or what they think about AI. Conversational, no location. Replies are the #1 growth signal — make the question genuinely easy and tempting to answer.',
   story:       'Share a short transformation result. 1-2 sentences, real-feeling, specific numbers. Keep it broad — no specific city needed. Example: "Built a site for a local plumber last week. 4 new calls in 7 days from Google. He\'d been word-of-mouth only for 9 years."',
   fun_fact:    'Share a genuinely surprising or little-known fact about websites, the internet, SEO, or tech. Make it feel like trivia someone would want to share. Examples: "The first website ever made is still live today." or "A 1-second delay in page load cuts conversions by 7%." Keep it light and interesting.',
   hot_take:    'Post a bold, slightly controversial opinion about websites, AI, automation, or digital marketing that will make people want to agree OR argue. Examples: "Your logo doesn\'t matter. Your load speed does." or "Social media followers are worthless if you don\'t own a website. You\'re building on rented land." or "Most $5,000 websites are a scam." Be direct and confident — not rude, just opinionated.',
+  behind_scenes: 'A build-in-public update — what you actually worked on, a problem you solved, your process, a small win or frustration from building sites/AI tools today. Real and human. Behind-the-scenes posts get ~4x the engagement of promo posts because they make people feel they know the person.',
 };
 
-const CYCLE = ['web_tip', 'hot_take', 'stat', 'fun_fact', 'ai_agent', 'engagement', 'story', 'tampa_local'];
+// Weighted toward replies (worth 27x a like) and value — promo-style posts perform worst.
+const CYCLE = ['engagement', 'web_tip', 'hot_take', 'behind_scenes', 'stat', 'story', 'engagement', 'ai_agent', 'fun_fact', 'tampa_local'];
 
 export function nextContentType(recentTypes = []) {
   for (const type of CYCLE) {
@@ -41,6 +43,8 @@ Post type: ${type}
 Task: ${TYPE_DESCRIPTIONS[type]}
 
 ${recentBlock}
+
+Engagement note: on X, a reply is worth ~27x a like — replies are what grow the account. Where it feels natural (tips, takes, stats), end with a short genuine question that invites people to reply. Never force it.
 
 Return ONLY valid JSON (no markdown):
 {
