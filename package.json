@@ -5,10 +5,7 @@
   "description": "Automated lead generation and outreach system for local businesses without websites",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"node scheduler.js\" \"node twitter-poster.js\"",
-    "pipeline": "node src/pipeline.js",
-    "schedule": "node scheduler.js",
-    "setup-campaign": "node src/outreach/setup.js",
+    "start": "node twitter-poster.js",
     "twitter": "node twitter-poster.js"
   },
   "dependencies": {

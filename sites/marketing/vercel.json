@@ -1,7 +1,8 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
-  "rewrites": [
-    { "source": "/crm/(.*)", "destination": "/crm.html" }
+  "redirects": [
+    { "source": "/crm", "destination": "https://app.devsply.com", "permanent": false },
+    { "source": "/crm/:path*", "destination": "https://app.devsply.com", "permanent": false }
   ]
 }

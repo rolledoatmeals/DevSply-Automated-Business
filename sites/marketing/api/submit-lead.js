@@ -102,7 +102,7 @@ function welcomeEmail({ name, business_name, city, interest, unsubUrl }) {
           <p style="margin:0;font-size:11px;color:#94a3b8;line-height:1.7;text-align:center">
             You're receiving this because you submitted a request at devsply.com.<br>
             DevSply · Tampa, FL 33602<br>
-            <a href="${SITE_URL}/api/unsubscribe?t=${makeUnsubToken(GMAIL_USER)}&e=${makeUnsubToken(name + '|' + business_name)}"
+            <a href="${unsubUrl}"
                style="color:#94a3b8;text-decoration:underline">Unsubscribe</a> — we'll remove you immediately and never email you again.
           </p>
         </td>
@@ -153,21 +153,23 @@ export default async function handler(req, res) {
   const place_id   = `form_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
   const source_city = city || 'Tampa, FL';
 
+  // The leads table has no `source`/`notes` columns — store the contact person's
+  // name in `address` and fold their interest into `category` so the CRM can show it.
+  const interestShort = { website:'website', ai_agent:'AI agent', both:'website + AI agent', explore:'exploring' }[interest] ?? 'website';
+
   const { error: dbErr } = await supabase.from('leads').upsert({
     place_id,
     business_name,
     city:            source_city,
-    category:        business_type ?? 'local business',
+    category:        `${business_type ?? 'local business'} · wants ${interestShort}`,
     phone:           phone ?? null,
     email:           email ?? null,
-    website:         null,
+    address:         name,
     reviews:         0,
     rating:          null,
     outreach_status: 'new',
     contacted:       false,
     converted:       false,
-    source:          'website_form',
-    notes:           `Inbound lead — ${name} — interested in: ${interest ?? 'website'}`,
     created_at:      new Date().toISOString(),
   }, { onConflict: 'place_id' });
 
