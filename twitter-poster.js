@@ -6,6 +6,7 @@ import { findNextPair, postBeforeAfter } from './src/twitter/beforeAfter.js';
 import { generateCard, cleanupCard } from './src/twitter/imageCard.js';
 import { autoFollow } from './src/twitter/autoFollow.js';
 import { autoEngage } from './src/twitter/autoEngage.js';
+import { autoRetweet } from './src/twitter/autoRetweet.js';
 
 const LOG_FILE = './posts/.twitter-log.json';
 const POST_INTERVAL_HOURS = parseFloat(process.env.TWITTER_POST_INTERVAL_HOURS ?? '24');
@@ -101,6 +102,15 @@ async function postOnce() {
     if (followed > 0) console.log(`  ✓ Followed ${followed} new accounts`);
   } catch (err) {
     console.error('  Auto-follow error:', err.message);
+  }
+
+  // Retweet relevant content
+  console.log('\n  Retweeting relevant posts...');
+  try {
+    const retweeted = await autoRetweet(log);
+    if (retweeted > 0) console.log(`  ✓ Retweeted ${retweeted} posts`);
+  } catch (err) {
+    console.error('  Retweet error:', err.message);
   }
 
   // Like and reply to relevant posts

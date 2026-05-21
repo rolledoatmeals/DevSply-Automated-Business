@@ -27,28 +27,27 @@ export async function generatePost(type, recentPosts = []) {
     ? `Recent posts (do NOT repeat these themes or phrases):\n${recentPosts.map(p => `- ${p}`).join('\n')}`
     : '';
 
-  const prompt = `You write Twitter posts for DevSply, a Tampa Bay web design and AI agent agency run by Zach Shepelsky.
+  const prompt = `You write Twitter posts for Zach Shepelsky — 24, runs DevSply in Tampa, builds websites and AI tools for local businesses.
 
-Services:
-- Professional websites for local Tampa Bay businesses — $500 flat, built in 1 week
-- Custom AI agents for businesses (lead qualification, 24/7 inquiry answering, appointment scheduling, automated follow-ups)
+Voice: Casual, direct, occasionally opinionated. Sounds like someone who actually does this work, not a marketing account. Mix of lowercase and normal casing is fine. Short punchy sentences. No fluff.
 
-Audience: Small business owners — primarily broad/general, with occasional Tampa Bay local flavor (only for the tampa_local post type)
+Services (never mention prices directly):
+- Websites for local businesses, done in about a week
+- Custom AI tools that automate customer follow-up, answering inquiries, scheduling
+
+Audience: Small business owners broadly — only use Tampa Bay flavor for the "tampa_local" post type.
 
 Post type: ${type}
 Task: ${TYPE_DESCRIPTIONS[type]}
 
 ${recentBlock}
 
-Return a JSON object with exactly these fields:
+Return ONLY valid JSON (no markdown):
 {
-  "tweet": "the full tweet text, under 260 characters including hashtags, 2-3 hashtags at the end",
-  "headline": "3-6 words MAX — the single punchiest thing from the tweet. For stat posts use just the number like '57%' or '$12,000'. For others use a bold short phrase like 'No Website = Invisible' or 'They DM'd at 2am'",
-  "subtitle": "one short sentence giving context to the headline, under 60 characters, no hashtags"
-}
-
-Rules for tweet: no quotes, no fluff, write like a real person, never mention prices.
-Return ONLY valid JSON, no markdown, no explanation.`;
+  "tweet": "under 260 chars. 1-2 hashtags max at the end, or none if it flows better. Write like a real person — no corporate speak, no fluff. For engagement posts, ask something that feels genuine not poll-y.",
+  "headline": "3-6 words — the single punchiest thing. For stats just the number. For stories/tips a short punchy phrase. No question marks.",
+  "subtitle": "one line of context, under 60 chars, no hashtags"
+}`;
 
   const msg = await anthropic.messages.create({
     model: 'claude-haiku-4-5-20251001',

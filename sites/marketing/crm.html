@@ -762,6 +762,102 @@
     .feature-preview-item h4 { font-size: 0.875rem; font-weight: 700; color: var(--gray-700); margin-bottom: 0.3rem; }
     .feature-preview-item p { font-size: 0.78rem; color: var(--gray-500); line-height: 1.5; }
 
+    /* ── POSTS PAGE ── */
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .post-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      transition: box-shadow 0.2s;
+    }
+    .post-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+
+    .post-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
+    .post-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+    }
+
+    .post-text {
+      font-size: 0.875rem;
+      color: var(--gray-700);
+      line-height: 1.65;
+      flex: 1;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .copy-btn {
+      align-self: flex-start;
+      padding: 0.4rem 0.85rem;
+      background: var(--navy2);
+      color: var(--white);
+      border: none;
+      border-radius: 7px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s, transform 0.1s;
+      white-space: nowrap;
+    }
+    .copy-btn:hover { background: var(--blue); }
+    .copy-btn.copied { background: var(--green); }
+
+    .post-meta {
+      font-size: 0.72rem;
+      color: var(--gray-400);
+      border-top: 1px solid var(--gray-100);
+      padding-top: 0.75rem;
+    }
+
+    .groups-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .groups-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--navy2); margin-bottom: 0.75rem; }
+    .group-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .group-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 0.85rem;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 0.82rem;
+      color: var(--gray-700);
+    }
+    .group-icon { font-size: 1rem; flex-shrink: 0; }
+    .group-name { font-weight: 600; color: var(--gray-800); }
+    .group-desc { font-size: 0.72rem; color: var(--gray-400); margin-top: 0.1rem; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       :root { --sidebar-w: 0px; }
@@ -878,6 +974,11 @@
         </div>
         <div class="nav-item" onclick="showPage('calllist')">
           <span class="nav-icon">📞</span> Call List
+        </div>
+
+        <div class="nav-section-label">Content</div>
+        <div class="nav-item" onclick="showPage('posts')">
+          <span class="nav-icon">📱</span> FB Posts
         </div>
 
         <div class="nav-section-label">Pipeline</div>
@@ -1069,6 +1170,80 @@
           </div>
         </div>
 
+        <!-- ── POSTS PAGE ── -->
+        <div class="page" id="page-posts">
+          <div class="page-title-row">
+            <h1>Facebook Posts</h1>
+            <p>Ready-to-copy posts for Tampa Bay Facebook groups — manual posting, max engagement</p>
+          </div>
+
+          <!-- Groups to join -->
+          <div class="groups-card">
+            <h3>📍 Tampa Bay Facebook Groups to Join</h3>
+            <div class="group-list">
+              <div class="group-item">
+                <span class="group-icon">💼</span>
+                <div>
+                  <div class="group-name">Tampa Bay Small Business Network</div>
+                  <div class="group-desc">15k+ members · post tips, transformations, questions</div>
+                </div>
+              </div>
+              <div class="group-item">
+                <span class="group-icon">🚀</span>
+                <div>
+                  <div class="group-name">Tampa Bay Entrepreneurs &amp; Business Owners</div>
+                  <div class="group-desc">Engaged owner community · great for before/afters &amp; value posts</div>
+                </div>
+              </div>
+              <div class="group-item">
+                <span class="group-icon">🏙️</span>
+                <div>
+                  <div class="group-name">I Love Tampa Bay</div>
+                  <div class="group-desc">Local pride group · good for local spotlights &amp; shoutouts</div>
+                </div>
+              </div>
+              <div class="group-item">
+                <span class="group-icon">🤝</span>
+                <div>
+                  <div class="group-name">Support Local Tampa Bay Businesses</div>
+                  <div class="group-desc">Community-focused · value posts, transformations, no hard selling</div>
+                </div>
+              </div>
+              <div class="group-item">
+                <span class="group-icon">🔧</span>
+                <div>
+                  <div class="group-name">Tampa Bay Contractors &amp; Trades</div>
+                  <div class="group-desc">Direct niche · your target customer is here</div>
+                </div>
+              </div>
+              <div class="group-item">
+                <span class="group-icon">📊</span>
+                <div>
+                  <div class="group-name">St. Pete / Clearwater Business Owners</div>
+                  <div class="group-desc">Pinellas side of the bay · same audience, less competition</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Strategy tip -->
+          <div class="info-banner" style="margin-bottom:1.5rem">
+            💡 <strong>Best strategy:</strong> Post 3-4x per week. Value posts (tips, stats) build trust. Before/afters close deals. Engagement posts (questions) boost reach. Never post the same thing twice in the same group.
+          </div>
+
+          <!-- Post cards -->
+          <div class="card" style="margin-bottom:1.5rem">
+            <div class="card-header">
+              <h2>This Week's Posts</h2>
+              <button class="refresh-btn" onclick="refreshPosts()">↻ New Posts</button>
+            </div>
+          </div>
+
+          <div class="posts-grid" id="posts-grid">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+
         <!-- ── LEAD PULLER PAGE ── -->
         <div class="page" id="page-leadpuller">
           <div class="page-title-row">
@@ -1178,6 +1353,7 @@
     calllist:   'Call List',
     pipeline:   'Pipeline History',
     leadpuller: 'Lead Puller',
+    posts:      'Facebook Posts',
   };
 
   function showPage(name) {
@@ -1194,6 +1370,7 @@
     if (name === 'leads')      { leadsPage = 1; loadLeads(); }
     if (name === 'calllist')   loadCallList();
     if (name === 'pipeline')   loadPipeline();
+    if (name === 'posts')      renderPosts();
   }
 
   function refresh() { showPage(currentPage); }
@@ -1651,6 +1828,126 @@
       btn.disabled = false;
       btn.textContent = 'Send Flyer Email →';
     }
+  }
+
+  // ── POSTS PAGE ──
+  const FACEBOOK_POSTS = [
+    {
+      type: 'Value Tip',
+      color: 'badge-blue',
+      icon: '💡',
+      best_for: 'Tampa Bay Small Business Network',
+      text: `Quick tip for any local business owner:\n\nIf someone Googles your business name and nothing comes up — or worse, your competitor shows up first — you've already lost that customer.\n\nA basic website costs less than one lost job. And it works 24/7 even when you're on a job site.\n\nHappy to answer any questions about what goes into a good local business site. Just drop them below 👇`,
+    },
+    {
+      type: 'Before / After',
+      color: 'badge-green',
+      icon: '✅',
+      best_for: 'Support Local Tampa Bay Businesses',
+      text: `Just launched a site for a local Tampa plumber who had zero online presence — just word of mouth for years.\n\nWeek 1 after going live: 3 new calls from Google.\n\nHe said "I had no idea people were searching for plumbers online like that."\n\nIf you're a local trade or service business and don't have a website yet, you're leaving real money on the table. Happy to chat if you have questions 🙌`,
+    },
+    {
+      type: 'Engagement Question',
+      color: 'badge-yellow',
+      icon: '🙋',
+      best_for: 'Tampa Bay Entrepreneurs & Business Owners',
+      text: `Honest question for Tampa Bay business owners:\n\nWhat's actually stopping you from getting a website?\n\nA) Too expensive\nB) Don't know where to start\nC) Don't think I need one\nD) Had a bad experience before\n\nAsking because I want to understand what the real blockers are — not to pitch anything. Just curious what I keep hearing from folks.`,
+    },
+    {
+      type: 'Stat / Fact',
+      color: 'badge-purple',
+      icon: '📊',
+      best_for: 'Tampa Bay Contractors & Trades',
+      text: `Did you know: 97% of people search online before visiting or calling a local business.\n\n97%.\n\nIf you're a plumber, roofer, electrician, HVAC tech, or any other trade in the Tampa area — and you don't have a website — you are invisible to almost every new potential customer.\n\nNot trying to scare anyone. Just a stat that stopped me in my tracks when I first read it.`,
+    },
+    {
+      type: 'Local Shoutout',
+      color: 'badge-teal',
+      icon: '🌴',
+      best_for: 'I Love Tampa Bay',
+      text: `Love seeing local Tampa Bay businesses finally get the online presence they deserve.\n\nJust finished a site for a family-owned landscaping company in Brandon. Owner has been in business for 11 years with zero web presence — just referrals.\n\nNow they're showing up on Google and already got their first inquiry through the site.\n\nThis area has so many incredible businesses that just need to be found. That's the whole reason I do this.`,
+    },
+    {
+      type: 'Hot Take',
+      color: 'badge-red',
+      icon: '🔥',
+      best_for: 'Tampa Bay Entrepreneurs & Business Owners',
+      text: `Unpopular opinion: most local businesses are leaving more money on the table from having no website than from any other single thing.\n\nNot your pricing. Not your marketing. Not your reviews.\n\nYour online presence (or lack of one).\n\nCustomers Google before they call. Every time. What do they find when they look for what you do in Tampa?\n\nSeriously asking — what's been your experience with this?`,
+    },
+    {
+      type: 'Education',
+      color: 'badge-blue',
+      icon: '🎓',
+      best_for: 'St. Pete / Clearwater Business Owners',
+      text: `3 things every local business website needs (that most cheap ones skip):\n\n1. Your city + service in the page title — "Tampa Plumber" not just "Home"\n2. A real phone number in the header — not buried in the footer\n3. Google Maps embed + your hours — customers check this before they call\n\nThose 3 things alone make a huge difference in how many calls you get from Google.\n\nAnything else you'd add? Curious what others have seen work.`,
+    },
+    {
+      type: 'AI / Automation',
+      color: 'badge-purple',
+      icon: '🤖',
+      best_for: 'Tampa Bay Small Business Network',
+      text: `Something a lot of local business owners don't know yet: you can have an AI that answers customer inquiries on your website at 2am while you're asleep.\n\nNot a chatbot that says "our team will get back to you." An actual AI that answers real questions about your services, qualifies the lead, and sends you a summary in the morning.\n\nCost less than hiring a part-time person and works 24/7. This is what I build for Tampa area businesses.\n\nAnyone here already using something like this?`,
+    },
+  ];
+
+  let postSeed = Date.now();
+
+  function seededShuffle(arr, seed) {
+    const a = [...arr];
+    let s = seed;
+    for (let i = a.length - 1; i > 0; i--) {
+      s = (s * 1664525 + 1013904223) & 0xffffffff;
+      const j = Math.abs(s) % (i + 1);
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function renderPosts() {
+    const grid = document.getElementById('posts-grid');
+    const shuffled = seededShuffle(FACEBOOK_POSTS, postSeed);
+
+    grid.innerHTML = shuffled.map((post, i) => `
+      <div class="post-card">
+        <div class="post-card-header">
+          <span class="badge ${post.color}">${post.icon} ${post.type}</span>
+          <span style="font-size:0.68rem;color:var(--gray-400)">Post ${i + 1} of ${FACEBOOK_POSTS.length}</span>
+        </div>
+        <div class="post-text">${escHtml(post.text)}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;flex-wrap:wrap">
+          <div class="post-meta">📍 Best for: ${post.best_for}</div>
+          <button class="copy-btn" onclick="copyPost(this, ${i})">📋 Copy</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function copyPost(btn, idx) {
+    const shuffled = seededShuffle(FACEBOOK_POSTS, postSeed);
+    navigator.clipboard.writeText(shuffled[idx].text).then(() => {
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2500);
+    }).catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = shuffled[idx].text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '📋 Copy'; btn.classList.remove('copied'); }, 2500);
+    });
+  }
+
+  function refreshPosts() {
+    postSeed = Date.now();
+    renderPosts();
+  }
+
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 </script>
 </body>

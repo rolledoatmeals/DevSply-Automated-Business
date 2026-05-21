@@ -1,20 +1,33 @@
 import { twitter } from './client.js';
 
-const DAILY_LIMIT = parseInt(process.env.TWITTER_DAILY_FOLLOWS ?? '12', 10);
+// Random 1–5 per day to look organic
+function getDailyFollowLimit() {
+  const min = parseInt(process.env.TWITTER_FOLLOW_MIN ?? '1', 10);
+  const max = parseInt(process.env.TWITTER_FOLLOW_MAX ?? '5', 10);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 const SEARCHES = [
-  '"small business" "no website" -is:retweet lang:en',
+  // Web / small business
   '#smallbusiness #marketing -is:retweet lang:en',
-  '"need a website" -is:retweet lang:en',
-  '#entrepreneur #webdesign -is:retweet lang:en',
-  '#localbusiness -is:retweet lang:en',
   '"local business" website -is:retweet lang:en',
+  '#entrepreneur #webdesign -is:retweet lang:en',
   '#smallbiz owner -is:retweet lang:en',
+  // AI / tech
   '#AIagent small business -is:retweet lang:en',
-  '"AI automation" business -is:retweet lang:en',
-  '#artificialintelligence entrepreneur -is:retweet lang:en',
-  '#AItools business owner -is:retweet lang:en',
-  '"ChatGPT" business -is:retweet lang:en',
+  '"AI automation" -is:retweet lang:en',
+  '#buildinpublic -is:retweet lang:en',
+  '#indiedev -is:retweet lang:en',
+  // Broader entrepreneurship
+  '#sidehustle -is:retweet lang:en',
+  '#startuplife -is:retweet lang:en',
+  '#solopreneur -is:retweet lang:en',
+  // Tampa / Florida local
+  '#Tampa -is:retweet lang:en',
+  '#Florida entrepreneur -is:retweet lang:en',
+  // General interest
+  '#productivity -is:retweet lang:en',
+  '#techtwitter -is:retweet lang:en',
 ];
 
 export async function autoFollow(log) {
@@ -22,9 +35,10 @@ export async function autoFollow(log) {
 
   const today = new Date().toDateString();
   const todayCount = log.followed.filter(f => new Date(f.at).toDateString() === today).length;
+  const DAILY_LIMIT = getDailyFollowLimit();
 
   if (todayCount >= DAILY_LIMIT) {
-    console.log(`  Already followed ${todayCount} accounts today, skipping.`);
+    console.log(`  Already followed ${todayCount} accounts today (limit: ${DAILY_LIMIT}), skipping.`);
     return 0;
   }
 

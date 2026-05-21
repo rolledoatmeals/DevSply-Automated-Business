@@ -782,6 +782,188 @@
     .modal-step.active { display: block; }
     .modal-note { font-size: 0.8rem; color: var(--gray-400); text-align: center; margin-top: 1rem; }
 
+    /* ── Lead Form Section ── */
+    .get-started { background: var(--navy); padding: 90px 5%; }
+    .get-started .section-label { background: rgba(245,158,11,0.15); color: var(--accent2); }
+    .get-started h2 { color: var(--white); }
+    .get-started .section-desc { color: rgba(255,255,255,0.6); margin-bottom: 3rem; }
+
+    .lf-wrap {
+      max-width: 560px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .lf-progress {
+      height: 3px;
+      background: rgba(255,255,255,0.08);
+    }
+    .lf-progress-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.4s ease;
+      width: 25%;
+    }
+
+    .lf-header {
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .lf-step-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--accent2);
+    }
+    .lf-step-of {
+      font-size: 0.68rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .lf-body { padding: 1.25rem 2rem 2rem; }
+
+    .lf-q {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+    .lf-sub {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Slides */
+    .lf-slides { overflow: hidden; }
+    .lf-slide { display: none; }
+    .lf-slide.active {
+      display: block;
+      animation: lfSlideIn 0.3s ease;
+    }
+    @keyframes lfSlideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Option cards */
+    .lf-options { display: flex; flex-direction: column; gap: 0.6rem; }
+    .lf-option {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1.1rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+      font-family: inherit;
+      font-weight: 500;
+      text-align: left;
+      width: 100%;
+    }
+    .lf-option:hover { border-color: var(--accent); background: rgba(245,158,11,0.07); }
+    .lf-option.selected { border-color: var(--accent); background: rgba(245,158,11,0.12); color: var(--white); }
+    .lf-opt-icon { font-size: 1.2rem; flex-shrink: 0; }
+    .lf-opt-text { flex: 1; }
+    .lf-opt-check {
+      width: 18px; height: 18px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem;
+      color: transparent;
+      transition: all 0.15s;
+    }
+    .lf-option.selected .lf-opt-check {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--navy);
+    }
+
+    /* Grid options (2 col for biz type) */
+    .lf-options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+    }
+    .lf-options-grid .lf-option { padding: 0.75rem 0.9rem; flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+    .lf-options-grid .lf-opt-check { display: none; }
+
+    /* Contact inputs */
+    .lf-field { margin-bottom: 1rem; }
+    .lf-field label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 0.35rem;
+    }
+    .lf-field input {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      color: var(--white);
+      padding: 0.8rem 1rem;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    .lf-field input:focus { border-color: var(--accent); }
+    .lf-field input::placeholder { color: rgba(255,255,255,0.25); }
+    .lf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+    /* Buttons */
+    .lf-next {
+      width: 100%;
+      background: var(--accent);
+      color: var(--navy);
+      border: none;
+      border-radius: 10px;
+      padding: 0.9rem;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      font-family: inherit;
+      margin-top: 1.25rem;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .lf-next:hover:not(:disabled) { background: var(--accent2); transform: translateY(-1px); }
+    .lf-next:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Success state */
+    .lf-success {
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .lf-success-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .lf-success h3 { font-size: 1.3rem; font-weight: 800; color: var(--white); margin-bottom: 0.5rem; }
+    .lf-success p { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.65; }
+    .lf-success-email {
+      display: inline-block;
+      margin-top: 1.5rem;
+      color: var(--accent2);
+      font-size: 0.85rem;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(245,158,11,0.3);
+    }
+
     /* ── Responsive ── */
     @media (max-width: 960px) {
       .services-grid { grid-template-columns: 1fr; }
@@ -807,6 +989,11 @@
       .hero-actions { flex-direction: column; }
       .btn-hero { justify-content: center; }
       .areas-grid { grid-template-columns: 1fr 1fr; }
+      .lf-options-grid { grid-template-columns: 1fr 1fr; }
+      .lf-row { grid-template-columns: 1fr; }
+      .lf-body { padding: 1rem 1.25rem 1.5rem; }
+      .lf-header { padding: 1.25rem 1.25rem 0; }
+      .lf-field input { font-size: 16px; } /* prevent iOS zoom */
     }
   </style>
 </head>
@@ -935,7 +1122,7 @@
   <a href="#pricing" onclick="closeMobileMenu()">Pricing</a>
   <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
   <a href="#contact" onclick="closeMobileMenu()">Contact</a>
-  <button class="mobile-menu-cta" onclick="openModal('Get a Free Preview'); closeMobileMenu()">Get My Free Preview →</button>
+  <button class="mobile-menu-cta" onclick="scrollToForm(); closeMobileMenu()">Get My Free Preview →</button>
 </div>
 
 <!-- Nav -->
@@ -947,7 +1134,7 @@
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><button class="nav-cta" onclick="openModal('Get a Free Preview')">Get Started</button></li>
+    <li><button class="nav-cta" onclick="scrollToForm()">Get Started</button></li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Open navigation menu" onclick="toggleMobileMenu()">
     <span></span><span></span><span></span>
@@ -963,7 +1150,7 @@
     <h1>Websites &amp; AI agents<br>built for <em>Tampa Bay<br>businesses</em></h1>
     <p class="hero-sub">DevSply builds fast, professional websites and custom AI agents for local businesses in Tampa Bay — get found online and automate the work that's slowing you down.</p>
     <div class="hero-actions">
-      <button class="btn-hero btn-gold" onclick="openModal('Get a Free Preview')">Get My Free Preview →</button>
+      <button class="btn-hero btn-gold" onclick="scrollToForm()">Get My Free Preview →</button>
       <a href="#how" class="btn-hero btn-outline">See How It Works</a>
     </div>
     <div class="hero-proof">
@@ -1036,7 +1223,7 @@
         <li>Live in 7 days</li>
       </ul>
       <div class="service-price">$500 <span>one-time</span></div>
-      <button class="btn-service" onclick="openModal('Web Design')">Get a Free Preview →</button>
+      <button class="btn-service" onclick="scrollToForm()">Get a Free Preview →</button>
     </div>
     <div class="service-card saas">
       <span class="service-badge">Custom AI Agents</span>
@@ -1051,7 +1238,7 @@
         <li>No monthly AI platform fees</li>
       </ul>
       <div class="service-price">Custom <span>pricing</span></div>
-      <button class="btn-service" onclick="openModal('AI Agent')">Get a Free Consultation →</button>
+      <button class="btn-service" onclick="scrollToForm()">Get a Free Consultation →</button>
     </div>
   </div>
 </section>
@@ -1135,7 +1322,7 @@
         <li>1 revision round</li>
         <li>Live in 7 days</li>
       </ul>
-      <button class="btn-plan btn-plan-outline" onclick="openModal('Starter Website — $500')">Get Started</button>
+      <button class="btn-plan btn-plan-outline" onclick="scrollToForm()">Get Started</button>
     </div>
     <div class="pricing-card featured">
       <div class="pop-badge">Most Popular</div>
@@ -1153,7 +1340,7 @@
         <li>3 revision rounds</li>
         <li>Priority delivery (5 days)</li>
       </ul>
-      <button class="btn-plan btn-plan-primary" onclick="openModal('Full Business Site — $900')">Get Started</button>
+      <button class="btn-plan btn-plan-primary" onclick="scrollToForm()">Get Started</button>
     </div>
     <div class="pricing-card">
       <h3>AI Agent</h3>
@@ -1168,7 +1355,7 @@
         <li>SMS, chat, or website integration</li>
         <li>Ongoing support included</li>
       </ul>
-      <button class="btn-plan btn-plan-outline" onclick="openModal('AI Agent')">Free Consultation</button>
+      <button class="btn-plan btn-plan-outline" onclick="scrollToForm()">Free Consultation</button>
     </div>
   </div>
 </section>
@@ -1257,7 +1444,119 @@
 <section class="cta" aria-labelledby="cta-heading">
   <h2 id="cta-heading">Ready to get found online?</h2>
   <p>Get a free custom preview of your website, or a free consultation on an AI agent — no commitment, no credit card, no catch. Just see what's possible for your Tampa Bay business.</p>
-  <button class="btn-hero btn-gold" onclick="openModal('Get a Free Preview')">Get My Free Preview →</button>
+  <button class="btn-hero btn-gold" onclick="scrollToForm()">Get My Free Preview →</button>
+</section>
+
+<!-- Get Started Form -->
+<section class="get-started" id="get-started" aria-labelledby="gs-heading">
+  <div class="section-label">Get Started</div>
+  <h2 id="gs-heading">Tell us about<br>your business</h2>
+  <p class="section-desc">Takes 60 seconds. We'll follow up within 24 hours — no spam, no sales calls you didn't ask for.</p>
+
+  <div class="lf-wrap" role="form" aria-label="Lead intake form">
+    <div class="lf-progress"><div class="lf-progress-fill" id="lf-fill"></div></div>
+    <div class="lf-header">
+      <span class="lf-step-label" id="lf-step-label">Step 1</span>
+      <span class="lf-step-of" id="lf-step-of">1 of 3</span>
+    </div>
+    <div class="lf-body">
+
+      <div class="lf-slides">
+
+        <!-- Step 1: What do you need? -->
+        <div class="lf-slide active" id="lf-s1">
+          <p class="lf-q">What are you looking for?</p>
+          <p class="lf-sub">Pick the one that fits best</p>
+          <div class="lf-options" role="group" aria-label="Service options">
+            <button class="lf-option" onclick="selectLfOption(this,'service','website')" type="button">
+              <span class="lf-opt-icon">🌐</span>
+              <span class="lf-opt-text">A professional website</span>
+              <span class="lf-opt-check" aria-hidden="true">✓</span>
+            </button>
+            <button class="lf-option" onclick="selectLfOption(this,'service','ai_agent')" type="button">
+              <span class="lf-opt-icon">🤖</span>
+              <span class="lf-opt-text">A custom AI agent for my business</span>
+              <span class="lf-opt-check" aria-hidden="true">✓</span>
+            </button>
+            <button class="lf-option" onclick="selectLfOption(this,'service','both')" type="button">
+              <span class="lf-opt-icon">⚡</span>
+              <span class="lf-opt-text">Both — website + AI</span>
+              <span class="lf-opt-check" aria-hidden="true">✓</span>
+            </button>
+            <button class="lf-option" onclick="selectLfOption(this,'service','explore')" type="button">
+              <span class="lf-opt-icon">💬</span>
+              <span class="lf-opt-text">Just exploring options</span>
+              <span class="lf-opt-check" aria-hidden="true">✓</span>
+            </button>
+          </div>
+          <button class="lf-next" id="lf-btn-1" onclick="lfNext(2)" disabled>Continue →</button>
+        </div>
+
+        <!-- Step 2: Business type -->
+        <div class="lf-slide" id="lf-s2">
+          <p class="lf-q">What kind of business?</p>
+          <p class="lf-sub">We specialize in local trades and services</p>
+          <div class="lf-options-grid" role="group" aria-label="Business type options">
+            <button class="lf-option" onclick="selectLfOption(this,'biztype','Plumber')" type="button">🔧 Plumber</button>
+            <button class="lf-option" onclick="selectLfOption(this,'biztype','Electrician')" type="button">⚡ Electrician</button>
+            <button class="lf-option" onclick="selectLfOption(this,'biztype','HVAC / AC')" type="button">❄️ HVAC / AC</button>
+            <button class="lf-option" onclick="selectLfOption(this,'biztype','Roofer')" type="button">🏠 Roofer</button>
+            <button class="lf-option" onclick="selectLfOption(this,'biztype','Landscaper')" type="button">🌿 Landscaper</button>
+            <button class="lf-option" onclick="selectLfOption(this,'biztype','Pest Control')" type="button">🐛 Pest Control</button>
+            <button class="lf-option" onclick="selectLfOption(this,'biztype','Auto Repair')" type="button">🚗 Auto Repair</button>
+            <button class="lf-option" onclick="selectLfOption(this,'biztype','Cleaning')" type="button">✨ Cleaning</button>
+            <button class="lf-option" onclick="selectLfOption(this,'biztype','Handyman')" type="button">🔨 Handyman</button>
+            <button class="lf-option" onclick="selectLfOption(this,'biztype','Mover')" type="button">📦 Moving Co.</button>
+            <button class="lf-option" onclick="selectLfOption(this,'biztype','Contractor')" type="button">🏗️ Contractor</button>
+            <button class="lf-option" onclick="selectLfOption(this,'biztype','Other')" type="button">💼 Other</button>
+          </div>
+          <button class="lf-next" id="lf-btn-2" onclick="lfNext(3)" disabled>Continue →</button>
+        </div>
+
+        <!-- Step 3: Contact info -->
+        <div class="lf-slide" id="lf-s3">
+          <p class="lf-q">Almost done — how do we reach you?</p>
+          <p class="lf-sub">We'll send your free preview here</p>
+          <div class="lf-row">
+            <div class="lf-field">
+              <label for="lf-name">Your Name *</label>
+              <input type="text" id="lf-name" placeholder="John Smith" autocomplete="name" oninput="lfCheckContact()">
+            </div>
+            <div class="lf-field">
+              <label for="lf-biz">Business Name *</label>
+              <input type="text" id="lf-biz" placeholder="Smith Plumbing" autocomplete="organization" oninput="lfCheckContact()">
+            </div>
+          </div>
+          <div class="lf-row">
+            <div class="lf-field">
+              <label for="lf-city">City</label>
+              <input type="text" id="lf-city" placeholder="Tampa, FL" autocomplete="address-level2">
+            </div>
+            <div class="lf-field">
+              <label for="lf-phone">Phone (optional)</label>
+              <input type="tel" id="lf-phone" placeholder="(813) 555-0100" autocomplete="tel">
+            </div>
+          </div>
+          <div class="lf-field">
+            <label for="lf-email">Email (optional)</label>
+            <input type="email" id="lf-email" placeholder="you@example.com" autocomplete="email">
+          </div>
+          <button class="lf-next" id="lf-btn-3" onclick="lfSubmit()" disabled>Send My Info →</button>
+        </div>
+
+        <!-- Step 4: Success -->
+        <div class="lf-slide" id="lf-s4">
+          <div class="lf-success">
+            <div class="lf-success-icon">🎉</div>
+            <h3>We got it!</h3>
+            <p>Zach will reach out within 24 hours with your free website preview or consultation details. Check your email and phone.</p>
+            <a href="mailto:devsply@gmail.com" class="lf-success-email">Prefer email? devsply@gmail.com</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- Contact -->
@@ -1514,6 +1813,71 @@
 
     window.open(urls[client] || urls.apple, '_blank');
     closeModal();
+  }
+
+  // ── Scroll to form ──
+  function scrollToForm() {
+    closeModal();
+    document.getElementById('get-started').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── Multi-step lead form ──
+  const lfData = { service: null, biztype: null };
+  let lfCurrentStep = 1;
+
+  function selectLfOption(btn, field, value) {
+    const group = btn.closest('.lf-options, .lf-options-grid');
+    group.querySelectorAll('.lf-option').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    lfData[field] = value;
+
+    const btnIdx = lfCurrentStep;
+    const nextBtn = document.getElementById(`lf-btn-${btnIdx}`);
+    if (nextBtn) nextBtn.disabled = false;
+  }
+
+  function lfCheckContact() {
+    const name = document.getElementById('lf-name').value.trim();
+    const biz  = document.getElementById('lf-biz').value.trim();
+    document.getElementById('lf-btn-3').disabled = !(name && biz);
+  }
+
+  function lfNext(step) {
+    lfCurrentStep = step;
+    document.querySelectorAll('.lf-slide').forEach(s => s.classList.remove('active'));
+    document.getElementById(`lf-s${step}`).classList.add('active');
+
+    const total = 3;
+    const pct = step === 4 ? 100 : Math.round(((step - 1) / total) * 100);
+    document.getElementById('lf-fill').style.width = pct + '%';
+    document.getElementById('lf-step-label').textContent = `Step ${Math.min(step, total)}`;
+    document.getElementById('lf-step-of').textContent = step <= total ? `${step} of ${total}` : 'Done';
+  }
+
+  async function lfSubmit() {
+    const btn = document.getElementById('lf-btn-3');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    const payload = {
+      name:          document.getElementById('lf-name').value.trim(),
+      business_name: document.getElementById('lf-biz').value.trim(),
+      city:          document.getElementById('lf-city').value.trim() || 'Tampa, FL',
+      phone:         document.getElementById('lf-phone').value.trim() || null,
+      email:         document.getElementById('lf-email').value.trim() || null,
+      business_type: lfData.biztype,
+      interest:      lfData.service,
+    };
+
+    try {
+      await fetch('/api/submit-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    } catch { /* best-effort */ }
+
+    lfNext(4);
   }
 
   function openContactEmail() {

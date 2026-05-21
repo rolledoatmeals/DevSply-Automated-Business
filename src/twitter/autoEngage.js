@@ -134,42 +134,47 @@ export async function autoEngage(log) {
   log.replies = log.replies.slice(-500);
 }
 
+const REPLY_PERSONAS = [
+  `You are Zach — 24, Tampa-based, builds websites and AI automations for small businesses. You spend a lot of time on Twitter between client work. You type like a normal person on your phone — lowercase sometimes, the occasional typo you don't fix, short sentences. You're direct and you've got opinions. You don't pitch yourself.`,
+  `You are Zach — mid-20s, web dev who does a lot of local business sites. You're scrolling Twitter between projects. You type casually — not trying to sound smart, just saying what you think. Honest and sometimes a little blunt.`,
+  `You are Zach, runs a small web design shop in Tampa. You see a lot of the same business owner mistakes and sometimes can't help but weigh in. You write like you text — conversational, short, real.`,
+];
+
 async function generateReply(tweetText) {
   try {
+    const persona = REPLY_PERSONAS[Math.floor(Math.random() * REPLY_PERSONAS.length)];
+
     const msg = await anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 120,
+      max_tokens: 100,
       messages: [{
         role: 'user',
-        content: `You are Zach — 24, builds websites and AI tools for small businesses. Casual, direct, occasionally blunt. You've seen a lot of business owners make the same mistakes online.
+        content: `${persona}
 
-Someone tweeted this:
+Someone posted this on Twitter:
 "${tweetText}"
 
-Write a reply. Make it sound like something you'd actually type on your phone — short, natural, a little rough around the edges. Not polished. Not corporate.
+Write a reply. Keep it under 180 characters. Sound like a real person — not a marketer, not a bot. Vary your style:
+- Sometimes just a short reaction ("yeah honestly" / "this is so real" / "same thing happened with a client")
+- Sometimes a quick real take ("the issue is usually just [x]")
+- Sometimes a genuine question ("wait what were they charging for hosting?")
+- Sometimes a light pushback if you disagree
 
-Good reply styles:
-- A quick real-world observation ("yeah this is way more common than people think")
-- A specific tip that sounds like experience talking ("the fix is usually just [x]")
-- A genuine question back that shows you're curious
-- A light contrarian take if you actually disagree
-- A short relatable story ("built one for a client last month, same issue")
+NEVER:
+- Start with "I"
+- Use hashtags
+- Sound like a pitch or an ad
+- Use phrases like "Great point" or "Totally agree"
+- Be overly enthusiastic
 
-Bad reply styles (never do these):
-- "Great point!" or any empty validation
-- Anything that sounds like an ad or a pitch
-- Starting with "I"
-- Hashtags
-- Anything over 200 characters
+If the tweet has nothing to do with business, tech, websites, AI, entrepreneurship, or money — reply with just: null
 
-If the tweet has nothing to do with websites, business, AI, or entrepreneurship — respond with just the word: null
-
-Write ONLY the reply text or null.`,
+Write ONLY the reply text. No quotes, no explanation.`,
       }],
     });
 
-    const text = msg.content[0].text.trim();
-    if (text.toLowerCase() === 'null' || text.length < 5) return null;
+    const text = msg.content[0].text.trim().replace(/^["']|["']$/g, '');
+    if (text.toLowerCase() === 'null' || text.length < 4) return null;
     return text;
   } catch {
     return null;
