@@ -1,5 +1,6 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { twitter } from './client.js';
+import { queueReplyDraft } from './replyQueue.js';
 
 const anthropic = new Anthropic();
 
@@ -23,11 +24,12 @@ const REPLY_SEARCHES = [
   '"Google ranking" small business -is:retweet lang:en',
 ];
 
-// Ramp up gradually based on days since first post
+// Ramp up gradually based on days since first post.
 function getDailyLimits(daysSinceStart) {
-  const likes   = Math.min(Math.floor(daysSinceStart * 3), 35);
-  // No replies for first 2 weeks — let the account build history first
-  const replies = daysSinceStart < 14 ? 0 : Math.min(Math.floor((daysSinceStart - 14) * 0.6), 8);
+  const likes = Math.min(Math.floor(daysSinceStart * 3), 35);
+  // Replies are now drafted for manual approval (not auto-posted), so they're
+  // safe from day one — this just caps how many drafts you get to review per day.
+  const replies = Math.min(5 + Math.floor(daysSinceStart / 3), 12);
   return { likes, replies };
 }
 
@@ -47,7 +49,7 @@ export async function autoEngage(log) {
   const todayLikes   = log.likes.filter(l => new Date(l.at).toDateString() === today).length;
   const todayReplies = log.replies.filter(r => new Date(r.at).toDateString() === today).length;
 
-  console.log(`\n  Day ${days} of posting — limits today: ${likeLimit} likes, ${replyLimit} replies`);
+  console.log(`\n  Day ${days} of posting — limits today: ${likeLimit} likes, ${replyLimit} reply drafts`);
   console.log(`  Used today: ${todayLikes} likes, ${todayReplies} replies`);
 
   const likedIds   = new Set(log.likes.map(l => l.id));
@@ -89,9 +91,12 @@ export async function autoEngage(log) {
     }
   }
 
-  // ── REPLIES ──────────────────────────────────────────────
+  // ── REPLIES (drafted, not auto-posted) ───────────────────
+  // Keyword-search replies are sent to Telegram as Post/Skip drafts for the
+  // owner to approve. Automated keyword replies violate X's rules — a human
+  // tapping "Post it" keeps the value without the suspension risk.
   if (replyLimit > 0 && todayReplies < replyLimit) {
-    const toReply = replyLimit - todayReplies;
+    const toDraft = replyLimit - todayReplies;
     const query = REPLY_SEARCHES[Math.floor(Math.random() * REPLY_SEARCHES.length)];
 
     try {
@@ -100,30 +105,24 @@ export async function autoEngage(log) {
         'tweet.fields': ['author_id', 'text'],
       });
       const tweets = results.data?.data ?? [];
-      let replied = 0;
+      let drafted = 0;
 
       for (const tweet of tweets) {
-        if (replied >= toReply) break;
+        if (drafted >= toDraft) break;
         if (repliedIds.has(tweet.id)) continue;
         if (tweet.author_id === myId) continue;
 
         const replyText = await generateReply(tweet.text);
         if (!replyText) continue;
 
-        try {
-          await twitter.v2.tweet({
-            text: replyText,
-            reply: { in_reply_to_tweet_id: tweet.id },
-          });
-          log.replies.push({ id: tweet.id, text: replyText, at: new Date().toISOString() });
-          repliedIds.add(tweet.id);
-          replied++;
-          console.log(`  💬 Replied: "${replyText}"`);
-          await new Promise(r => setTimeout(r, 8000));
-        } catch (err) {
-          console.error('  Reply failed:', err.message);
-        }
+        await queueReplyDraft({ tweetId: tweet.id, tweetText: tweet.text, replyText });
+        log.replies.push({ id: tweet.id, text: replyText, at: new Date().toISOString(), status: 'drafted' });
+        repliedIds.add(tweet.id);
+        drafted++;
+        console.log(`  📨 Drafted reply for approval: "${replyText.slice(0, 60)}..."`);
       }
+
+      if (drafted > 0) console.log(`  📨 Sent ${drafted} reply draft(s) to Telegram for approval`);
     } catch (err) {
       console.error('  Reply search failed:', err.message);
     }
