@@ -36,6 +36,16 @@ export async function tgSend(text, buttons) {
   }
 }
 
+// Register the slash-command list shown in Telegram's "/" menu.
+export async function setMyCommands(commands) {
+  if (!tgEnabled()) return;
+  try {
+    await call('setMyCommands', { commands });
+  } catch (err) {
+    console.error('  Telegram setMyCommands failed:', err.message);
+  }
+}
+
 // Long-poll Telegram for incoming commands and button presses.
 // Everything is locked to the owner's chat ID — messages from anyone else are ignored.
 export async function startTelegramListener({ onCommand, onCallback }) {
@@ -52,7 +62,7 @@ export async function startTelegramListener({ onCommand, onCallback }) {
   } catch { /* ignore */ }
 
   console.log('  📲 Telegram control listener active.');
-  await tgSend('🤖 DevSply bot online — send /help for controls.');
+  await tgSend('🤖 DevSply bot online — send /menu for controls.');
 
   while (true) {
     let updates;

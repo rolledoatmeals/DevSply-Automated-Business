@@ -58,6 +58,11 @@ export async function handleReplyCallback(data) {
     await tgSend('✅ Reply posted.');
     return 'Posted!';
   } catch (err) {
+    console.error('  Reply post failed:', err.code ?? '', err.message);
+    if (err.code === 403) {
+      await tgSend('⚠️ Couldn’t post that reply — X blocked it (that tweet likely limits who can reply). Skipped, no harm done.');
+      return 'Skipped — reply restricted.';
+    }
     await tgSend(`❌ Reply failed: ${err.message}`);
     return 'Failed — see chat.';
   }

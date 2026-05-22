@@ -7,7 +7,7 @@ import { generateCard, cleanupCard } from './src/twitter/imageCard.js';
 import { autoFollow } from './src/twitter/autoFollow.js';
 import { autoEngage } from './src/twitter/autoEngage.js';
 import { autoRetweet } from './src/twitter/autoRetweet.js';
-import { startTelegramListener, tgSend } from './src/twitter/telegram.js';
+import { startTelegramListener, tgSend, setMyCommands } from './src/twitter/telegram.js';
 import { handleReplyCallback, pendingCount } from './src/twitter/replyQueue.js';
 
 const LOG_FILE = './posts/.twitter-log.json';
@@ -186,72 +186,110 @@ async function runPost(forcedType = null) {
   return r;
 }
 
-const HELP = [
-  '🤖 <b>DevSply bot controls</b>',
-  '',
-  '/status — what the bot is doing right now',
-  '/postnow [type] — post immediately',
-  '/pause — stop scheduled posts',
-  '/resume — resume scheduled posts',
-  '',
-  '<b>Post types:</b> ' + POSTNOW_TYPES.join(', '),
-].join('\n');
+// ── Telegram button GUI ──────────────────────────────────────
+function mainMenuButtons() {
+  return [
+    [{ text: '📊 Status', callback_data: 'm:status' }],
+    [{ text: '✍️ Post now', callback_data: 'm:postmenu' }],
+    [{ text: '⏸ Pause', callback_data: 'm:pause' },
+     { text: '▶️ Resume', callback_data: 'm:resume' }],
+  ];
+}
 
-// Handle a text command from Telegram.
+function postMenuButtons() {
+  const rows = [];
+  for (let i = 0; i < POSTNOW_TYPES.length; i += 2) {
+    rows.push(POSTNOW_TYPES.slice(i, i + 2).map(t => ({ text: t, callback_data: 'p:' + t })));
+  }
+  rows.push([{ text: '🎲 Auto-pick', callback_data: 'p:auto' }]);
+  rows.push([{ text: '« Back', callback_data: 'm:menu' }]);
+  return rows;
+}
+
+async function sendMenu() {
+  await tgSend('🤖 <b>DevSply bot</b> — pick an action:', mainMenuButtons());
+}
+
+async function sendPostMenu() {
+  await tgSend('✍️ <b>Post now</b> — choose a type:', postMenuButtons());
+}
+
+async function sendStatus() {
+  const log = loadLog();
+  const today = new Date().toDateString();
+  const posts = log.posts ?? [];
+  const todayPosts = posts.filter(p => new Date(p.posted_at).toDateString() === today);
+  const last = posts[posts.length - 1];
+  const waitH = (msUntilNextSlot() / 3600000).toFixed(1);
+  await tgSend([
+    '📊 <b>Status</b>',
+    `State: ${paused ? '⏸ paused' : '▶️ active'}`,
+    `Posts today: ${todayPosts.length}`,
+    `Last post: ${last ? `${last.type} — ${new Date(last.posted_at).toLocaleString()}` : '—'}`,
+    `Next post: in ${waitH}h`,
+    `Reply drafts awaiting you: ${pendingCount()}`,
+  ].join('\n'), mainMenuButtons());
+}
+
+// Handle a typed command from Telegram.
 async function onCommand(text) {
   const [cmd, ...args] = text.split(/\s+/);
   switch (cmd.toLowerCase()) {
     case '/start':
+    case '/menu':
     case '/help':
-      await tgSend(HELP);
+      await sendMenu();
       break;
 
-    case '/status': {
-      const log = loadLog();
-      const today = new Date().toDateString();
-      const todayPosts = (log.posts ?? []).filter(p => new Date(p.posted_at).toDateString() === today);
-      const last = (log.posts ?? [])[(log.posts ?? []).length - 1];
-      const waitH = (msUntilNextSlot() / 3600000).toFixed(1);
-      await tgSend([
-        '📊 <b>Status</b>',
-        `State: ${paused ? '⏸ paused' : '▶️ active'}`,
-        `Posts today: ${todayPosts.length}`,
-        `Last post: ${last ? `${last.type} — ${new Date(last.posted_at).toLocaleString()}` : '—'}`,
-        `Next post: in ${waitH}h`,
-        `Reply drafts awaiting you: ${pendingCount()}`,
-      ].join('\n'));
+    case '/status':
+      await sendStatus();
       break;
-    }
 
     case '/pause':
       paused = true;
-      await tgSend('⏸ Scheduled posting paused. Send /resume to restart.');
+      await tgSend('⏸ Scheduled posting paused.', mainMenuButtons());
       break;
 
     case '/resume':
       paused = false;
-      await tgSend('▶️ Scheduled posting resumed.');
+      await tgSend('▶️ Scheduled posting resumed.', mainMenuButtons());
       break;
 
     case '/postnow': {
       const type = args[0]?.toLowerCase();
-      if (type && !POSTNOW_TYPES.includes(type)) {
-        await tgSend(`Unknown type "${type}".\n\n<b>Options:</b> ${POSTNOW_TYPES.join(', ')}`);
+      if (!type) { await sendPostMenu(); break; }
+      if (!POSTNOW_TYPES.includes(type)) {
+        await tgSend(`Unknown type "${type}".`, postMenuButtons());
         break;
       }
-      await tgSend(`✍️ Posting ${type ? `a ${type}` : 'now'}…`);
-      await runPost(type ?? null);
+      await tgSend(`✍️ Posting a ${type}…`);
+      await runPost(type);
       break;
     }
 
     default:
-      await tgSend(`Unknown command: ${cmd}\n\n${HELP}`);
+      await sendMenu();
   }
 }
 
 // Handle an inline-button press from Telegram.
 async function onCallback(data) {
   if (data.startsWith('r:')) return handleReplyCallback(data);
+
+  if (data === 'm:status')   { await sendStatus();    return ''; }
+  if (data === 'm:menu')     { await sendMenu();       return ''; }
+  if (data === 'm:postmenu') { await sendPostMenu();   return ''; }
+  if (data === 'm:pause')    { paused = true;  await tgSend('⏸ Paused.',  mainMenuButtons()); return 'Paused'; }
+  if (data === 'm:resume')   { paused = false; await tgSend('▶️ Resumed.', mainMenuButtons()); return 'Resumed'; }
+
+  if (data.startsWith('p:')) {
+    const type = data.slice(2);
+    const forced = type === 'auto' ? null : type;
+    await tgSend(`✍️ Posting ${forced ? `a ${forced}` : '(auto-pick)'}…`);
+    runPost(forced);   // run in background — don't make the button spin through a full post cycle
+    return 'Posting…';
+  }
+
   return 'Unknown action.';
 }
 
@@ -279,6 +317,13 @@ async function loop() {
 }
 
 // Telegram control listener runs alongside the posting loop in the same process.
+setMyCommands([
+  { command: 'menu',    description: 'Open the control menu' },
+  { command: 'status',  description: 'What the bot is doing now' },
+  { command: 'postnow', description: 'Post now — pick a type' },
+  { command: 'pause',   description: 'Pause scheduled posting' },
+  { command: 'resume',  description: 'Resume scheduled posting' },
+]);
 startTelegramListener({ onCommand, onCallback })
   .catch(err => console.error('  Telegram listener crashed:', err.message));
 loop();
