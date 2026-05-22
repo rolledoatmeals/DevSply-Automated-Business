@@ -78,10 +78,18 @@ Write a poll small business owners will want to vote on. Topic: how they run or 
 
 ${recentBlock}
 
+X poll options have a HARD limit of 25 characters and get truncated mid-word if longer.
+Write each option as a SHORT label — 2 to 4 words, no parenthetical examples, no "/" lists.
+Bad:  "Trust signals (reviews, certifications)"  ← too long, gets cut off
+Good: "Reviews & trust signals"
+Bad:  "Phone number front & center"  ← 27 chars
+Good: "Phone number up top"
+Count the characters. Every option MUST be 25 characters or fewer.
+
 Return ONLY valid JSON (no markdown):
 {
   "tweet": "the poll question plus one short line of context. under 200 chars. casual, real, no hashtags.",
-  "options": ["2 to 4 options", "each UNDER 25 characters", "short and distinct"]
+  "options": ["2 to 4 options", "each 25 characters or fewer", "short, distinct, no parentheses"]
 }`;
 
   const msg = await anthropic.messages.create({
@@ -92,9 +100,23 @@ Return ONLY valid JSON (no markdown):
 
   const raw = msg.content[0].text.trim().replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```$/i, '').trim();
   const data = JSON.parse(raw);
-  data.options = (data.options ?? []).slice(0, 4).map(o => String(o).slice(0, 25));
+  data.options = (data.options ?? []).slice(0, 4).map(fitPollOption);
   if (data.options.length < 2) throw new Error('poll needs at least 2 options');
   return data;
+}
+
+// X caps poll options at 25 chars. Trim cleanly at a word boundary instead of
+// slicing mid-word ("Trust signals (reviews, c"), and drop a dangling open paren.
+function fitPollOption(raw) {
+  let s = String(raw).trim();
+  if (s.length <= 25) return s;
+  let cut = s.slice(0, 25);
+  const lastSpace = cut.lastIndexOf(' ');
+  if (lastSpace >= 10) cut = cut.slice(0, lastSpace);     // keep whole words
+  if ((cut.match(/\(/g) || []).length > (cut.match(/\)/g) || []).length) {
+    cut = cut.slice(0, cut.lastIndexOf('(')).trim();       // drop unclosed "("
+  }
+  return cut.replace(/[\s,&/\-([{]+$/, '').trim();         // strip trailing junk
 }
 
 export async function generateBeforeAfterCaption(businessName, city, category, reviews) {

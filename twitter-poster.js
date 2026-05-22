@@ -7,9 +7,17 @@ import { generateCard, cleanupCard } from './src/twitter/imageCard.js';
 import { autoFollow } from './src/twitter/autoFollow.js';
 import { autoEngage } from './src/twitter/autoEngage.js';
 import { autoRetweet } from './src/twitter/autoRetweet.js';
+import { startTelegramListener, tgSend } from './src/twitter/telegram.js';
+import { handleReplyCallback, pendingCount } from './src/twitter/replyQueue.js';
 
 const LOG_FILE = './posts/.twitter-log.json';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// Toggled by the /pause and /resume Telegram commands.
+let paused = false;
+// Content types accepted by /postnow.
+const POSTNOW_TYPES = ['web_tip', 'stat', 'ai_agent', 'tampa_local', 'engagement',
+                       'story', 'fun_fact', 'hot_take', 'behind_scenes', 'poll'];
 
 // Post 3x/day at these Eastern-time hours — business hours, when owners are online.
 const POST_SLOTS_ET = [10, 13, 16];
@@ -54,15 +62,15 @@ function checkEnv() {
   }
 }
 
-async function postOnce() {
+async function postOnce(forcedType = null) {
   const log = loadLog();
   const recentTexts = log.posts.slice(-10).map(p => p.text);
   const recentTypes = log.posts.slice(-6).map(p => p.type);
 
   let tweetId, tweetText, postType;
 
-  // Before/after takes priority when images are waiting
-  const pair = findNextPair();
+  // Before/after takes priority when images are waiting — unless a type was forced.
+  const pair = forcedType ? null : findNextPair();
   if (pair) {
     console.log(`\n📸  Found before/after pair: ${pair.base}`);
     postType = 'before_after';
@@ -72,10 +80,10 @@ async function postOnce() {
       tweetText = result.text;
     } catch (err) {
       console.error('  ✗ Before/after post failed:', err.message);
-      return;
+      return { ok: false, error: 'Before/after failed: ' + err.message };
     }
   } else {
-    postType = nextContentType(recentTypes);
+    postType = forcedType || nextContentType(recentTypes);
 
     if (postType === 'poll') {
       console.log('\n📊  Generating poll...');
@@ -84,7 +92,7 @@ async function postOnce() {
         poll = await generatePoll(recentTexts);
       } catch (err) {
         console.error('  ✗ Poll generation failed:', err.message);
-        return;
+        return { ok: false, error: 'Poll generation failed: ' + err.message };
       }
       tweetText = poll.tweet;
       console.log(`\n  Poll:    "${tweetText}"`);
@@ -97,7 +105,7 @@ async function postOnce() {
         tweetId = result.data.id;
       } catch (err) {
         console.error('  ✗ Poll tweet failed:', err.message);
-        return;
+        return { ok: false, error: 'Poll tweet failed: ' + err.message };
       }
     } else {
       console.log(`\n✍️   Generating ${postType} post...`);
@@ -107,7 +115,7 @@ async function postOnce() {
         post = await generatePost(postType, recentTexts);
       } catch (err) {
         console.error('  ✗ Content generation failed:', err.message);
-        return;
+        return { ok: false, error: 'Content generation failed: ' + err.message };
       }
 
       tweetText = post.tweet;
@@ -123,7 +131,7 @@ async function postOnce() {
         tweetId = result.data.id;
       } catch (err) {
         console.error('  ✗ Tweet failed:', err.message);
-        return;
+        return { ok: false, error: 'Tweet failed: ' + err.message };
       } finally {
         if (cardPath) cleanupCard(cardPath);
       }
@@ -164,6 +172,87 @@ async function postOnce() {
 
   saveLog(log);
   console.log(`\n  ✓ Posted [${postType}] — tweet ID: ${tweetId}`);
+  return { ok: true, type: postType, tweetId };
+}
+
+// Post once, then report the result to Telegram.
+async function runPost(forcedType = null) {
+  const r = await postOnce(forcedType);
+  if (r?.ok) {
+    await tgSend(`✅ Posted <b>${r.type}</b>\nhttps://x.com/i/status/${r.tweetId}`);
+  } else {
+    await tgSend(`❌ Post failed: ${r?.error ?? 'unknown error'}`);
+  }
+  return r;
+}
+
+const HELP = [
+  '🤖 <b>DevSply bot controls</b>',
+  '',
+  '/status — what the bot is doing right now',
+  '/postnow [type] — post immediately',
+  '/pause — stop scheduled posts',
+  '/resume — resume scheduled posts',
+  '',
+  '<b>Post types:</b> ' + POSTNOW_TYPES.join(', '),
+].join('\n');
+
+// Handle a text command from Telegram.
+async function onCommand(text) {
+  const [cmd, ...args] = text.split(/\s+/);
+  switch (cmd.toLowerCase()) {
+    case '/start':
+    case '/help':
+      await tgSend(HELP);
+      break;
+
+    case '/status': {
+      const log = loadLog();
+      const today = new Date().toDateString();
+      const todayPosts = (log.posts ?? []).filter(p => new Date(p.posted_at).toDateString() === today);
+      const last = (log.posts ?? [])[(log.posts ?? []).length - 1];
+      const waitH = (msUntilNextSlot() / 3600000).toFixed(1);
+      await tgSend([
+        '📊 <b>Status</b>',
+        `State: ${paused ? '⏸ paused' : '▶️ active'}`,
+        `Posts today: ${todayPosts.length}`,
+        `Last post: ${last ? `${last.type} — ${new Date(last.posted_at).toLocaleString()}` : '—'}`,
+        `Next post: in ${waitH}h`,
+        `Reply drafts awaiting you: ${pendingCount()}`,
+      ].join('\n'));
+      break;
+    }
+
+    case '/pause':
+      paused = true;
+      await tgSend('⏸ Scheduled posting paused. Send /resume to restart.');
+      break;
+
+    case '/resume':
+      paused = false;
+      await tgSend('▶️ Scheduled posting resumed.');
+      break;
+
+    case '/postnow': {
+      const type = args[0]?.toLowerCase();
+      if (type && !POSTNOW_TYPES.includes(type)) {
+        await tgSend(`Unknown type "${type}".\n\n<b>Options:</b> ${POSTNOW_TYPES.join(', ')}`);
+        break;
+      }
+      await tgSend(`✍️ Posting ${type ? `a ${type}` : 'now'}…`);
+      await runPost(type ?? null);
+      break;
+    }
+
+    default:
+      await tgSend(`Unknown command: ${cmd}\n\n${HELP}`);
+  }
+}
+
+// Handle an inline-button press from Telegram.
+async function onCallback(data) {
+  if (data.startsWith('r:')) return handleReplyCallback(data);
+  return 'Unknown action.';
 }
 
 async function loop() {
@@ -179,9 +268,17 @@ async function loop() {
     const wait = msUntilNextSlot();
     console.log(`\n⏳  Next post in ${(wait / 3600000).toFixed(1)}h`);
     await sleep(wait);
+    if (paused) {
+      console.log('  ⏸ Paused — skipping this slot.');
+      await tgSend('⏸ Skipped a scheduled post — bot is paused. /resume to restart.');
+      continue;
+    }
     console.log(`\n[${new Date().toLocaleTimeString()}] Posting to Twitter...`);
-    await postOnce();
+    await runPost();
   }
 }
 
+// Telegram control listener runs alongside the posting loop in the same process.
+startTelegramListener({ onCommand, onCallback })
+  .catch(err => console.error('  Telegram listener crashed:', err.message));
 loop();
