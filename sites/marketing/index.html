@@ -450,6 +450,27 @@
     .faq-body p { font-size: .89rem; color: var(--g500); line-height: 1.72; padding-bottom: 1rem; }
 
     /* ── BOTTOM CTA ── */
+    /* WORK */
+    .wk-sec { background: var(--g50); }
+    .wk-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+    .wk-card {
+      background: #fff; border: 1px solid var(--g200); border-radius: 14px; overflow: hidden;
+      display: flex; flex-direction: column; text-decoration: none; color: inherit;
+      transition: transform .18s, box-shadow .18s, border-color .18s;
+    }
+    .wk-card:hover { transform: translateY(-4px); border-color: var(--g400);
+      box-shadow: 0 18px 40px -22px rgba(15,23,42,.45); }
+    .wk-shot { display: block; width: 100%; height: auto; aspect-ratio: 2560/1426;
+      object-fit: cover; object-position: top center; border-bottom: 1px solid var(--g100); background: var(--g100); }
+    .wk-body { padding: 1.25rem 1.3rem 1.4rem; display: flex; flex-direction: column; flex: 1; }
+    .wk-kind { font-size: .66rem; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase;
+      color: #92600a; margin-bottom: .5rem; }
+    .wk-card h3 { font-size: 1.12rem; font-weight: 900; letter-spacing: -.4px; color: var(--g900); margin-bottom: .35rem; }
+    .wk-card p { font-size: .89rem; color: var(--g500); line-height: 1.6; flex: 1; margin-bottom: 1rem; }
+    .wk-go { font-size: .85rem; font-weight: 800; color: var(--g900); display: inline-flex; align-items: center; gap: .4rem; }
+    .wk-card:hover .wk-go { color: #b45309; }
+    .wk-note { margin-top: 2rem; font-size: .88rem; color: var(--g500); line-height: 1.7; }
+
     .btm-cta { background: linear-gradient(135deg, #070d1b 0%, #0a1628 100%); text-align: center; }
     .btm-cta h2 { color: #fff; max-width: 580px; margin: 0 auto 1rem; }
     .btm-cta p { color: rgba(255,255,255,.4); font-size: 1rem; margin-bottom: 2rem; }
@@ -504,7 +525,8 @@
   <a href="/" class="nav-logo">Dev<span>Sply</span></a>
   <ul class="nav-links">
     <li><a href="#how">How It Works</a></li>
-    <li><a href="#results">Results</a></li>
+    <li><a href="#work">Work</a>
+      <a href="#results">Results</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li><button class="nav-cta" onclick="scrollToForm()">Get Free Preview →</button></li>
@@ -740,7 +762,60 @@
 </section>
 
 <!-- RESULTS -->
-<section class="res-sec" id="results">
+<!-- WORK -->
+<section class="wk-sec reveal" id="work">
+  <div class="si">
+    <div class="stag">The work</div>
+    <h2>Sites I&rsquo;ve built.</h2>
+    <p class="sdesc">Real builds, live right now. Click any of them and go look around.</p>
+
+    <div class="wk-grid">
+
+      <a class="wk-card" href="https://dirtybirddiesel.com" target="_blank" rel="noopener">
+        <img class="wk-shot" src="/work/p-dbd.webp" srcset="/work/p-dbd.webp 1x, /work/p-dbd@2x.webp 2x"
+             width="760" height="423" loading="lazy" decoding="async"
+             alt="Dirty Bird Diesel homepage: blackletter DBD monogram on black with a call button">
+        <div class="wk-body">
+          <div class="wk-kind">Diesel repair &middot; Show Low, AZ</div>
+          <h3>Dirty Bird Diesel</h3>
+          <p>Heavy-duty diesel shop. Custom blackletter branding, work-order intake, and the phone number in reach on every screen.</p>
+          <span class="wk-go">dirtybirddiesel.com &rarr;</span>
+        </div>
+      </a>
+
+      <a class="wk-card" href="https://sonoranlabspeps.com" target="_blank" rel="noopener">
+        <img class="wk-shot" src="/work/p-sonoran.webp" srcset="/work/p-sonoran.webp 1x, /work/p-sonoran@2x.webp 2x"
+             width="760" height="423" loading="lazy" decoding="async"
+             alt="Sonoran Labs homepage: dark amber product page for research peptides">
+        <div class="wk-body">
+          <div class="wk-kind">E-commerce &middot; storefront</div>
+          <h3>Sonoran Labs</h3>
+          <p>Full catalog store with cart, age verification, batch certificates and Affirm checkout. Built to sell, not just to look good.</p>
+          <span class="wk-go">sonoranlabspeps.com &rarr;</span>
+        </div>
+      </a>
+
+      <a class="wk-card" href="https://rebel-health.vercel.app" target="_blank" rel="noopener">
+        <img class="wk-shot" src="/work/p-rebel.webp" srcset="/work/p-rebel.webp 1x, /work/p-rebel@2x.webp 2x"
+             width="760" height="423" loading="lazy" decoding="async"
+             alt="Rebel Health Group homepage: black and red hormone clinic page with a multi-step intake form">
+        <div class="wk-body">
+          <div class="wk-kind">Health clinic &middot; Tampa, FL</div>
+          <h3>Rebel Health Group</h3>
+          <p>Hormone and weight-loss clinic. A seven-step intake quiz that qualifies patients before anyone picks up the phone.</p>
+          <span class="wk-go">rebel-health.vercel.app &rarr;</span>
+        </div>
+      </a>
+
+    </div>
+
+    <p class="wk-note">
+      Want to see what yours would look like before you decide? That&rsquo;s the free preview &mdash; I build the real thing first.
+    </p>
+  </div>
+</section>
+
+<section class="res-sec reveal" id="results">
   <div class="si">
     <div class="stag">Real results</div>
     <h2>What Tampa Bay businesses see after going live.</h2>
@@ -904,6 +979,7 @@
     </div>
     <div class="ft-links">
       <a href="#how">How It Works</a>
+      <a href="#work">Work</a>
       <a href="#results">Results</a>
       <a href="#services">Pricing</a>
       <a href="#faq">FAQ</a>
