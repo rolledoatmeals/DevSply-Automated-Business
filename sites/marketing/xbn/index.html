@@ -34,12 +34,10 @@
 
   /* ---------- HERO ---------- */
   .hero{
-    background:linear-gradient(150deg,#070d1b 0%,#0a1628 55%,#101d33 100%);
+    background:
+      radial-gradient(640px 460px at 86% 4%, rgba(245,158,11,.11), transparent 60%),
+      linear-gradient(150deg,#070d1b 0%,#0a1628 55%,#101d33 100%);
     padding-top:4rem;padding-bottom:4.5rem;position:relative;overflow:hidden;
-  }
-  .hero::after{
-    content:"";position:absolute;top:-40%;right:-10%;width:60%;height:150%;
-    background:radial-gradient(circle,rgba(245,158,11,.09) 0%,transparent 62%);pointer-events:none;
   }
   .hero .si{position:relative;z-index:1}
   .brandbar{
@@ -144,6 +142,19 @@
     section{padding:3.6rem 1.25rem}
     .hero{padding-top:2.6rem}
     .hstat{padding:1.25rem 1.3rem}
+  }
+
+  /* mobile safeguards, matched to the mockup */
+  html,body{overflow-x:hidden;max-width:100%}
+  h1,h2,h3{overflow-wrap:break-word}
+  .btn-amber,footer a{min-height:44px}
+  footer a{display:inline-block;line-height:44px}
+  :focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:6px}
+  @media(hover:none){.btn-amber:hover{transform:none}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+  @media(max-width:640px){
+    .hstats{grid-template-columns:1fr}
+    .ptop .amt{letter-spacing:-2px}
   }
 </style>
 <meta name="theme-color" content="#0a1628">
