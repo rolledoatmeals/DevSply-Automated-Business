@@ -203,7 +203,61 @@ h1,h2,h3{overflow-wrap:break-word}
 .hphone{min-height:44px;padding:.35rem .2rem}
 .lrow a{display:inline-block;min-height:44px;line-height:44px}
 .byl a{display:inline-block;min-height:44px;line-height:44px}
+
+/* ---------- in-page booking ---------- */
+.bkoverlay{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.82);backdrop-filter:blur(4px);
+  display:none;align-items:center;justify-content:center;padding:2.2rem 1.2rem}
+.bkoverlay.open{display:flex}
+.bkmodal{background:#fff;border-radius:16px;width:min(560px,100%);height:min(760px,88vh);
+  display:flex;flex-direction:column;overflow:hidden;box-shadow:0 40px 90px -30px #000}
+.bkhead{display:flex;align-items:center;gap:1rem;padding:.9rem 1.1rem;background:var(--surf);
+  border-bottom:1px solid var(--line);flex:none}
+.bkhead h4{font-family:Sora;font-size:.98rem;font-weight:700;color:var(--ink);flex:1;letter-spacing:-.02em}
+.bkhead .sm{display:block;font-family:"Inter Tight";font-size:.76rem;font-weight:400;color:var(--mute);margin-top:1px}
+.bkclose{background:none;border:1px solid var(--line2);color:var(--ink2);width:36px;height:36px;
+  border-radius:9px;font-size:1.2rem;line-height:1;cursor:pointer;flex:none}
+.bkclose:hover{border-color:var(--bl);color:var(--bl)}
+.bkmodal iframe{flex:1;width:100%;border:0;background:#fff}
+.bkfoot{padding:.7rem 1.1rem;background:var(--surf);border-top:1px solid var(--line);flex:none;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.bkfoot span{font-size:.78rem;color:var(--mute)}
+.bkfoot a{font-size:.85rem;font-weight:700;color:var(--bl)}
+@media(max-width:640px){
+  .bkoverlay{padding:0}
+  .bkmodal{width:100%;height:100%;border-radius:0;max-height:none}
+}
 </style>
+<link rel="icon" type="image/webp" href="/xbn/landingpage/img/xbn-logo.webp">
+<meta name="theme-color" content="#000000">
+<meta property="og:type" content="website">
+<meta property="og:title" content="XBN Rejuvenation &amp; Recovery Lounge — Medical Spa in New Tampa">
+<meta property="og:description" content="Hormone therapy, medical weight loss, IV therapy and recovery. 5.0 stars across 22 Google reviews. Call (813) 252-0469.">
+<meta property="og:image" content="https://devsply.com/xbn/landingpage/img/xbn-logo@2x.webp">
+<meta property="og:url" content="https://devsply.com/xbn/landingpage">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="XBN Rejuvenation &amp; Recovery Lounge — Medical Spa in New Tampa">
+<meta name="twitter:description" content="Hormone therapy, medical weight loss, IV therapy and recovery. 5.0 stars across 22 Google reviews.">
+<meta name="twitter:image" content="https://devsply.com/xbn/landingpage/img/xbn-logo@2x.webp">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"MedicalBusiness","name":"XBN Rejuvenation and Recovery Lounge",
+"image":"https://devsply.com/xbn/landingpage/img/xbn-logo@2x.webp","url":"https://xbnrecovery.com",
+"telephone":"+1-813-252-0469","priceRange":"$$",
+"address":{"@type":"PostalAddress","streetAddress":"15309 Amberly Dr, Suite A","addressLocality":"Tampa","addressRegion":"FL","postalCode":"33647","addressCountry":"US"},
+"geo":{"@type":"GeoCoordinates","latitude":28.1183,"longitude":-82.3901},
+"aggregateRating":{"@type":"AggregateRating","ratingValue":"5.0","reviewCount":"22"},
+"sameAs":["https://www.instagram.com/xbnrecovery/"],
+"medicalSpecialty":"Endocrinology",
+"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services","itemListElement":[
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Hormone Therapy (TRT & HRT)"},"price":"75","priceCurrency":"USD"},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Medical Weight Loss (GLP-1)"},"price":"49","priceCurrency":"USD"},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Bloodwork & Nutrition"},"price":"399","priceCurrency":"USD"},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"IV Therapy"},"price":"65","priceCurrency":"USD"},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Regenerative Medicine"},"price":"49","priceCurrency":"USD"},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Peptide Therapy"},"price":"49","priceCurrency":"USD"},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Red Light Therapy"},"price":"125","priceCurrency":"USD"},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Compression Therapy"},"price":"20","priceCurrency":"USD"},
+{"@type":"Offer","itemOffered":{"@type":"Service","name":"Aesthetics"},"price":"49","priceCurrency":"USD"}]}}
+</script>
 </head>
 <body>
 
@@ -558,5 +612,55 @@ h1,h2,h3{overflow-wrap:break-word}
   <a class="c2" href="https://www.vagaro.com/xbnrecovery/services">Book online</a>
 </div>
 
+
+<div class="bkoverlay" id="bk" role="dialog" aria-modal="true" aria-labelledby="bkTitle">
+  <div class="bkmodal">
+    <div class="bkhead">
+      <h4 id="bkTitle">Book online<span class="sm" id="bkSub">Live availability</span></h4>
+      <button class="bkclose" id="bkX" aria-label="Close booking">&times;</button>
+    </div>
+    <iframe id="bkFrame" title="XBN online booking" loading="lazy"></iframe>
+    <div class="bkfoot">
+      <span>Rather talk to someone?</span>
+      <a href="tel:8132520469">Call (813) 252-0469</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var SERVICES='https://www.vagaro.com/xbnrecovery/services';
+  var ov=document.getElementById('bk'), fr=document.getElementById('bkFrame'),
+      ttl=document.getElementById('bkTitle'), sub=document.getElementById('bkSub'), last=null;
+
+  function open(name, url){
+    last=document.activeElement;
+    ttl.childNodes[0].nodeValue = name || 'Book online';
+    sub.textContent = 'Live availability from Vagaro';
+    if(fr.src!==url) fr.src=url;
+    ov.classList.add('open');
+    document.body.style.overflow='hidden';
+    document.getElementById('bkX').focus();
+  }
+  function close(){
+    ov.classList.remove('open');
+    document.body.style.overflow='';
+    if(last) last.focus();
+  }
+  document.getElementById('bkX').addEventListener('click',close);
+  ov.addEventListener('click',function(e){ if(e.target===ov) close(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&ov.classList.contains('open')) close(); });
+
+  // every Vagaro link opens in the modal instead of navigating away
+  document.querySelectorAll('a[href*="vagaro.com"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+      e.preventDefault();
+      var card=a.closest('.svc');
+      var name=card? (card.querySelector('h3')||{}).textContent : null;
+      open(name? 'Book '+name.replace(/&amp;/g,'&') : 'Book online', a.href||SERVICES);
+    });
+  });
+})();
+</script>
 </body>
 </html>
