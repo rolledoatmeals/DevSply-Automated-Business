@@ -226,6 +226,11 @@ h1,h2,h3{overflow-wrap:break-word}
   .bkoverlay{padding:0}
   .bkmodal{width:100%;height:100%;border-radius:0;max-height:none}
 }
+
+.bkcue{flex:none;padding:.62rem 1.1rem;background:var(--cy-dim);border-bottom:1px solid var(--line);
+  color:var(--cy);font-size:.84rem;font-weight:600;line-height:1.45}
+.bkcue b{color:#fff}
+.bkcue:empty{display:none}
 </style>
 <link rel="icon" type="image/webp" href="/xbn/landingpage/img/xbn-logo.webp">
 <meta name="theme-color" content="#000000">
@@ -375,7 +380,7 @@ h1,h2,h3{overflow-wrap:break-word}
         <p>Men and women. Energy, sleep, strength and mood, guided by your bloodwork.</p>
         <div class="pr">from $75<small>in-office consult</small></div>
         <div class="sact">
-          <a class="sbook" href="https://www.vagaro.com/xbnrecovery/services#headingOne32990049">Book hormones</a>
+          <a class="sbook" data-vg="In Office Hormone Consult" href="https://www.vagaro.com/xbnrecovery/services#headingOne32990049">Book hormones</a>
           <a class="scall" href="tel:8132520469" aria-label="Call about hormone therapy"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg></a>
         </div>
       </div>
@@ -385,7 +390,7 @@ h1,h2,h3{overflow-wrap:break-word}
         <p>Supervised GLP-1 programs. One member is down 80 lbs and still building muscle.</p>
         <div class="pr">$49<small>GLP-1 consult</small></div>
         <div class="sact">
-          <a class="sbook" href="https://www.vagaro.com/xbnrecovery/services#headingOne32565247">Book weight loss</a>
+          <a class="sbook" data-vg="GLP-1 Consultation" href="https://www.vagaro.com/xbnrecovery/services#headingOne32565247">Book weight loss</a>
           <a class="scall" href="tel:8132520469" aria-label="Call about weight loss"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg></a>
         </div>
       </div>
@@ -395,7 +400,7 @@ h1,h2,h3{overflow-wrap:break-word}
         <p>Full clinical panel, a provider walks you through it, then a plan built off the results.</p>
         <div class="pr">$399<small>labs + provider consult</small></div>
         <div class="sact">
-          <a class="sbook" href="https://www.vagaro.com/xbnrecovery/services#headingOne32565241">Book bloodwork</a>
+          <a class="sbook" data-vg="RX Nutrition Lab work" href="https://www.vagaro.com/xbnrecovery/services#headingOne32565241">Book bloodwork</a>
           <a class="scall" href="tel:8132520469" aria-label="Call about bloodwork"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg></a>
         </div>
       </div>
@@ -405,7 +410,7 @@ h1,h2,h3{overflow-wrap:break-word}
         <p>Hydration, immunity, energy and recovery drips. In the lounge or at your door.</p>
         <div class="pr">from $65<small>drips &amp; shots</small></div>
         <div class="sact">
-          <a class="sbook" href="https://www.vagaro.com/xbnrecovery/services#headingOne33033380">Book IV therapy</a>
+          <a class="sbook" data-vg="XBN Recovery Amino IV" href="https://www.vagaro.com/xbnrecovery/services#headingOne33033380">Book IV therapy</a>
           <a class="scall" href="tel:8132520469" aria-label="Call about IV therapy"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg></a>
         </div>
       </div>
@@ -415,7 +420,7 @@ h1,h2,h3{overflow-wrap:break-word}
         <p>Stem cells, PRP and shockwave for joints and injuries that never fully healed.</p>
         <div class="pr">from $49<small>consult; PRP from $800</small></div>
         <div class="sact">
-          <a class="sbook" href="https://www.vagaro.com/xbnrecovery/services#headingOne34484975">Book a consult</a>
+          <a class="sbook" data-vg="Regenerative Care Consult" href="https://www.vagaro.com/xbnrecovery/services#headingOne34484975">Book a consult</a>
           <a class="scall" href="tel:8132520469" aria-label="Call about regenerative medicine"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg></a>
         </div>
       </div>
@@ -425,7 +430,7 @@ h1,h2,h3{overflow-wrap:break-word}
         <p>Recovery, sleep, joint repair and lean mass. Prescribed to your labs.</p>
         <div class="pr">$49<small>consult</small></div>
         <div class="sact">
-          <a class="sbook" href="https://www.vagaro.com/xbnrecovery/services#headingOne32990682">Book peptides</a>
+          <a class="sbook" data-vg="Peptide Therapy Consult" href="https://www.vagaro.com/xbnrecovery/services#headingOne32990682">Book peptides</a>
           <a class="scall" href="tel:8132520469" aria-label="Call about peptides"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg></a>
         </div>
       </div>
@@ -435,7 +440,7 @@ h1,h2,h3{overflow-wrap:break-word}
         <p>Skin, pain, inflammation and recovery. One of the two most mentioned in our reviews.</p>
         <div class="pr">from $125<small>consult $75</small></div>
         <div class="sact">
-          <a class="sbook" href="https://www.vagaro.com/xbnrecovery/services#headingOne32624385">Book red light</a>
+          <a class="sbook" data-vg="Red Light Therapy" href="https://www.vagaro.com/xbnrecovery/services#headingOne32624385">Book red light</a>
           <a class="scall" href="tel:8132520469" aria-label="Call about red light therapy"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg></a>
         </div>
       </div>
@@ -445,7 +450,7 @@ h1,h2,h3{overflow-wrap:break-word}
         <p>Flush soreness out faster. The other service our reviewers keep bringing up.</p>
         <div class="pr">$20<small>per session</small></div>
         <div class="sact">
-          <a class="sbook" href="https://www.vagaro.com/xbnrecovery/services#headingOne33005619">Book recovery</a>
+          <a class="sbook" data-vg="Quinear Compression Therapy" href="https://www.vagaro.com/xbnrecovery/services#headingOne33005619">Book recovery</a>
           <a class="scall" href="tel:8132520469" aria-label="Call about compression and cryotherapy"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg></a>
         </div>
       </div>
@@ -455,7 +460,7 @@ h1,h2,h3{overflow-wrap:break-word}
         <p>Botox, Jeuveau, microneedling and filler. Conservative by default.</p>
         <div class="pr">from $49<small>consult; filler from $750</small></div>
         <div class="sact">
-          <a class="sbook" href="https://www.vagaro.com/xbnrecovery/services#headingOne33720632">Book aesthetics</a>
+          <a class="sbook" data-vg="Cosmetic Consult" href="https://www.vagaro.com/xbnrecovery/services#headingOne33720632">Book aesthetics</a>
           <a class="scall" href="tel:8132520469" aria-label="Call about aesthetics"><svg viewBox="0 0 24 24"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2z"/></svg></a>
         </div>
       </div>
@@ -619,6 +624,7 @@ h1,h2,h3{overflow-wrap:break-word}
       <h4 id="bkTitle">Book online<span class="sm" id="bkSub">Live availability</span></h4>
       <button class="bkclose" id="bkX" aria-label="Close booking">&times;</button>
     </div>
+    <p class="bkcue" id="bkCue"></p>
     <iframe id="bkFrame" title="XBN online booking" loading="lazy"></iframe>
     <div class="bkfoot">
       <span>Rather talk to someone?</span>
@@ -657,6 +663,9 @@ h1,h2,h3{overflow-wrap:break-word}
       e.preventDefault();
       var card=a.closest('.svc');
       var name=card? (card.querySelector('h3')||{}).textContent : null;
+      var vg=a.getAttribute('data-vg');
+      var cue=document.getElementById('bkCue');
+      cue.innerHTML = vg ? 'Tap <b>Book Now</b> under <b>'+vg+'</b> to see the next open times.' : '';
       open(name? 'Book '+name.replace(/&amp;/g,'&') : 'Book online', a.href||SERVICES);
     });
   });
