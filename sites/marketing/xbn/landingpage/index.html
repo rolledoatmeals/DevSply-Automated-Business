@@ -18,7 +18,7 @@
   --star:#FBBF24;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;scroll-padding-top:92px}
 body{background:var(--bg);color:var(--ink);font-family:"Inter Tight",-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   line-height:1.6;-webkit-font-smoothing:antialiased;padding-bottom:64px}
 h1,h2,h3,.dsp{font-family:Sora,-apple-system,sans-serif;letter-spacing:-.03em}
@@ -49,7 +49,7 @@ nav a:hover{color:var(--bl)}
 .hbook{background:var(--bl);color:#00080f;font-weight:700;font-size:.9rem;padding:.6rem 1.15rem;border-radius:9px;white-space:nowrap;transition:background .15s}
 .hbook:hover{background:#4d9ef8}
 @media(max-width:940px){nav{display:none}.hphone{margin-left:auto}}
-@media(max-width:560px){.hbook{display:none}.hrow{height:66px}.brand img{height:44px}}
+@media(max-width:560px){.hbook{display:none}.hrow{height:66px}.brand img{height:44px}html{scroll-padding-top:82px}}
 
 /* hero */
 .hero{position:relative;overflow:hidden;padding-top:clamp(2.6rem,5vw,4.4rem);padding-bottom:clamp(2.8rem,5vw,4.4rem)}
@@ -192,7 +192,9 @@ footer p{font-size:.83rem;color:var(--mute);line-height:1.7}
 /* every tap target clears 44px, and nothing overflows sideways */
 .btn,.sbook,.scall,.hbook,.callbar a{min-height:44px}
 .sact{grid-template-columns:1fr 52px}
-html,body{overflow-x:hidden;max-width:100%}
+/* overflow-x on <html> makes it a scroll container and kills smooth
+   anchor scrolling + scroll-padding-top. Keep it on body only. */
+body{overflow-x:hidden;max-width:100%}
 .wrap{width:100%}
 h1,h2,h3{overflow-wrap:break-word}
 @media(hover:none){.btn:hover,.svc:hover{transform:none}}

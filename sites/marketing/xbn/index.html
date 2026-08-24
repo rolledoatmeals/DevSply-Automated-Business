@@ -145,7 +145,8 @@
   }
 
   /* mobile safeguards, matched to the mockup */
-  html,body{overflow-x:hidden;max-width:100%}
+  /* never put overflow-x on <html> - it breaks smooth anchor scrolling */
+  body{overflow-x:hidden;max-width:100%}
   h1,h2,h3{overflow-wrap:break-word}
   .btn-amber,footer a{min-height:44px}
   footer a{display:inline-block;line-height:44px}
