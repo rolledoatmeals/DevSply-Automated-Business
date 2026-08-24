@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sequel Investments: Scope of Work from DevSply</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Phased scope of work for the Sequel Investments CRM and website buildout, prepared by DevSply, Tampa Bay.">
+<link rel="icon" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --paper:        #FAFAF8;
+    --surface:      #FFFFFF;
+    --sunken:       #F2F1EC;
+    --ink:          #1A1D24;
+    --slate:        #565C69;
+    --mute:         #838996;
+    --rule:         #E0DED6;
+    --rule-strong:  #C9C6BB;
+    --bronze:       #7E6427;
+    --bronze-soft:  #F0EADA;
+    --flag:         #8C3A2B;
+    --flag-soft:    #F6E9E5;
+
+    --display: "Newsreader", Georgia, "Times New Roman", serif;
+    --body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --measure: 68ch;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:       #131519;
+      --surface:     #1A1D22;
+      --sunken:      #202329;
+      --ink:         #ECEAE4;
+      --slate:       #A8ADB8;
+      --mute:        #7B8290;
+      --rule:        #2C3038;
+      --rule-strong: #3D424C;
+      --bronze:      #C9A554;
+      --bronze-soft: #262114;
+      --flag:        #D98A78;
+      --flag-soft:   #2A1B17;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --paper:       #131519;
+    --surface:     #1A1D22;
+    --sunken:      #202329;
+    --ink:         #ECEAE4;
+    --slate:       #A8ADB8;
+    --mute:        #7B8290;
+    --rule:        #2C3038;
+    --rule-strong: #3D424C;
+    --bronze:      #C9A554;
+    --bronze-soft: #262114;
+    --flag:        #D98A78;
+    --flag-soft:   #2A1B17;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16.5px;
+    line-height: 1.65;
+    margin: 0;
+    padding: 0 24px 96px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: var(--measure); margin: 0 auto; }
+
+  /* ---------- masthead ---------- */
+
+  .masthead {
+    padding: 72px 0 32px;
+    border-bottom: 2px solid var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin: 0;
+  }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(2.3rem, 6vw, 3.1rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px 32px;
+    font-size: 14px;
+  }
+  .meta div { display: flex; flex-direction: column; gap: 3px; }
+  .meta dt {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .meta dd { margin: 0; color: var(--ink); font-weight: 500; }
+
+  /* ---------- sections ---------- */
+
+  section { padding-top: 60px; }
+
+  h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 1.72rem;
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+    text-wrap: balance;
+    margin: 0 0 6px;
+  }
+
+  .kicker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin: 0 0 14px;
+  }
+
+  h3 {
+    font-family: var(--body);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: -0.005em;
+    margin: 0;
+  }
+
+  p { margin: 0 0 18px; color: var(--slate); }
+  p.lead { color: var(--ink); font-size: 17.5px; }
+  p:last-child { margin-bottom: 0; }
+  strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- findings ---------- */
+
+  .findings { display: flex; flex-direction: column; gap: 0; margin-top: 28px; }
+
+  .finding {
+    display: grid;
+    grid-template-columns: 34px 1fr;
+    gap: 0 18px;
+    padding: 24px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .finding:last-child { border-bottom: 1px solid var(--rule); }
+
+  .fnum {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--mute);
+    padding-top: 3px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .fbody { display: flex; flex-direction: column; gap: 8px; }
+  .fbody p { margin: 0; font-size: 15.5px; }
+
+  .fhead { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+
+  .chip {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .chip.urgent { background: var(--flag-soft); color: var(--flag); }
+  .chip.high   { background: var(--bronze-soft); color: var(--bronze); }
+  .chip.note   { background: var(--sunken); color: var(--mute); }
+
+  /* ---------- phases ---------- */
+
+  .phases { display: flex; flex-direction: column; margin-top: 30px; }
+
+  .phase {
+    border-top: 1px solid var(--rule);
+    padding: 26px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .phase:last-of-type { border-bottom: 1px solid var(--rule); }
+
+  .phase-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .phase-id {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 4px;
+  }
+
+  .price {
+    font-family: var(--mono);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .price span {
+    display: block;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mute);
+    text-align: right;
+    margin-top: 2px;
+  }
+
+  ul.points {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  ul.points li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 15.5px;
+    color: var(--slate);
+  }
+  ul.points li::before {
+    content: "";
+    position: absolute;
+    left: 1px;
+    top: 10px;
+    width: 6px;
+    height: 1px;
+    background: var(--rule-strong);
+  }
+  ul.points li b { color: var(--ink); font-weight: 600; }
+
+  ul.deliverables {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  ul.deliverables li {
+    position: relative;
+    padding-left: 20px;
+    font-size: 15px;
+    color: var(--slate);
+  }
+  ul.deliverables li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 10px;
+    width: 7px;
+    height: 1px;
+    background: var(--rule-strong);
+  }
+
+  .total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+    padding: 22px 0 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .total b {
+    font-size: 1.3rem;
+    letter-spacing: 0;
+    color: var(--ink);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ---------- retainer panel ---------- */
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--bronze);
+    padding: 28px 30px;
+    margin-top: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .panel .phase-head { margin: 0; }
+
+  /* ---------- risk ---------- */
+
+  .risk {
+    border-top: 1px solid var(--rule);
+    padding: 22px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .risk:last-of-type { border-bottom: 1px solid var(--rule); }
+  .risk p { margin: 0; font-size: 15.5px; }
+
+  /* ---------- terms ---------- */
+
+  .terms {
+    margin-top: 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .term {
+    display: grid;
+    grid-template-columns: 190px 1fr;
+    gap: 4px 24px;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+    font-size: 15px;
+  }
+  .term:last-child { border-bottom: 1px solid var(--rule); }
+  .term dt {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mute);
+    padding-top: 4px;
+  }
+  .term dd { margin: 0; color: var(--slate); }
+
+  /* ---------- close ---------- */
+
+  .close {
+    margin-top: 60px;
+    padding-top: 34px;
+    border-top: 2px solid var(--ink);
+  }
+  .sig {
+    margin-top: 30px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--mute);
+    line-height: 1.9;
+  }
+  .sig b { display: block; color: var(--ink); font-weight: 500; letter-spacing: 0.04em; }
+
+  @media (max-width: 620px) {
+    body { padding: 0 20px 72px; font-size: 16px; }
+    .masthead { padding-top: 52px; }
+    .term { grid-template-columns: 1fr; gap: 4px; }
+    .finding { grid-template-columns: 26px 1fr; gap: 0 12px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Scope of Work</p>
+    <h1>Rebuilding Sequel's lead engine</h1>
+    <dl class="meta">
+      <div><dt>Prepared for</dt><dd>Joshua Sell</dd></div>
+      <div><dt>Prepared by</dt><dd>Zach Shepelsky</dd></div>
+      <div><dt>Date</dt><dd>August 24, 2026</dd></div>
+      <div><dt>Engagement</dt><dd>Phased, project-based</dd></div>
+    </dl>
+  </header>
+
+  <section>
+    <p class="kicker">Summary</p>
+    <h2>What this covers</h2>
+    <ul class="points">
+      <li>You asked for the work broken into pieces, priced, and put in order. Here it is.</li>
+      <li>Before writing this I went through your website and your GoHighLevel account.</li>
+      <li>Some of what I found you already know about. Some you don't.</li>
+      <li>One item needs fixing this week either way.</li>
+      <li>The plan runs about four months. You approve and pay for one phase at a time.</li>
+    </ul>
+  </section>
+
+  <section>
+    <p class="kicker">Findings</p>
+    <h2>What I found</h2>
+    <p>Ordered by what it's costing you.</p>
+
+    <div class="findings">
+
+      <div class="finding">
+        <div class="fnum">01</div>
+        <div class="fbody">
+          <div class="fhead">
+            <h3>Borrower documents are public</h3>
+            <span class="chip urgent">Fix this week</span>
+          </div>
+          <ul class="points">
+            <li>Files people upload through your intake form sit in storage that needs no login.</li>
+            <li>Rent rolls, personal financial statements, bank statements.</li>
+            <li>Anyone holding a file's web address can open it.</li>
+            <li>I confirmed the setting. <b>I did not open any files.</b></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="fnum">02</div>
+        <div class="fbody">
+          <div class="fhead">
+            <h3>Your Facebook ads never got conversion data</h3>
+            <span class="chip high">Explains a lot</span>
+          </div>
+          <ul class="points">
+            <li>The tracking pixel on your site records visits and nothing else.</li>
+            <li>It has never recorded a single lead.</li>
+            <li>Facebook gets better by learning who converts. It got nothing from you.</li>
+            <li><b>400 leads and one close makes more sense now.</b></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="fnum">03</div>
+        <div class="fbody">
+          <div class="fhead">
+            <h3>Leads can disappear</h3>
+            <span class="chip urgent">Fix this week</span>
+          </div>
+          <ul class="points">
+            <li>The site sends the form to GoHighLevel, then shows the thank-you page whether or not it arrived.</li>
+            <li>No retry. No error. No backup copy anywhere.</li>
+            <li>Your intake form says "Submission received" even when it failed.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="fnum">04</div>
+        <div class="fbody">
+          <div class="fhead">
+            <h3>No deal has ever been tracked</h3>
+            <span class="chip high">Core problem</span>
+          </div>
+          <ul class="points">
+            <li>Zero opportunities. Zero pipeline value. Zero percent conversion.</li>
+            <li>Your only pipeline is called "Credit Repair" with a stage named "Under 620 Sent To Owen".</li>
+            <li>Nothing exists for DSCR, fix and flip, ground up, or commercial.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="fnum">05</div>
+        <div class="fbody">
+          <div class="fhead">
+            <h3>1,182 contacts you can't use yet</h3>
+            <span class="chip high">Recoverable</span>
+          </div>
+          <ul class="points">
+            <li>Almost every one is a phone number with no name, email, or company.</li>
+            <li>Not a single contact has a tag. The workflow that adds them was never turned on.</li>
+            <li>There's real value in that list. Right now you can't sort it or send to it.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="fnum">06</div>
+        <div class="fbody">
+          <div class="fhead">
+            <h3>Someone else still has access</h3>
+            <span class="chip note">Needs your call</span>
+          </div>
+          <ul class="points">
+            <li>An API integration named "N8N", created by Travis Gervasio.</li>
+            <li>Last used August 20. Four days before we talked.</li>
+            <li><b>Tell me whether that's supposed to be running before I change anything.</b></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="fnum">07</div>
+        <div class="fbody">
+          <div class="fhead">
+            <h3>Nothing has been touched since February</h3>
+            <span class="chip note">Context</span>
+          </div>
+          <ul class="points">
+            <li>Every workflow was last edited in February 2026.</li>
+            <li>One sits in draft with 19 people stuck inside it.</li>
+            <li>Six marketing workflows from July 2025 have never run once.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <p class="kicker">The plan</p>
+    <h2>Four phases</h2>
+    <p>Money-making work first. Each phase is approved and paid separately.</p>
+
+    <div class="phases">
+
+      <div class="phase">
+        <div class="phase-head">
+          <div>
+            <div class="phase-id">Phase One &middot; Weeks 1&ndash;3</div>
+            <h3>Stabilize</h3>
+          </div>
+          <div class="price">$2,500<span>Fixed</span></div>
+        </div>
+        <ul class="deliverables">
+          <li>Lock down the public borrower documents</li>
+          <li>Stop lead loss, with a backup copy of every submission</li>
+          <li>Build real pipelines: DSCR, fix and flip, ground up, commercial</li>
+          <li>Fix the stage problem so a lead sits in one stage, not all of them</li>
+          <li>Clean and tag your 1,182 contacts by source and type</li>
+          <li>Sort out who else has access to the account</li>
+        </ul>
+        <p style="font-size:14.5px;">You end up with a CRM you can actually work out of.</p>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <div>
+            <div class="phase-id">Phase Two &middot; Month 2</div>
+            <h3>Convert</h3>
+          </div>
+          <div class="price">$3,000<span>Fixed</span></div>
+        </div>
+        <ul class="deliverables">
+          <li>Instant reply to every new lead, day or night</li>
+          <li>Text chatbot that answers loan questions, qualifies, and books your calendar</li>
+          <li>Intro video sent automatically on first contact</li>
+          <li>Email sequences, plus blasts to your whole list</li>
+          <li>Appointment reminders and no-show follow-up</li>
+        </ul>
+        <p style="font-size:14.5px;">This is what stops you taking 400 calls to find one deal.</p>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <div>
+            <div class="phase-id">Phase Three &middot; Month 3</div>
+            <h3>Outbound</h3>
+          </div>
+          <div class="price">$3,500<span>Fixed</span></div>
+        </div>
+        <ul class="deliverables">
+          <li>PropStream lists into GoHighLevel, on a process you can repeat</li>
+          <li>Do-not-call scrubbing before anyone gets contacted</li>
+          <li>Text sequences personalized to each property address</li>
+          <li>Messaging platform picked and connected</li>
+          <li>AI voice tested on a small list before it scales</li>
+        </ul>
+        <p style="font-size:14.5px;">Built so a $15/hour appointment setter can run it without touching the setup.</p>
+      </div>
+
+      <div class="phase">
+        <div class="phase-head">
+          <div>
+            <div class="phase-id">Phase Four &middot; Month 4</div>
+            <h3>Website</h3>
+          </div>
+          <div class="price">$500<span>Fixed</span></div>
+        </div>
+        <ul class="deliverables">
+          <li>Rebuilt around DSCR and fix and flip, commercial in its proper place</li>
+          <li>A lead form per loan type, each landing in the right pipeline</li>
+          <li>Landing pages you can point a campaign at</li>
+          <li>Conversion tracking installed properly this time</li>
+          <li>Full SEO build: fast pages, clean structure, real meta tags, sitemap, schema markup</li>
+          <li>AEO on top of it, so ChatGPT, Claude, and Google's AI answers pull your name when someone asks about DSCR financing</li>
+          <li>Structured data on every loan program so search engines understand what you actually lend on</li>
+          <li>Loads in under a second on a phone, which is where your borrowers are</li>
+        </ul>
+        <p style="font-size:14.5px;">Priced at cost on purpose. You said nobody sees the site anyway &mdash; but when someone does check you out before a $4,000 commission call, it should close them, not lose them.</p>
+      </div>
+
+      <div class="total">
+        <span>Total, four phases</span>
+        <b>$9,500</b>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="phase-head">
+        <div>
+          <div class="phase-id">Ongoing &middot; Starts after Phase Two</div>
+          <h3>Managed service</h3>
+        </div>
+        <div class="price">$1,500<span>Per month</span></div>
+      </div>
+      <ul class="deliverables">
+        <li>Hosting, security, and uptime monitoring</li>
+        <li>Ongoing GoHighLevel management</li>
+        <li>Content and copy updates</li>
+        <li>An alert to me if leads ever stop coming in</li>
+        <li>Text or call me when you need something changed</li>
+      </ul>
+      <p style="font-size:14.5px;">Month to month after the first three. This is the part you said you wanted most.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="kicker">Before we start</p>
+    <h2>Two things to flag</h2>
+
+    <div class="risk">
+      <h3>Cold outreach is a legal risk</h3>
+      <ul class="points">
+        <li>Texting or calling skip-traced numbers falls under the TCPA.</li>
+        <li>Penalties run $500 to $1,500 per message.</li>
+        <li>You said yourself about 70% of a list is on the do-not-call registry.</li>
+        <li><b>Scrubbing is built into Phase Three. I won't skip it.</b></li>
+      </ul>
+    </div>
+
+    <div class="risk">
+      <h3>Blue-bubble texting is unstable</h3>
+      <ul class="points">
+        <li>Project Blue and tools like it run against Apple's terms.</li>
+        <li>They get shut down every so often.</li>
+        <li>I'll build it so you can swap providers without redoing your outbound.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <p class="kicker">Terms</p>
+    <h2>How this works</h2>
+
+    <dl class="terms">
+      <div class="term">
+        <dt>Pricing</dt>
+        <dd>Fixed price per phase, not hourly. You're buying a working system, not my hours.</dd>
+      </div>
+      <div class="term">
+        <dt>Payment</dt>
+        <dd>Half up front, half on delivery. Nothing owed beyond the phase you've approved.</dd>
+      </div>
+      <div class="term">
+        <dt>Order</dt>
+        <dd>Phases can be moved around or skipped, except Phase One. The rest depends on it.</dd>
+      </div>
+      <div class="term">
+        <dt>Not included</dt>
+        <dd>Ad spend, subscriptions, PropStream, messaging credits, AI usage. Billed to you at cost, no markup.</dd>
+      </div>
+      <div class="term">
+        <dt>Extra work</dt>
+        <dd>Quoted before it starts, or $150/hour if you'd rather I just do it.</dd>
+      </div>
+      <div class="term">
+        <dt>Ownership</dt>
+        <dd>Everything is yours. Accounts stay in your name and you keep the logins.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="close">
+    <p class="kicker">Next step</p>
+    <h2>Start with Phase One</h2>
+    <ul class="points">
+      <li>Two findings are costing you money or exposure right now. Both get closed in three weeks.</li>
+      <li>You'll know if working together is a fit without committing to the whole plan.</li>
+      <li>If the order or the price doesn't work, tell me and I'll redo it.</li>
+      <li><b>Let me know about the N8N integration before I touch the account.</b></li>
+    </ul>
+
+    <p class="sig">
+      <b>Zach Shepelsky</b>
+      DevSply &middot; Tampa Bay<br>
+      zshepelsky@gmail.com
+    </p>
+  </section>
+
+</div>
+
+</body>
+</html>
