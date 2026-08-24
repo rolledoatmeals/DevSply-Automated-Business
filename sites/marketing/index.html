@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>DevSply — Tampa Bay Web Design. Live in 7 Days.</title>
-  <meta name="description" content="DevSply builds fast, custom websites for Tampa Bay contractors and local businesses. Live in 7 days. Free preview before you pay. Starting at $1,000 flat.">
+  <meta name="description" content="DevSply builds fast, custom websites for Tampa Bay contractors and local businesses. Live in 7 days. Free preview before you pay. Starting at $1,500 flat.">
   <meta name="keywords" content="web design Tampa FL, Tampa Bay website design, local business website, contractor website Tampa, affordable web design Tampa, HVAC website Tampa, plumber website Tampa">
   <meta name="robots" content="index, follow">
   <meta name="author" content="DevSply">
@@ -37,18 +37,18 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://devsply.com/">
   <meta property="og:title" content="DevSply — Tampa Bay Web Design. Live in 7 Days.">
-  <meta property="og:description" content="Custom websites for Tampa Bay local businesses. Free preview before you pay. $1,000 flat. Live in 7 days.">
+  <meta property="og:description" content="Custom websites for Tampa Bay local businesses. Free preview before you pay. $1,500 flat. Live in 7 days.">
   <meta property="og:image" content="https://devsply.com/og-image.png">
   <meta property="og:locale" content="en_US">
   <meta property="og:site_name" content="DevSply">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="DevSply — Tampa Bay Web Design. Live in 7 Days.">
-  <meta name="twitter:description" content="Custom websites for Tampa Bay businesses. Free preview, $1,000 flat, 7 days.">
+  <meta name="twitter:description" content="Custom websites for Tampa Bay businesses. Free preview, $1,500 flat, 7 days.">
   <meta name="twitter:image" content="https://devsply.com/og-image.png">
 
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"DevSply","description":"DevSply builds professional websites and custom AI agents for local businesses in Tampa Bay, FL.","url":"https://devsply.com","email":"devsply@gmail.com","priceRange":"$$","address":{"@type":"PostalAddress","addressLocality":"Tampa","addressRegion":"FL","postalCode":"33602","addressCountry":"US"},"areaServed":[{"@type":"City","name":"Tampa"},{"@type":"City","name":"St. Petersburg"},{"@type":"City","name":"Clearwater"},{"@type":"City","name":"Brandon"},{"@type":"City","name":"Riverview"},{"@type":"City","name":"Wesley Chapel"}],"serviceType":["Web Design","Website Development","Custom AI Agents","Local SEO"]}</script>
 
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I have to pay before seeing the website?","acceptedAnswer":{"@type":"Answer","text":"No. We build a free custom preview before you commit to anything."}},{"@type":"Question","name":"How much does a website cost?","acceptedAnswer":{"@type":"Answer","text":"Starting at $1,000 flat — one payment, no monthly fees."}},{"@type":"Question","name":"How long does it take?","acceptedAnswer":{"@type":"Answer","text":"7 days or less. Priority projects are done in 5 days."}}]}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do I have to pay before seeing the website?","acceptedAnswer":{"@type":"Answer","text":"No. We build a free custom preview before you commit to anything."}},{"@type":"Question","name":"How much does a website cost?","acceptedAnswer":{"@type":"Answer","text":"Starting at $1,500 flat — one payment, no monthly fees."}},{"@type":"Question","name":"How long does it take?","acceptedAnswer":{"@type":"Answer","text":"7 days or less. Priority projects are done in 5 days."}}]}</script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -393,6 +393,21 @@
     .res-who { font-size: .76rem; color: var(--g400); border-top: 1px solid var(--g100); padding-top: .8rem; }
 
     /* ── SERVICES / PRICING ── */
+    .cap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.4rem; }
+    .cap-card {
+      border-radius: 16px; padding: 1.6rem 1.7rem;
+      border: 1.5px solid var(--g200); background: #fff;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .cap-card:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,.07); border-color: rgba(245,158,11,.4); }
+    .cap-card h3 { font-size: 1.02rem; font-weight: 800; color: var(--g900); margin-bottom: .5rem; }
+    .cap-card p { font-size: .87rem; color: var(--g500); line-height: 1.7; margin: 0; }
+    .cap-note {
+      margin-top: 2.4rem; padding: 1.15rem 1.4rem;
+      border-left: 3px solid var(--amber); background: var(--g50);
+      border-radius: 0 10px 10px 0;
+      font-size: .9rem; color: var(--g600); line-height: 1.7;
+    }
     .svc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.5rem; }
     .svc-card {
       border-radius: 16px; padding: 2rem;
@@ -505,6 +520,7 @@
   <ul class="nav-links">
     <li><a href="#how">How It Works</a></li>
     <li><a href="#results">Results</a></li>
+    <li><a href="#capabilities">Experience</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#faq">FAQ</a></li>
     <li><button class="nav-cta" onclick="scrollToForm()">Get Free Preview →</button></li>
@@ -517,6 +533,7 @@
 <div class="mobile-nav" id="mobile-nav">
   <a href="#how" onclick="closeMobileNav()">How It Works</a>
   <a href="#results" onclick="closeMobileNav()">Results</a>
+  <a href="#capabilities" onclick="closeMobileNav()">Experience</a>
   <a href="#services" onclick="closeMobileNav()">Services</a>
   <a href="#faq" onclick="closeMobileNav()">FAQ</a>
   <button class="mn-cta" onclick="closeMobileNav();scrollToForm()">Get My Free Preview →</button>
@@ -549,7 +566,7 @@
       </div>
 
       <div class="hero-stats">
-        <div><div class="hs-val">$1,000</div><div class="hs-lbl">Flat price</div></div>
+        <div><div class="hs-val">$1,500</div><div class="hs-lbl">Flat price</div></div>
         <div><div class="hs-val">7 days</div><div class="hs-lbl">To go live</div></div>
         <div><div class="hs-val">Free</div><div class="hs-lbl">Preview first</div></div>
       </div>
@@ -671,7 +688,7 @@
     <span class="ti">🔒 Free preview — zero risk</span>
     <span class="ti">⚡ Live in 7 days</span>
     <span class="ti">📍 Tampa Bay local</span>
-    <span class="ti">💳 $1,000 flat · no hidden fees</span>
+    <span class="ti">💳 $1,500 flat · no hidden fees</span>
     <span class="ti">✅ See it before you pay</span>
     <span class="ti">📞 Response within 24 hrs</span>
   </div>
@@ -766,11 +783,52 @@
 </section>
 
 <!-- SERVICES & PRICING -->
+<section id="capabilities" class="reveal">
+  <div class="si">
+    <div class="stag">Experience</div>
+    <h2>Not just websites.</h2>
+    <p class="sdesc">I've built and run these for businesses in home services, health and wellness, e-commerce, and lending. One person does all of it, so nothing gets lost handing off between people.</p>
+    <div class="cap-grid">
+
+      <div class="cap-card">
+        <h3>Sites that actually get found</h3>
+        <p>Fast, mobile-first builds that load in under a second, written so Google and AI search tools understand what you sell. Most small business sites are invisible to both.</p>
+      </div>
+
+      <div class="cap-card">
+        <h3>Lead capture that doesn't leak</h3>
+        <p>I've found businesses quietly losing form submissions for months without knowing it. I build capture that saves every lead before it goes anywhere, so a dropped connection never costs you a job.</p>
+      </div>
+
+      <div class="cap-card">
+        <h3>CRM setup and cleanup</h3>
+        <p>Pipelines, stages, automated follow-up, lead routing. I've taken databases of a thousand-plus contacts nobody could sort or send to and turned them into something you can work.</p>
+      </div>
+
+      <div class="cap-card">
+        <h3>AI agents that answer for you</h3>
+        <p>By text, on your website, and on the phone. Trained on how your business actually runs, so they answer real questions, qualify people, and book appointments without you picking up.</p>
+      </div>
+
+      <div class="cap-card">
+        <h3>Marketing you can measure</h3>
+        <p>Email campaigns, ad creative, and conversion tracking wired up properly. I've audited ad accounts spending thousands a month that never sent back a single conversion.</p>
+      </div>
+
+      <div class="cap-card">
+        <h3>Audits before quotes</h3>
+        <p>I go through what you already have before pricing anything. Most businesses are paying for tools that were never connected to each other, and that's usually the cheapest thing to fix.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <section id="services" class="reveal">
   <div class="si">
     <div class="stag">Services &amp; Pricing</div>
     <h2>One price. Everything included.</h2>
-    <p class="sdesc">No monthly fees. No subscriptions. Pay once, own your site forever.</p>
+    <p class="sdesc">Sites are one-time &mdash; pay once and you own it, no subscription. Larger systems are quoted per project so you only pay for what you actually use.</p>
     <div class="svc-grid">
 
       <div class="svc-card">
@@ -786,7 +844,7 @@
           <li>Domain &amp; hosting setup included</li>
           <li>Free preview before you pay</li>
         </ul>
-        <div class="svc-price">$1,000 <span>one-time flat</span></div>
+        <div class="svc-price">$1,500 <span>one-time flat</span></div>
         <button class="svc-btn" onclick="scrollToForm()">Get Free Preview →</button>
       </div>
 
@@ -803,7 +861,7 @@
           <li>Priority 5-day delivery</li>
           <li>1 month free edits after launch</li>
         </ul>
-        <div class="svc-price">$1,800 <span>one-time flat</span></div>
+        <div class="svc-price">$2,500 <span>one-time flat</span></div>
         <button class="svc-btn" onclick="scrollToForm()">Get Free Preview →</button>
       </div>
 
@@ -819,10 +877,14 @@
           <li>Works via SMS, chat, or your site</li>
           <li>No monthly AI platform fees</li>
         </ul>
-        <div class="svc-price">Custom <span>pricing</span></div>
+        <div class="svc-price">from $4,000 <span>per project</span></div>
         <button class="svc-btn" onclick="scrollToForm()">Get a Free Consult →</button>
       </div>
 
+    </div>
+
+    <div class="cap-note">
+      <strong>Bigger builds and ongoing work.</strong> Full systems &mdash; site, CRM, automation and outbound together &mdash; get scoped in phases and quoted per project, so you approve one piece at a time. Ongoing management, where I keep it all running and make changes as you need them, starts at $1,500/month. Ask and I'll put a written scope together before you commit to anything.
     </div>
   </div>
 </section>
@@ -844,7 +906,7 @@
 
       <div class="faq-item">
         <button class="faq-trigger" onclick="toggleFaq(this)">
-          <span>How is $1,000 possible when agencies charge $5,000?</span>
+          <span>How is $1,500 possible when agencies charge $5,000?</span>
           <span class="faq-icon">+</span>
         </button>
         <div class="faq-body"><p>I'm one developer — no agency overhead, no account managers, no endless revision cycles. I use AI-assisted development workflows that let me build fast without cutting corners on quality.</p></div>
@@ -905,6 +967,7 @@
     <div class="ft-links">
       <a href="#how">How It Works</a>
       <a href="#results">Results</a>
+      <a href="#capabilities">Experience</a>
       <a href="#services">Pricing</a>
       <a href="#faq">FAQ</a>
       <a href="mailto:devsply@gmail.com">devsply@gmail.com</a>
@@ -918,7 +981,7 @@
 
 <!-- STICKY MOBILE CTA -->
 <div class="sticky">
-  <button onclick="scrollToForm()">⚡ Get My Free Preview — $1,000 Flat</button>
+  <button onclick="scrollToForm()">⚡ Get My Free Preview — $1,500 Flat</button>
 </div>
 
 <script>
