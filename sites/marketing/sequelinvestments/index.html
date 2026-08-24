@@ -407,6 +407,62 @@
   .math .row.hi { color: var(--ink); }
   .math .row.hi b { color: var(--bronze); }
 
+  /* ---------- flow ---------- */
+
+  .flow {
+    background: var(--sunken);
+    border: 1px solid var(--rule);
+    padding: 24px 26px;
+    margin: 6px 0 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .flow > h4 {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin: 0;
+    font-weight: 400;
+  }
+  .flow ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .flow li {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 0 14px;
+    position: relative;
+    padding-bottom: 15px;
+  }
+  .flow li:last-child { padding-bottom: 0; }
+  .flow li::before {
+    content: "";
+    grid-column: 1;
+    width: 9px;
+    height: 9px;
+    margin-top: 7px;
+    border-radius: 50%;
+    background: var(--bronze);
+  }
+  .flow li:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 4px;
+    top: 18px;
+    bottom: 2px;
+    width: 1px;
+    background: var(--rule-strong);
+  }
+  .flow li span { font-size: 15px; color: var(--slate); line-height: 1.5; }
+  .flow li b { color: var(--ink); font-weight: 600; }
+
   /* ---------- checklist ---------- */
 
   .checklist {
@@ -536,23 +592,36 @@
         <div class="phase-head">
           <div>
             <div class="phase-id">Phase One &middot; Weeks 1&ndash;3</div>
-            <h3>The website, and stop the bleeding</h3>
+            <h3>The website, wired into GoHighLevel</h3>
           </div>
           <div class="price">$2,000<span>Fixed</span></div>
         </div>
+
+        <div class="flow">
+          <h4>What happens when somebody fills out your form</h4>
+          <ol>
+            <li><span><b>They submit.</b> A borrower picks their loan type and answers your qualifying questions.</span></li>
+            <li><span><b>It's saved before it goes anywhere.</b> A copy is stored the second they hit send, so the lead exists whether or not anything downstream works.</span></li>
+            <li><span><b>It lands in GoHighLevel</b> as a contact <em>and</em> a deal &mdash; not just a name in a list.</span></li>
+            <li><span><b>It drops into the right pipeline,</b> tagged by loan type and where it came from, sitting in the first stage waiting on you.</span></li>
+            <li><span><b>You get a text within seconds,</b> and they get an instant reply so they're not sitting there wondering.</span></li>
+          </ol>
+        </div>
+
         <ul class="deliverables">
           <li><b>Week one:</b> close off the public borrower documents. That's a settings fix, it happens immediately, it isn't waiting on anything else.</li>
           <li>Site rebuilt around DSCR and fix and flip, with commercial where it belongs instead of front and center</li>
-          <li>A separate form for each loan type, each one landing in the right pipeline</li>
-          <li><b>Forms that physically cannot lose a lead</b> &mdash; every submission is stored before it's sent anywhere, so if GoHighLevel hiccups the deal is still sitting there</li>
+          <li>A separate form for each loan type, each one asking the questions that actually qualify somebody</li>
+          <li><b>Forms that physically cannot lose a lead</b> &mdash; every submission is stored before it's sent, so if GoHighLevel hiccups the deal is still sitting there</li>
+          <li><b>A live DSCR pipeline built in GoHighLevel and connected to those forms.</b> Fill your own site out and watch the deal appear. End to end, working, in three weeks.</li>
+          <li>Instant text to you on every new lead, and an instant reply to them</li>
           <li>Landing pages you can point an ad at whenever you turn ads back on</li>
-          <li><b>One live DSCR pipeline wired to the forms</b>, so you can fill it out yourself and watch the deal appear in GoHighLevel. End to end, working, before you spend another dollar.</li>
           <li>Facebook tracking installed properly this time, so ad money finally has something to learn from</li>
           <li>Built so Google understands exactly what you lend on</li>
           <li>Written so AI search tools can actually read and understand what you lend on. Nobody can promise ChatGPT will name you &mdash; but most lender sites are invisible to those tools, and yours won't be.</li>
           <li>Loads in under a second on a phone, which is where your borrowers actually are</li>
         </ul>
-        <p style="font-size:14.5px;">This isn't a brochure. It closes three of the problems on that list on its own &mdash; the open documents, the leads that vanish, and Facebook flying blind. It's first because rebuilding now means I never charge you to patch forms on a site that's getting replaced, and because you get to see exactly how I work before you commit to anything bigger.</p>
+        <p style="font-size:14.5px;">This isn't a brochure. It closes three of the problems on that list on its own &mdash; the open documents, the leads that vanish, and Facebook flying blind &mdash; and it ends with a lead actually arriving in your CRM as a tracked deal. Everything after this builds on top of it. You also get to see exactly how I work before you commit to anything bigger.</p>
       </div>
 
       <div class="phase">
@@ -569,7 +638,7 @@
           <li>Move the 165 stuck people somewhere that makes sense</li>
           <li>Put real dollar values on deals so you can finally see what your pipeline is worth</li>
           <li>Clean up and label all 1,182 contacts so you can actually sort them</li>
-          <li>Wire the new site's forms into the right pipelines</li>
+          <li>Wire the remaining loan types into their own pipelines, the way DSCR already runs</li>
           <li>Sort out who else has access</li>
         </ul>
         <p style="font-size:14.5px;">Everything after this depends on it. You end up with a CRM built for your business that you can open without feeling overwhelmed.</p>
@@ -932,8 +1001,8 @@
         <span>I can't safely touch the account until we know what else is reaching into it.</span>
       </div></li>
       <li><div class="ctext">
-        <b>Let me rebuild the site</b>
-        <span>Three weeks. Fixes three findings on its own and shows you exactly how I work.</span>
+        <b>Let me rebuild the site and wire it up</b>
+        <span>Three weeks. Fixes three findings and ends with a real lead landing in your CRM as a tracked deal.</span>
       </div></li>
       <li><div class="ctext">
         <b>Then the pipelines and the contacts</b>
