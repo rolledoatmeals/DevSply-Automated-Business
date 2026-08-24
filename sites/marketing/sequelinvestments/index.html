@@ -342,6 +342,36 @@
   .risk:last-of-type { border-bottom: 1px solid var(--rule); }
   .risk p { margin: 0; font-size: 15.5px; }
 
+  /* ---------- checklist ---------- */
+
+  .checklist {
+    margin: 26px 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .checklist li {
+    display: grid;
+    grid-template-columns: 26px 1fr;
+    gap: 0 14px;
+    align-items: start;
+    padding: 15px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .checklist li:last-child { border-bottom: 1px solid var(--rule); }
+  .checklist li::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    margin-top: 4px;
+    border: 1.5px solid var(--rule-strong);
+    border-radius: 2px;
+  }
+  .checklist .ctext { display: flex; flex-direction: column; gap: 3px; }
+  .checklist b { font-weight: 600; color: var(--ink); font-size: 15.5px; }
+  .checklist span { font-size: 14.5px; color: var(--slate); }
+
   /* ---------- terms ---------- */
 
   .terms {
@@ -420,7 +450,7 @@
       <li>You asked for the work broken into pieces, priced, and put in order. Here it is.</li>
       <li>Before writing this I went through your website and your GoHighLevel account.</li>
       <li>Some of what I found you already know about. Some you don't.</li>
-      <li>One item needs fixing this week either way.</li>
+      <li>One of them I'd deal with before anything else.</li>
       <li>The plan runs about four months. You approve and pay for one phase at a time.</li>
     </ul>
   </section>
@@ -437,7 +467,7 @@
         <div class="fbody">
           <div class="fhead">
             <h3>Borrower documents are public</h3>
-            <span class="chip urgent">Fix this week</span>
+            <span class="chip urgent">Critical</span>
           </div>
           <ul class="points">
             <li>Files people upload through your intake form sit in storage that needs no login.</li>
@@ -469,7 +499,7 @@
         <div class="fbody">
           <div class="fhead">
             <h3>Leads can disappear</h3>
-            <span class="chip urgent">Fix this week</span>
+            <span class="chip urgent">Critical</span>
           </div>
           <ul class="points">
             <li>The site sends the form to GoHighLevel, then shows the thank-you page whether or not it arrived.</li>
@@ -708,13 +738,33 @@
 
   <section class="close">
     <p class="kicker">Next step</p>
-    <h2>Start with Phase One</h2>
-    <ul class="points">
-      <li>Two findings are costing you money or exposure right now. Both get closed in three weeks.</li>
-      <li>You'll know if working together is a fit without committing to the whole plan.</li>
-      <li>If the order or the price doesn't work, tell me and I'll redo it.</li>
-      <li><b>Let me know about the N8N integration before I touch the account.</b></li>
-    </ul>
+    <h2>Where I'd start</h2>
+    <p>If you want to move on nothing else, move on these. In this order.</p>
+
+    <ol class="checklist">
+      <li><div class="ctext">
+        <b>Close public access to the uploaded documents</b>
+        <span>Your borrowers' financials are sitting open. Nothing else on this list matters as much.</span>
+      </div></li>
+      <li><div class="ctext">
+        <b>Tell me whether the N8N integration should still be running</b>
+        <span>I can't safely change anything in the account until we know what else is touching it.</span>
+      </div></li>
+      <li><div class="ctext">
+        <b>Stop the lead loss on the current forms</b>
+        <span>Quick fix on the existing site. Every deal that comes in from here gets recorded.</span>
+      </div></li>
+      <li><div class="ctext">
+        <b>Build the DSCR and fix-and-flip pipelines</b>
+        <span>85% of your business has nowhere to live in the CRM right now.</span>
+      </div></li>
+      <li><div class="ctext">
+        <b>Tag and segment the 1,182 contacts</b>
+        <span>Turns a dead list into something you can actually send to.</span>
+      </div></li>
+    </ol>
+
+    <p style="margin-top:28px;">That's Phase One. You'll know whether working together is a fit without committing to the rest of the plan. If the order or the price doesn't work, tell me and I'll redo it.</p>
 
     <p class="sig">
       <b>Zach Shepelsky</b>
