@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XBN Website Rebuild: Proposal from DevSply</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Homepage rebuild proposal for XBN Rejuvenation and Recovery Lounge, prepared by DevSply, Tampa Bay.">
+<link rel="icon" href="/favicon.svg">
+<style>
+  :root{
+    --black:#060c19; --navy:#0a1628; --amber:#f59e0b; --amber2:#fbbf24;
+    --g50:#f8fafc; --g100:#f1f5f9; --g200:#e2e8f0; --g400:#94a3b8;
+    --g500:#64748b; --g600:#475569; --g700:#334155; --g900:#0f172a;
+    --green:#10b981; --red:#ef4444;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;
+    background:#fff;color:var(--g900);line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  section{padding:5.5rem clamp(1.25rem,6vw,4rem)}
+  .si{max-width:1140px;margin:0 auto}
+  .stag{
+    display:inline-block;font-size:.67rem;font-weight:800;letter-spacing:2px;
+    text-transform:uppercase;color:#92600a;background:rgba(245,158,11,.08);
+    border:1px solid rgba(245,158,11,.2);padding:.23rem .7rem;border-radius:100px;
+    margin-bottom:.85rem;
+  }
+  h2{font-size:clamp(1.8rem,3.5vw,2.75rem);font-weight:900;letter-spacing:-1.5px;line-height:1.12;margin-bottom:.85rem}
+  .sdesc{font-size:1.02rem;color:var(--g500);line-height:1.75;max-width:600px;margin-bottom:3rem}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:
+      radial-gradient(640px 460px at 86% 4%, rgba(245,158,11,.11), transparent 60%),
+      linear-gradient(150deg,#070d1b 0%,#0a1628 55%,#101d33 100%);
+    padding-top:4rem;padding-bottom:4.5rem;position:relative;overflow:hidden;
+  }
+  .hero .si{position:relative;z-index:1}
+  .brandbar{
+    display:flex;align-items:center;gap:.9rem;flex-wrap:wrap;
+    font-size:.78rem;font-weight:700;letter-spacing:.5px;
+    color:rgba(255,255,255,.42);margin-bottom:2.6rem;
+  }
+  .brandbar b{color:#fff;font-weight:900;font-size:1.05rem;letter-spacing:-.5px}
+  .brandbar b span{color:var(--amber)}
+  .brandbar .sep{width:1px;height:16px;background:rgba(255,255,255,.16)}
+  .hero h1{
+    font-size:clamp(2.1rem,5.4vw,3.65rem);font-weight:900;letter-spacing:-2px;
+    line-height:1.08;color:#fff;max-width:16ch;margin-bottom:1.25rem;
+  }
+  .hero h1 .hl{color:var(--amber)}
+  .hero p.lede{font-size:clamp(1rem,1.7vw,1.16rem);color:rgba(255,255,255,.62);max-width:56ch;line-height:1.72}
+
+  .hstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;
+    background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.09);
+    border-radius:14px;overflow:hidden;margin-top:3.2rem}
+  .hstat{background:rgba(255,255,255,.028);padding:1.5rem 1.6rem}
+  .hstat .v{font-size:2.1rem;font-weight:900;letter-spacing:-1.5px;color:var(--amber);line-height:1}
+  .hstat .l{font-size:.83rem;color:rgba(255,255,255,.5);margin-top:.5rem;line-height:1.5}
+
+  /* ---------- FINDINGS ---------- */
+  .find-sec{background:var(--g50)}
+  .finds{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1.4rem}
+  .find{
+    background:#fff;border:1px solid var(--g200);border-radius:14px;padding:1.9rem 1.8rem;
+    box-shadow:0 1px 2px rgba(15,23,42,.04);
+  }
+  .find .big{font-size:2.5rem;font-weight:900;letter-spacing:-2px;color:var(--red);line-height:1;margin-bottom:.15rem}
+  .find h3{font-size:1.06rem;font-weight:800;letter-spacing:-.3px;margin:.55rem 0 .5rem}
+  .find p{font-size:.94rem;color:var(--g500);line-height:1.72}
+
+  /* ---------- WORK ---------- */
+  .work-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1.5rem}
+  .wcard{border:1px solid var(--g200);border-radius:14px;padding:1.85rem 1.75rem;background:#fff}
+  .wcard .whd{display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-bottom:1.15rem;
+    padding-bottom:.9rem;border-bottom:1px solid var(--g100)}
+  .wcard h3{font-size:1.08rem;font-weight:800;letter-spacing:-.3px}
+  .wcard .ct{font-size:.72rem;font-weight:800;letter-spacing:1px;color:#92600a;
+    background:rgba(245,158,11,.09);border:1px solid rgba(245,158,11,.2);
+    padding:.2rem .55rem;border-radius:100px;white-space:nowrap}
+  .wcard ul{list-style:none}
+  .wcard li{display:grid;grid-template-columns:18px 1fr;gap:.65rem;font-size:.93rem;
+    color:var(--g600);line-height:1.6;padding:.42rem 0}
+  .wcard li::before{content:"✓";color:var(--amber);font-weight:900;font-size:.9rem;line-height:1.65}
+
+  /* ---------- BEFORE / AFTER ---------- */
+  .ba-sec{background:#070d1b}
+  .ba-sec h2{color:#fff}
+  .ba-sec .sdesc{color:rgba(255,255,255,.42)}
+  .batable{width:100%;border-collapse:collapse;font-size:.97rem}
+  .batable th{
+    text-align:left;font-size:.68rem;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;
+    color:rgba(255,255,255,.38);padding:0 1rem .85rem 0;border-bottom:1px solid rgba(255,255,255,.1);
+  }
+  .batable th:last-child,.batable td:last-child{padding-right:0}
+  .batable td{padding:1.05rem 1rem 1.05rem 0;border-bottom:1px solid rgba(255,255,255,.06);vertical-align:top}
+  .batable td.lab{color:#fff;font-weight:700}
+  .batable td.now{color:#f87171;font-weight:600}
+  .batable td.aft{color:var(--amber2);font-weight:800}
+  .batable tr:last-child td{border-bottom:none}
+  .bawrap{overflow-x:auto}
+  .batable{min-width:560px}
+
+  /* ---------- PRICE ---------- */
+  .price-sec{background:var(--g50)}
+  .pricebox{
+    background:#fff;border:1px solid var(--g200);border-radius:18px;overflow:hidden;
+    box-shadow:0 2px 4px rgba(15,23,42,.04),0 24px 48px -32px rgba(15,23,42,.3);
+  }
+  .ptop{padding:2.4rem clamp(1.5rem,4vw,2.6rem);border-bottom:1px solid var(--g100)}
+  .ptop .amt{font-size:clamp(3rem,7vw,4.2rem);font-weight:900;letter-spacing:-3.5px;line-height:1;color:var(--g900)}
+  .ptop .amt small{font-size:1.05rem;font-weight:700;letter-spacing:0;color:var(--g500);margin-left:.6rem}
+  .ptop .terms{font-size:1rem;color:var(--g600);margin-top:1rem;line-height:1.75;max-width:60ch}
+  .ptop .terms b{color:var(--g900);font-weight:800}
+  .pbot{padding:1.9rem clamp(1.5rem,4vw,2.6rem);background:var(--g50);display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.6rem}
+  .pbot h4{font-size:.7rem;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--g500);margin-bottom:.6rem}
+  .pbot p{font-size:.93rem;color:var(--g600);line-height:1.7}
+
+  /* ---------- CTA ---------- */
+  .cta{background:linear-gradient(135deg,#070d1b 0%,#0a1628 100%);text-align:center}
+  .cta h2{color:#fff;margin-bottom:.9rem}
+  .cta p{color:rgba(255,255,255,.5);font-size:1.05rem;margin-bottom:2rem}
+  .btn-amber{
+    display:inline-block;background:var(--amber);color:var(--navy);font-weight:800;font-size:1.05rem;
+    padding:.95rem 2.5rem;border-radius:10px;border:none;cursor:pointer;text-decoration:none;
+    transition:transform .15s,box-shadow .15s;
+  }
+  .btn-amber:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(245,158,11,.38)}
+  .cta .sub{margin-top:1.6rem;font-size:.88rem;color:rgba(255,255,255,.38)}
+
+  footer{background:#040810;padding:2.2rem clamp(1.25rem,5vw,3rem);text-align:center}
+  footer .fl{font-size:1.05rem;font-weight:900;color:#fff;letter-spacing:-.5px;text-decoration:none}
+  footer .fl span{color:var(--amber)}
+  footer p{font-size:.8rem;color:rgba(255,255,255,.35);margin-top:.5rem}
+
+  @media(max-width:640px){
+    section{padding:3.6rem 1.25rem}
+    .hero{padding-top:2.6rem}
+    .hstat{padding:1.25rem 1.3rem}
+  }
+
+  /* mobile safeguards, matched to the mockup */
+  /* never put overflow-x on <html> - it breaks smooth anchor scrolling */
+  body{overflow-x:hidden;max-width:100%}
+  h1,h2,h3{overflow-wrap:break-word}
+  .btn-amber,footer a{min-height:44px}
+  footer a{display:inline-block;line-height:44px}
+  :focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:6px}
+  @media(hover:none){.btn-amber:hover{transform:none}}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+  @media(max-width:640px){
+    .hstats{grid-template-columns:1fr}
+    .ptop .amt{letter-spacing:-2px}
+  }
+</style>
+<meta name="theme-color" content="#0a1628">
+<meta property="og:type" content="website">
+<meta property="og:title" content="XBN Website Rebuild: Proposal from DevSply">
+<meta property="og:description" content="What I found on your site, what I'd change, and what it costs.">
+<meta property="og:url" content="https://devsply.com/xbn">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XBN Website Rebuild: Proposal from DevSply">
+<meta name="twitter:description" content="What I found on your site, what I'd change, and what it costs.">
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="si">
+    <div class="brandbar">
+      <b>Dev<span>Sply</span></b>
+      <div class="sep"></div>
+      <span>PREPARED FOR XBN REJUVENATION &amp; RECOVERY LOUNGE</span>
+    </div>
+
+    <h1>Your website is costing you <span class="hl">phone calls.</span></h1>
+    <p class="lede">
+      I went through your site the way a new patient would &mdash; on a phone, one thumb, in a hurry.
+      Here&rsquo;s exactly what I found, in plain English, and exactly what I&rsquo;d change.
+    </p>
+
+    <div style="margin-bottom:2.6rem">
+      <a class="btn-amber" href="/xbn/landingpage">See the redesign &rarr;</a>
+      <span style="display:block;margin-top:.85rem;font-size:.86rem;color:rgba(255,255,255,.42)">
+        A working mockup of your new homepage &mdash; open it on your phone.
+      </span>
+    </div>
+
+    <div class="hstats">
+      <div class="hstat">
+        <div class="v">19 sec</div>
+        <div class="l">To load the photo at the top of your homepage, on a phone</div>
+      </div>
+      <div class="hstat">
+        <div class="v">14 screens</div>
+        <div class="l">How far someone has to scroll to get through your homepage</div>
+      </div>
+      <div class="hstat">
+        <div class="v">1 place</div>
+        <div class="l">Where your phone number is actually written on the page</div>
+      </div>
+      <div class="hstat">
+        <div class="v">9 of 10</div>
+        <div class="l">&ldquo;Book&rdquo; buttons that don&rsquo;t reach your booking system</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINDINGS -->
+<section class="find-sec">
+  <div class="si">
+    <div class="stag">What I found</div>
+    <h2>Four things standing between you and the phone.</h2>
+    <p class="sdesc">
+      None of this is anyone&rsquo;s fault. It&rsquo;s what happens when a site gets built on a template. The settings that slow it
+      down are on by default, and nobody ever turns them off.
+    </p>
+
+    <div class="finds">
+      <div class="find">
+        <div class="big">19 sec</div>
+        <h3>People leave before the page finishes</h3>
+        <p>
+          The big photo at the top of your homepage takes about 19 seconds to fully load on a phone.
+          Google&rsquo;s own cutoff is 2.5 seconds. A lot of people are gone before they ever scroll far
+          enough to find your number.
+        </p>
+      </div>
+
+      <div class="find">
+        <div class="big">14 screens</div>
+        <h3>There&rsquo;s no way to call from the middle</h3>
+        <p>
+          Your homepage runs about 14 phone screens long. Someone can tap to call at the very top and
+          again at the very bottom, but nothing in between. A guy reading about Botox halfway down
+          has to scroll all the way back up to reach you.
+        </p>
+      </div>
+
+      <div class="find">
+        <div class="big">9 of 10</div>
+        <h3>Your booking buttons don&rsquo;t book</h3>
+        <p>
+          Ten buttons on your homepage say BOOK. Only one of them actually opens your Vagaro booking.
+          The other nine drop people on a page with no booking and no phone number in sight.
+        </p>
+      </div>
+
+      <div class="find">
+        <div class="big">0 words</div>
+        <h3>Google and AI can&rsquo;t read your address</h3>
+        <p>
+          Your address only exists inside a picture of a map. Google and tools like ChatGPT read the
+          words on a page, not the pictures. So when someone searches for a clinic near them, you&rsquo;re
+          harder to find than you should be.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT I'LL DO -->
+<section>
+  <div class="si">
+    <div class="stag">The work</div>
+    <h2>37 changes to your homepage.</h2>
+    <p class="sdesc">
+      Everything below is included. You don&rsquo;t need to understand any of the technical side. That&rsquo;s the part
+      you&rsquo;d be hiring me for.
+    </p>
+
+    <div class="work-grid">
+
+      <div class="wcard">
+        <div class="whd"><h3>Getting people to call you</h3><span class="ct">9 items</span></div>
+        <ul>
+          <li>A call button that stays on screen the whole way down the page</li>
+          <li>Your phone number written in the header where people can see it</li>
+          <li>Fix the typo in your call link that can stop phones from dialing</li>
+          <li>A way to call inside every single service section</li>
+          <li>Shorten the homepage so people reach the important parts faster</li>
+          <li>Your address and hours written out on the page</li>
+          <li>Starting prices shown instead of &ldquo;ask our team&rdquo;</li>
+          <li>All ten Book buttons wired to Vagaro, each to the right service</li>
+          <li>Your name, credentials and reviews near the top</li>
+        </ul>
+      </div>
+
+      <div class="wcard">
+        <div class="whd"><h3>Making it load fast</h3><span class="ct">6 items</span></div>
+        <ul>
+          <li>Resize the top photo so it loads in about two seconds instead of nineteen</li>
+          <li>Fix the setting telling your phone to load the main photo last instead of first</li>
+          <li>Compress every image on the page</li>
+          <li>Replace the stock photo pulled in from another company&rsquo;s server</li>
+          <li>Strip out the leftover template code you aren&rsquo;t using</li>
+          <li>Stop the page jumping around while it loads</li>
+        </ul>
+      </div>
+
+      <div class="wcard">
+        <div class="whd"><h3>How it looks</h3><span class="ct">10 items</span></div>
+        <ul>
+          <li>A new top section built around one clear message</li>
+          <li>Your real photos of the space and team, cropped and placed to look their best</li>
+          <li>Consistent fonts and sizes throughout</li>
+          <li>A version of your blue that&rsquo;s readable for everyone</li>
+          <li>Even spacing between every section</li>
+          <li>Service photos that all match instead of stretching differently</li>
+          <li>One clear main button instead of two competing ones</li>
+          <li>Fix the stray | characters sitting after every item in your menu</li>
+          <li>Fix the typos in your headline and service list</li>
+          <li>Designed for phones first, since that&rsquo;s where your patients are</li>
+        </ul>
+      </div>
+
+      <div class="wcard">
+        <div class="whd"><h3>Getting found</h3><span class="ct">8 items</span></div>
+        <ul>
+          <li>Address, hours, services and prices written as real text</li>
+          <li>Business details added in the format Google looks for</li>
+          <li>Make the page readable to ChatGPT and Google&rsquo;s AI answers</li>
+          <li>Fix a coding mix-up making Google think your homepage has two different titles</li>
+          <li>Rewrite vague links like &ldquo;Learn More&rdquo; so they describe the page</li>
+          <li>Label every image so search engines know what it shows</li>
+          <li>Set up Google&rsquo;s free tracking tool so your site gets found faster</li>
+          <li>Check your Google Business listing, where most local calls start</li>
+        </ul>
+      </div>
+
+      <div class="wcard">
+        <div class="whd"><h3>Proving it worked</h3><span class="ct">4 items</span></div>
+        <ul>
+          <li>A tracking number so you can count calls the website sends you</li>
+          <li>A baseline taken before launch so we can compare honestly</li>
+          <li>Analytics set up so you can see how many people visit and where they came from</li>
+          <li>A simple monthly report: calls, visits, what people searched</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section class="ba-sec">
+  <div class="si">
+    <div class="stag" style="color:var(--amber2);background:rgba(245,158,11,.1)">The difference</div>
+    <h2>What actually changes.</h2>
+    <p class="sdesc">Same clinic, same services, same phone number. Just a site that finally gets people to the phone.</p>
+
+    <div class="bawrap">
+      <table class="batable">
+        <thead>
+          <tr><th style="width:38%">&nbsp;</th><th style="width:31%">Now</th><th style="width:31%">After</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="lab">Photo at the top loads in</td>
+            <td class="now">19 seconds</td>
+            <td class="aft">Under 2 seconds</td>
+          </tr>
+          <tr>
+            <td class="lab">Ways to call, mid&#8209;page</td>
+            <td class="now">None</td>
+            <td class="aft">Always on screen</td>
+          </tr>
+          <tr>
+            <td class="lab">Book buttons that book</td>
+            <td class="now">1 of 10</td>
+            <td class="aft">10 of 10</td>
+          </tr>
+          <tr>
+            <td class="lab">Address Google can read</td>
+            <td class="now">Inside a picture</td>
+            <td class="aft">Written on the page</td>
+          </tr>
+          <tr>
+            <td class="lab">Prices a patient can see</td>
+            <td class="now">One, buried</td>
+            <td class="aft">Starting prices, up front</td>
+          </tr>
+          <tr>
+            <td class="lab">Calls you can count</td>
+            <td class="now">No way to tell</td>
+            <td class="aft">Every one, tracked</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- SEE IT -->
+<section style="background:#070d1b;border-top:1px solid rgba(255,255,255,.07);text-align:center">
+  <div class="si">
+    <div class="stag" style="color:var(--amber2);background:rgba(245,158,11,.1)">Already built</div>
+    <h2 style="color:#fff">I already built it. Go look.</h2>
+    <p class="sdesc" style="color:rgba(255,255,255,.5);margin:0 auto 2.2rem">
+      Rather than describe it, I put together a working version of your new homepage.
+      Open it on your phone &mdash; try the call button, scroll the whole way down, tap a service.
+    </p>
+    <a class="btn-amber" href="/xbn/landingpage">Open the mockup &rarr;</a>
+    <p style="margin-top:1.5rem;font-size:.85rem;color:rgba(255,255,255,.35)">
+      Your photos, hours and prices drop in before launch.
+    </p>
+  </div>
+</section>
+
+<!-- PRICE -->
+<section class="price-sec">
+  <div class="si">
+    <div class="stag">Investment</div>
+    <h2>One price. Nothing owed if you don&rsquo;t like it.</h2>
+    <p class="sdesc">No monthly fee, no contract, no agency retainer.</p>
+
+    <div class="pricebox">
+      <div class="ptop">
+        <div class="amt">$1,500<small>one&#8209;time, homepage</small></div>
+        <p class="terms">
+          <b>Half now, half when you approve it.</b> I build the real thing and show it to you before
+          the second half is due. If you don&rsquo;t like what I hand you, you don&rsquo;t owe me the rest and
+          we shake hands.
+        </p>
+      </div>
+      <div class="pbot">
+        <div>
+          <h4>Timeline</h4>
+          <p>Live in 7 days from the day you say go.</p>
+        </div>
+        <div>
+          <h4>What&rsquo;s included</h4>
+          <p>All 37 changes above, plus hosting setup and call tracking.</p>
+        </div>
+        <div>
+          <h4>Your other 15 pages</h4>
+          <p>Botox, lip filler, IV therapy and the rest, quoted separately once the homepage is live and working.</p>
+        </div>
+        <div>
+          <h4>One honest note</h4>
+          <p>I can&rsquo;t promise a number of calls. I can promise the site stops getting in the way of them.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="si">
+    <h2>Want to see it before you decide?</h2>
+    <p>Give me 15 minutes and I&rsquo;ll walk you through it on your own phone.</p>
+    <a class="btn-amber" href="https://devsply.com/#contact">Get started &rarr;</a>
+    <p class="sub" style="margin-top:1.4rem">Or reply to my text and I&rsquo;ll come by.</p>
+    <p class="sub">Zach &middot; DevSply &middot; Tampa Bay</p>
+  </div>
+</section>
+
+<footer>
+  <a class="fl" href="https://devsply.com">Dev<span>Sply</span></a>
+  <p>Tampa Bay web design &amp; AI agents for local businesses.</p>
+</footer>
+
+</body>
+</html>
